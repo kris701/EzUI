@@ -5,19 +5,16 @@ import { TuiButton, TuiScrollbar } from '@taiga-ui/core';
 import { TuiTextarea } from '@taiga-ui/kit';
 import { marked } from 'marked';
 import { compressImage } from '../helpers/compressImage';
-import { FloatMenuBar, MenuBarItem } from "./floatmenubar";
+import { EzUIMenuBar, MenuBarItem } from "./menubar";
 
 @Component({
-    selector: 'app-floatmarkdowneditor',
-    imports: [FormsModule, CommonModule, TuiTextarea, TuiButton, TuiScrollbar, FloatMenuBar],
+    selector: 'ezui-markdowneditor',
+    imports: [FormsModule, CommonModule, TuiTextarea, TuiButton, TuiScrollbar, EzUIMenuBar],
     template: `
 		@if(isEditing() && !disabled){
 			<div class="editor-container">
 				<div class="editor">
-					<app-floatmenubar
-						class="topbar"
-						[items]="items()"
-						/>
+					<ezui-menubar [items]="items()"/>
 
 					<tui-textfield class="editor-field">
 						<textarea
@@ -31,7 +28,7 @@ import { FloatMenuBar, MenuBarItem } from "./floatmenubar";
 				</div>
 
 				<div class="preview-container">
-					<tui-scrollbar class="h-full">
+					<tui-scrollbar>
 						<div class="preview" #preview>Rendering...</div>
 					</tui-scrollbar>
 				</div>
@@ -41,8 +38,10 @@ import { FloatMenuBar, MenuBarItem } from "./floatmenubar";
 		}
 		@else {
 			<div class="preview-readonly-container">
-				<button tuiButton class="edit-button" iconStart="edit" appearance="flat" size="s"(click)="toggleEdit(false)"></button>
-				<tui-scrollbar class="h-full">
+				@if(!disabled){
+					<button tuiButton class="edit-button" iconStart="edit" appearance="flat" size="s"(click)="toggleEdit(false)"></button>
+				}
+				<tui-scrollbar>
 					<div class="preview" #preview>Rendering...</div>
 				</tui-scrollbar>
 			</div>
@@ -63,19 +62,6 @@ import { FloatMenuBar, MenuBarItem } from "./floatmenubar";
 				display:flex;
 				flex-direction: column;
 				width: 100%;
-
-				.topbar {
-					::ng-deep .group {
-						> :first-child {
-							border-bottom-left-radius: 0px !important;
-						}
-
-						> :last-child {
-							border-bottom-right-radius: 0px !important;
-							border-top-right-radius: 0px !important;
-						}
-					}
-				}
 
 				.editor-field {
 					block-size:100%;
@@ -98,6 +84,10 @@ import { FloatMenuBar, MenuBarItem } from "./floatmenubar";
 			outline-offset: -1px;
 			border-width: 0;
 			block-size:100%;
+
+			::ng-deep tui-scrollbar {
+				height:100%;
+			}
 
 			::ng-deep .t-content {
 				display:flex;
@@ -129,6 +119,10 @@ import { FloatMenuBar, MenuBarItem } from "./floatmenubar";
 				z-index: 999;
 			}
 
+			::ng-deep tui-scrollbar {
+				height:100%;
+			}
+
 			::ng-deep .t-content {
 				display:flex;
 				block-size:auto !important;
@@ -140,7 +134,7 @@ import { FloatMenuBar, MenuBarItem } from "./floatmenubar";
 		}
     `
 })
-export class FloatMarkdownEditor implements OnChanges {
+export class EzUIMarkdownEditor implements OnChanges {
     @ViewChild('preview') preview: ElementRef<HTMLDivElement> | undefined;
     @ViewChild('editor') editor: ElementRef<HTMLTextAreaElement> | undefined;
     @ViewChild('fileUpload') fileUpload: ElementRef<HTMLInputElement> | undefined;

@@ -68,36 +68,49 @@ export class AppSideBar {
 			routerLink: '/'
 		} as MenuItem,
 		{
-		label: 'Forms',
-		icon: 'form',
-		items: [
-			{
-				label: 'Text',
-				icon: 'square-pen',
-				routerLink: '/forms/text'
-			} as SubMenuItem,
-			{
-				label: 'Password',
-				icon: 'rectangle-ellipsis',
-				routerLink: '/forms/password'
-			} as SubMenuItem,
-			{
-				label: 'Number',
-				icon: 'hash',
-				routerLink: '/forms/number'
-			} as SubMenuItem,
-			{
-				label: 'Date',
-				icon: 'calendar',
-				routerLink: '/forms/date'
-			} as SubMenuItem,
-			{
-				label: 'Multi Select',
-				icon: 'list',
-				routerLink: '/forms/multiselect'
-			} as SubMenuItem,
-		]
-	} as MenuItem])
+			label: 'Forms',
+			icon: 'form',
+			items: [
+				{
+					label: 'Text',
+					icon: 'square-pen',
+					routerLink: '/forms/text'
+				} as SubMenuItem,
+				{
+					label: 'Password',
+					icon: 'rectangle-ellipsis',
+					routerLink: '/forms/password'
+				} as SubMenuItem,
+				{
+					label: 'Number',
+					icon: 'hash',
+					routerLink: '/forms/number'
+				} as SubMenuItem,
+				{
+					label: 'Date',
+					icon: 'calendar',
+					routerLink: '/forms/date'
+				} as SubMenuItem,
+				{
+					label: 'Multi Select',
+					icon: 'list',
+					routerLink: '/forms/multiselect'
+				} as SubMenuItem,
+			]
+		} as MenuItem,
+		{
+			label: 'Other',
+			icon: 'circle-alert',
+			items: [
+				{
+					label: 'Markdown Editor',
+					icon: 'file-pen-line',
+					routerLink: '/other/markdowneditor'
+				} as SubMenuItem
+			]
+		} as MenuItem,
+	]
+	)
 
     constructor(
           	public layoutService: LayoutService

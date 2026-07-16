@@ -1,5 +1,6 @@
 // Components
 export * from './components/dateinput';
+export * from './components/markdowneditor';
 export * from './components/multiselect';
 export * from './components/numberinput';
 export * from './components/passwordinput';

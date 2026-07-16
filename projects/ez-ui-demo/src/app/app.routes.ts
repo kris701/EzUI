@@ -11,6 +11,10 @@ export const appRoutes: Routes = [
 			{
 				path: 'forms',
 				loadChildren: () => import('./pages/forms/forms.routes')
+			},
+			{
+				path: 'other',
+				loadChildren: () => import('./pages/other/other.routes')
 			}
 		]
 	}

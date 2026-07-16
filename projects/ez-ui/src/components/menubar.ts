@@ -61,18 +61,14 @@ export interface MenuBarItem {
 			display:flex;
 			flex-direction: column;
 		}
-
-		button::after {
-
-		}
 	`
 })
-export class FloatMenuBarSubDataList {
+export class EzUIMenuBarSubDataList {
     @Input() subdatalist: MenuBarItem[] = [];
 }
 
 @Component({
-    selector: 'app-floatmenubar',
+    selector: 'ezui-menubar',
 	standalone: true,
     imports: [
 		FormsModule,
@@ -81,7 +77,7 @@ export class FloatMenuBarSubDataList {
 		TuiButton,
 		TuiDropdown,
 		TuiChevron,
-		FloatMenuBarSubDataList
+		EzUIMenuBarSubDataList
 	],
     template: `
 		<div tuiGroup class="group" [collapsed]="true">
@@ -137,7 +133,7 @@ export class FloatMenuBarSubDataList {
 		}
     `
 })
-export class FloatMenuBar implements OnChanges {
+export class EzUIMenuBar implements OnChanges {
     @Input() items: MenuBarItem[] = [];
 
 	ngOnChanges(changes: SimpleChanges) {
