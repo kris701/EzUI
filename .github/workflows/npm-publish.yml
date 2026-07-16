@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 25.4.0
+          node-version: 26.4.0
           registry-url: https://registry.npmjs.org/
       - run: npm i
       - run: npm publish ./projects/ez-ui --access public
@@ -54,12 +54,12 @@ jobs:
       - name: Create Tag
         uses: jaywcjlove/create-tag-action@main
         with:
-          version: "v${{ steps.get-version.outputs.package-version }}"
+          version: "v${{ steps.get-version.outputs.version }}"
       
       - name: Generate Release
         uses: ncipollo/release-action@v1
         with:
           skipIfReleaseExists: true
           artifacts: "*.tgz"
-          tag: "v${{ steps.get-version.outputs.package-version }}"
+          tag: "v${{ steps.get-version.outputs.version }}"
           generateReleaseNotes: true
