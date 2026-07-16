@@ -44,18 +44,18 @@
               ".ttf":"binary"
             },
             "browser": "projects/ez-ui-demo/src/main.ts",
-			"tsConfig": "projects/ez-ui-demo/tsconfig.app.json",
+			"tsConfig": "projects/ez-ui-demo/tsconfig.json",
             "inlineStyleLanguage": "less",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/ez-ui-demo/node_modules/@taiga-ui/icons/src",
+                "input": "node_modules/@taiga-ui/icons/src",
                 "output": "assets/taiga-ui/icons"
               }
             ],
             "styles": [
-              "projects/ez-ui-demo/node_modules/@taiga-ui/styles/taiga-ui-theme.less",
-              "projects/ez-ui-demo/node_modules/@taiga-ui/styles/taiga-ui-fonts.less",
+              "node_modules/@taiga-ui/styles/taiga-ui-theme.less",
+              "node_modules/@taiga-ui/styles/taiga-ui-fonts.less",
               "projects/ez-ui-demo/src/styles.less"
             ]
           },
@@ -87,10 +87,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "ezui-demo:build:production"
+              "buildTarget": "EzUI-Demo:build:production"
             },
             "development": {
-              "buildTarget": "ezui-demo:build:development"
+              "buildTarget": "EzUI-Demo:build:development"
             }
           },
           "defaultConfiguration": "development",
