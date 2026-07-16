@@ -9,8 +9,8 @@ export const appRoutes: Routes = [
 		children: [
 			{ path: '', component: Home},
 			{
-				path: 'input',
-				loadChildren: () => import('./pages/input/input.routes')
+				path: 'forms',
+				loadChildren: () => import('./pages/forms/forms.routes')
 			}
 		]
 	}

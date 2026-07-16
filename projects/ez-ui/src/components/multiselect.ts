@@ -5,7 +5,7 @@ import { TuiDataList, TuiDropdown, TuiSelectLike, TuiTextfield } from '@taiga-ui
 import { TuiChevron, TuiInputChip, TuiInputNumber, TuiMultiSelect } from '@taiga-ui/kit';
 
 @Component({
-    selector: 'app-floatmultiselect',
+    selector: 'ezui-multiselect',
     imports: [
 		FormsModule,
 		CommonModule,
@@ -24,7 +24,7 @@ import { TuiChevron, TuiInputChip, TuiInputNumber, TuiMultiSelect } from '@taiga
 			@if(label != ''){
 				<label tuiLabel>{{label}}</label>
 			}
-			<input tuiInputChip tuiSelectLike [(ngModel)]="selected" (ngModelChange)="selectedChange.emit(this.selected)"/>
+			<input tuiInputChip tuiSelectLike [(ngModel)]="selected" (ngModelChange)="selectedChange.emit(this.selected)" [disabled]="disabled"/>
 			<tui-input-chip *tuiItem />
 			<tui-data-list *tuiDropdown tuiMultiSelectGroup >
 				@for (item of options; track getOptionValue(item)) {
@@ -38,7 +38,7 @@ import { TuiChevron, TuiInputChip, TuiInputNumber, TuiMultiSelect } from '@taiga
     styles: `
     `
 })
-export class FloatMultiSelect implements OnChanges {
+export class EzUIMultiSelect implements OnChanges {
     @Input() icon: string = '';
     @Input() label: string = '';
 

@@ -68,28 +68,33 @@ export class AppSideBar {
 			routerLink: '/'
 		} as MenuItem,
 		{
-		label: 'Input',
-		icon: 'square-pen',
+		label: 'Forms',
+		icon: 'form',
 		items: [
 			{
 				label: 'Text',
 				icon: 'square-pen',
-				routerLink: '/input/text'
+				routerLink: '/forms/text'
 			} as SubMenuItem,
 			{
 				label: 'Password',
 				icon: 'rectangle-ellipsis',
-				routerLink: '/input/password'
+				routerLink: '/forms/password'
 			} as SubMenuItem,
 			{
 				label: 'Number',
 				icon: 'hash',
-				routerLink: '/input/number'
+				routerLink: '/forms/number'
 			} as SubMenuItem,
 			{
 				label: 'Date',
 				icon: 'calendar',
-				routerLink: '/input/date'
+				routerLink: '/forms/date'
+			} as SubMenuItem,
+			{
+				label: 'Multi Select',
+				icon: 'list',
+				routerLink: '/forms/multiselect'
 			} as SubMenuItem,
 		]
 	} as MenuItem])
