@@ -52,9 +52,12 @@ jobs:
           path: ./projects/ez-ui/
 
       - name: Create Tag
-        uses: jaywcjlove/create-tag-action@main
+        continue-on-error: true
+        uses: rickstaa/action-create-tag@v1
+        id: "tag_create"
         with:
-          version: "v${{ steps.get-version.outputs.version }}"
+          tag: "v${{ steps.get-version.outputs.version }}"
+          message: "Latest release"
       
       - name: Generate Release
         uses: ncipollo/release-action@v1
