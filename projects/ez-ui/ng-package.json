@@ -3,5 +3,13 @@
   "dest": "../../dist/ez-ui",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "allowedNonPeerDependencies":[
+		"@taiga-ui/addon-mobile",
+		"@taiga-ui/core",
+		"@taiga-ui/kit",
+		"@taiga-ui/icons",
+		"compressorjs",
+		"marked"
+	]
 }

@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "EzUI": {
+    "@kris701/ez-ui": {
       "projectType": "library",
       "root": "projects/ez-ui",
       "sourceRoot": "projects/ez-ui/src",
@@ -26,7 +26,7 @@
         }
       }
     },
-	"EzUI-Demo": {
+	"@kris701/ez-ui-demo": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -87,10 +87,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "EzUI-Demo:build:production"
+              "buildTarget": "@kris701/ez-ui-demo:build:production"
             },
             "development": {
-              "buildTarget": "EzUI-Demo:build:development"
+              "buildTarget": "@kris701/ez-ui-demo:build:development"
             }
           },
           "defaultConfiguration": "development",
