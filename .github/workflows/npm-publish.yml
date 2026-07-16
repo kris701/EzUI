@@ -38,7 +38,28 @@ jobs:
         with:
           node-version: 25.4.0
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
+      - run: npm i
       - run: npm publish ./projects/ez-ui --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - run: npm pack ./projects/ez-ui/
+
+      - name: Get Library Project version 
+        id: get-version
+        uses: beaconbrigade/package-json-version@v0.3.2
+        with:
+          path: ./projects/ez-ui/
+
+      - name: Create Tag
+        uses: jaywcjlove/create-tag-action@main
+        with:
+          version: "v${{ steps.get-version.outputs.package-version }}"
+      
+      - name: Generate Release
+        uses: ncipollo/release-action@v1
+        with:
+          skipIfReleaseExists: true
+          artifacts: "*.tgz"
+          tag: "v${{ steps.get-version.outputs.package-version }}"
+          generateReleaseNotes: true
