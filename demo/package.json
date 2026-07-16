@@ -1,0 +1,24 @@
+{
+  "name": "ez-ui-demo",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development"
+  },
+  "private": true,
+  "packageManager": "npm@11.17.0",
+  "dependencies": {
+    "@taiga-ui/core": "^5.15.0",
+    "@taiga-ui/icons": "^5.15.0",
+    "@taiga-ui/layout": "^5.15.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.0.7",
+    "@angular/cli": "^22.0.7",
+    "@angular/compiler-cli": "^22.0.0",
+    "jsdom": "^28.0.0",
+    "typescript": "~6.0.2"
+  }
+}

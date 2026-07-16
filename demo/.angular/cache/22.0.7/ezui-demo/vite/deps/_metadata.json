@@ -1,0 +1,70 @@
+{
+  "hash": "44d7b1d0",
+  "configHash": "4b8a106a",
+  "lockfileHash": "c68b4470",
+  "browserHash": "6b6cad90",
+  "optimized": {
+    "@angular/common": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "ff0760df",
+      "needsInterop": false
+    },
+    "@angular/core": {
+      "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "dc86b6ba",
+      "needsInterop": false
+    },
+    "@angular/forms": {
+      "src": "../../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
+      "file": "@angular_forms.js",
+      "fileHash": "7d7caf1c",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "b5da5de5",
+      "needsInterop": false
+    },
+    "@angular/router": {
+      "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
+      "file": "@angular_router.js",
+      "fileHash": "b80d3019",
+      "needsInterop": false
+    },
+    "@taiga-ui/core": {
+      "src": "../../../../../../node_modules/@taiga-ui/core/fesm2022/taiga-ui-core.mjs",
+      "file": "@taiga-ui_core.js",
+      "fileHash": "88641b04",
+      "needsInterop": false
+    },
+    "@taiga-ui/layout": {
+      "src": "../../../../../../node_modules/@taiga-ui/layout/fesm2022/taiga-ui-layout.mjs",
+      "file": "@taiga-ui_layout.js",
+      "fileHash": "16a95f64",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-VAINPROX": {
+      "file": "chunk-VAINPROX.js"
+    },
+    "chunk-PUCENSUF": {
+      "file": "chunk-PUCENSUF.js"
+    },
+    "chunk-E6W4ZFJZ": {
+      "file": "chunk-E6W4ZFJZ.js"
+    },
+    "chunk-KMBWNSEK": {
+      "file": "chunk-KMBWNSEK.js"
+    },
+    "chunk-YVPE26PC": {
+      "file": "chunk-YVPE26PC.js"
+    },
+    "chunk-UIPQSPQU": {
+      "file": "chunk-UIPQSPQU.js"
+    }
+  }
+}
