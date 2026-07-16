@@ -1,3 +1,6 @@
+// Components
+export * from './components/textinput';
+
 // Helpers
 export * from './helpers/compressImage';
 

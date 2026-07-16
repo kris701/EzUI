@@ -25,6 +25,80 @@
           "defaultConfiguration": "production"
         }
       }
+    },
+	"EzUI-Demo": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "less"
+        }
+      },
+      "root": "projects/ez-ui-demo",
+      "sourceRoot": "projects/ez-ui-demo/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "loader":{
+              ".ttf":"binary"
+            },
+            "browser": "projects/ez-ui-demo/src/main.ts",
+			"tsConfig": "projects/ez-ui-demo/tsconfig.app.json",
+            "inlineStyleLanguage": "less",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/ez-ui-demo/node_modules/@taiga-ui/icons/src",
+                "output": "assets/taiga-ui/icons"
+              }
+            ],
+            "styles": [
+              "projects/ez-ui-demo/node_modules/@taiga-ui/styles/taiga-ui-theme.less",
+              "projects/ez-ui-demo/node_modules/@taiga-ui/styles/taiga-ui-fonts.less",
+              "projects/ez-ui-demo/src/styles.less"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "5MB",
+                  "maximumError": "8MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "ezui-demo:build:production"
+            },
+            "development": {
+              "buildTarget": "ezui-demo:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 6816
+          }
+        }
+      }
     }
   }
 }
