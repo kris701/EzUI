@@ -20,7 +20,7 @@ jobs:
         id: get-version
         uses: beaconbrigade/package-json-version@v0.3.2
         with:
-          path: /projects/ez-ui/.
+          path: ./projects/ez-ui/
 
       - uses: mukunku/tag-exists-action@v1.6.0
         id: check-tag
