@@ -3,6 +3,9 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "EzUI": ["./dist/ez-ui"]
+    },
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
@@ -19,5 +22,13 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true
   },
-  "files": []
+  "files": [],
+  "references": [
+    {
+      "path": "./projects/ez-ui/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ez-ui/tsconfig.spec.json"
+    }
+  ]
 }
