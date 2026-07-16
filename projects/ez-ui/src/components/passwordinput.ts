@@ -5,7 +5,7 @@ import { TuiIcon, TuiInput } from '@taiga-ui/core';
 import { TuiPassword } from '@taiga-ui/kit';
 
 @Component({
-    selector: 'app-floatpasswordinput',
+    selector: 'ezui-passwordinput',
     imports: [
 		FormsModule,
 		CommonModule,
@@ -25,7 +25,7 @@ import { TuiPassword } from '@taiga-ui/kit';
     styles: `
     `
 })
-export class FloatPasswordInput implements OnChanges {
+export class EzUIPasswordInput implements OnChanges {
     @Input() icon: string = '';
     @Input() label: string = '';
 

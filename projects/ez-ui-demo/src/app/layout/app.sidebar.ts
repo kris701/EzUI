@@ -61,14 +61,31 @@ import { LayoutService } from './services/layoutService';
     `
 })
 export class AppSideBar {
-	menuItems = signal<MenuItem[]>([{
+	menuItems = signal<MenuItem[]>([
+		{
+			label: 'Home',
+			icon: 'home',
+			routerLink: '/'
+		} as MenuItem,
+		{
 		label: 'Input',
 		icon: 'square-pen',
 		items: [
 			{
-				label: 'Text Input',
+				label: 'Text',
+				icon: 'square-pen',
 				routerLink: '/input/text'
-			} as SubMenuItem
+			} as SubMenuItem,
+			{
+				label: 'Password',
+				icon: 'rectangle-ellipsis',
+				routerLink: '/input/password'
+			} as SubMenuItem,
+			{
+				label: 'Number',
+				icon: 'hash',
+				routerLink: '/input/number'
+			} as SubMenuItem,
 		]
 	} as MenuItem])
 

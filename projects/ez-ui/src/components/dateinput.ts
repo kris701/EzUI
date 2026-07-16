@@ -6,7 +6,7 @@ import { TuiInput } from '@taiga-ui/core';
 import { TuiInputDate } from '@taiga-ui/kit';
 
 @Component({
-    selector: 'app-floatdateinput',
+    selector: 'ezui-dateinput',
     imports: [
 		FormsModule,
 		CommonModule,
@@ -25,7 +25,7 @@ import { TuiInputDate } from '@taiga-ui/kit';
     styles: `
     `
 })
-export class FloatDateInput implements OnChanges {
+export class EzUIDateInput implements OnChanges {
     @Input() icon: string = '';
     @Input() label: string = '';
 

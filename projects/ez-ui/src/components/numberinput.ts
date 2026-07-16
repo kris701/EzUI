@@ -5,7 +5,7 @@ import { TuiInput } from '@taiga-ui/core';
 import { TuiInputNumber } from '@taiga-ui/kit';
 
 @Component({
-    selector: 'app-floatnumberinput',
+    selector: 'ezui-numberinput',
     imports: [
 		FormsModule,
 		CommonModule,
@@ -23,7 +23,7 @@ import { TuiInputNumber } from '@taiga-ui/kit';
     styles: `
     `
 })
-export class FloatNumberInput implements OnChanges {
+export class EzUINumberInput implements OnChanges {
     @Input() icon: string = '';
     @Input() label: string = '';
 
