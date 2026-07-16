@@ -31,12 +31,6 @@ import { SampleContainer } from "../../common/samplecontainer";
 		</ng-template>
 	</app-samplecontainer>
 
-	<app-samplecontainer label="Label and Icon" html='<ezui-textinput label="Label with icon" icon="square-pen" />'>
-		<ng-template #preview>
-			<ezui-textinput label="Label with icon" icon="square-pen" />
-		</ng-template>
-	</app-samplecontainer>
-
 	<app-samplecontainer
 		label="Binding"
 		html='<ezui-textinput [(value)]="binding" label="Binding" />'

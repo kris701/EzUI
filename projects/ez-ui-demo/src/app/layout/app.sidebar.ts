@@ -86,6 +86,11 @@ export class AppSideBar {
 				icon: 'hash',
 				routerLink: '/input/number'
 			} as SubMenuItem,
+			{
+				label: 'Date',
+				icon: 'calendar',
+				routerLink: '/input/date'
+			} as SubMenuItem,
 		]
 	} as MenuItem])
 

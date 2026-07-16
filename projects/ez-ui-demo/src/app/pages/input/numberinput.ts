@@ -5,7 +5,7 @@ import { EzUINumberInput } from 'EzUI';
 import { SampleContainer } from "../../common/samplecontainer";
 
 @Component({
-    selector: 'app-password-input',
+    selector: 'app-number-input',
     imports: [
     FormsModule,
     CommonModule,
@@ -31,17 +31,11 @@ import { SampleContainer } from "../../common/samplecontainer";
 		</ng-template>
 	</app-samplecontainer>
 
-	<app-samplecontainer label="Label and Icon" html='<ezui-numberinput label="Label with icon" icon="hash" />'>
-		<ng-template #preview>
-			<ezui-numberinput label="Label with icon" icon="hash" />
-		</ng-template>
-	</app-samplecontainer>
-
 	<app-samplecontainer
 		label="Binding"
 		html='<ezui-numberinput [(value)]="binding" label="Binding" />'
 		[enableTypescript]="true"
-		ts='binding = signal<string>("");'
+		ts='binding = signal<number>(10);'
 	>
 		<ng-template #preview>
 			<ezui-numberinput [(value)]="binding" label="Binding" />

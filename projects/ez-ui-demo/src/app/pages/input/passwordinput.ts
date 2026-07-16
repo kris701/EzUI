@@ -31,12 +31,6 @@ import { SampleContainer } from "../../common/samplecontainer";
 		</ng-template>
 	</app-samplecontainer>
 
-	<app-samplecontainer label="Label and Icon" html='<ezui-passwordinput label="Label with icon" icon="rectangle-ellipsis" />'>
-		<ng-template #preview>
-			<ezui-passwordinput label="Label with icon" icon="rectangle-ellipsis" />
-		</ng-template>
-	</app-samplecontainer>
-
 	<app-samplecontainer
 		label="Binding"
 		html='<ezui-passwordinput [(value)]="binding" label="Binding" />'

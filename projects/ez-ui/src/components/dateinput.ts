@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiDay } from '@taiga-ui/cdk/date-time';
@@ -9,7 +8,6 @@ import { TuiInputDate } from '@taiga-ui/kit';
     selector: 'ezui-dateinput',
     imports: [
 		FormsModule,
-		CommonModule,
 		TuiInput,
 		TuiInputDate
 	],
