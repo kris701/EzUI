@@ -2,10 +2,7 @@
 	"name": "ez-ui",
 	"version": "0.0.0",
 	"scripts": {
-		"ng": "ng",
-		"start": "ng serve",
-		"build": "ng build",
-		"watch": "ng build --watch --configuration development",
+		"start": "ng build @kris701/ez-ui;ng serve @kris701/ez-ui-demo",
 		"lint": "ng lint"
 	},
 	"private": true,
