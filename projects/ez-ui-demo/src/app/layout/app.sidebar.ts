@@ -111,7 +111,12 @@ export class AppSideBar {
 					label: 'Markdown Editor',
 					icon: 'file-pen-line',
 					routerLink: '/other/markdowneditor'
-				} as SubMenuItem
+				} as SubMenuItem,
+				{
+					label: 'Tables',
+					icon: 'table',
+					routerLink: '/other/tables'
+				} as SubMenuItem,
 			]
 		} as MenuItem,
 	]

@@ -1,11 +1,11 @@
-import { FilterHelpers } from "../helpers/floattable.filterhelpers";
-import { FloatTableFilter } from "../models/FloatTableFilter";
-import { FloatTableFilterMethod } from "../models/FloatTableFilterMethod";
-import { FloatTableSort } from "../models/FloatTableSort";
-import { FloatTableSortMethod } from "../models/FloatTableSortMethod";
+import { EzUIFilterHelpers } from "../helpers/table.filterhelpers";
+import { EzUITableFilter } from "../models/table.filter";
+import { EzUITableFilterMethod } from "../models/table.filterMethod";
+import { EzUITableSort } from "../models/table.sort";
+import { EzUITableSortMethod } from "../models/table.sortMethod";
 
-export class FloatTableFilterService {
-	public sortMethods : FloatTableSortMethod[] = [
+export class EzUITableFilterService {
+	public sortMethods : EzUITableSortMethod[] = [
 		{
 			state: 'asc',
 			sort: (a: any, b: any, column : string) => {
@@ -15,7 +15,7 @@ export class FloatTableFilterService {
 					return -1;
 				return 0;
 			}
-		} as FloatTableSortMethod,
+		} as EzUITableSortMethod,
 		{
 			state: 'desc',
 			sort: (a: any, b: any, column : string) => {
@@ -25,42 +25,42 @@ export class FloatTableFilterService {
 					return 1;
 				return 0;
 			}
-		} as FloatTableSortMethod
+		} as EzUITableSortMethod
 	]
 
-	public filterMethods : FloatTableFilterMethod[] = [
+	public filterMethods : EzUITableFilterMethod[] = [
 		// Text filters
 		{
 			key: 'str',
 			action: 'con',
-			filter: (values : any[], column : string, value : any) => FilterHelpers.textFilter(values, (i : string) => i.includes(value), column)
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.textFilter(values, (i : string) => i.includes(value), column)
 		},
 		{
 			key: 'str',
 			action: 'ncon',
-			filter: (values : any[], column : string, value : any) => FilterHelpers.textFilter(values, (i : string) => !i.includes(value), column)
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.textFilter(values, (i : string) => !i.includes(value), column)
 		},
 		{
 			key: 'str',
 			action: 'sta',
-			filter: (values : any[], column : string, value : any) => FilterHelpers.textFilter(values, (i : string) => i.startsWith(value), column)
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.textFilter(values, (i : string) => i.startsWith(value), column)
 		},
 		{
 			key: 'str',
 			action: 'end',
-			filter: (values : any[], column : string, value : any) => FilterHelpers.textFilter(values, (i : string) => i.endsWith(value), column)
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.textFilter(values, (i : string) => i.endsWith(value), column)
 		},
 
 		// Select filters
 		{
 			key: 'sel',
 			action: 'con',
-			filter: (values : any[], column : string, value : any) => FilterHelpers.textFilter(values, (i : string) => value.includes(i), column)
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.textFilter(values, (i : string) => value.includes(i), column)
 		},
 		{
 			key: 'sel',
 			action: 'ncon',
-			filter: (values : any[], column : string, value : any) => FilterHelpers.textFilter(values, (i : string) => !value.includes(i), column)
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.textFilter(values, (i : string) => !value.includes(i), column)
 		},
 
 		// Date filters
@@ -68,7 +68,7 @@ export class FloatTableFilterService {
 			key: 'dat',
 			action: 'bef',
 			filter: (values : any[], column : string, value : any) =>
-				FilterHelpers.dateFilter(
+				EzUIFilterHelpers.dateFilter(
 					values,
 					(i : Date) => {
 						var normal = value[0].toLocalNativeDate()
@@ -81,7 +81,7 @@ export class FloatTableFilterService {
 			key: 'dat',
 			action: 'aft',
 			filter: (values : any[], column : string, value : any) =>
-				FilterHelpers.dateFilter(
+				EzUIFilterHelpers.dateFilter(
 					values,
 					(i : Date) => {
 						var normal = value[0].toLocalNativeDate()
@@ -92,14 +92,14 @@ export class FloatTableFilterService {
 		},
 	]
 
-	public sort(values : any[], sort : FloatTableSort) : any[]{
+	public sort(values : any[], sort : EzUITableSort) : any[]{
 		var target = this.sortMethods.find(x => x.state == sort.state);
 		if (target)
 			return values.sort((a : any, b: any) => target!.sort(a,b,sort.column));
 		return values;
 	}
 
-	public filter(values : any[], filter : FloatTableFilter) : any[]{
+	public filter(values : any[], filter : EzUITableFilter) : any[]{
 		var split = filter.expression.split(';');
 		var target = this.filterMethods.find(x => split[0] == x.key && split[1] == x.action);
 		if (target)

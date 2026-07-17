@@ -66,23 +66,30 @@ import { TuiCardLarge, TuiHeader } from '@taiga-ui/layout';
 					}
 					@case (1) {
 						<tui-textfield>
-							<textarea tuiTextarea [disabled]="true" [value]="html"></textarea>
+							<textarea tuiTextarea [readOnly]="true" [value]="html"></textarea>
 						</tui-textfield>
 					}
 					@case (2) {
 						<tui-textfield>
-							<textarea tuiTextarea [disabled]="true" [value]="css"></textarea>
+							<textarea tuiTextarea [readOnly]="true" [value]="css"></textarea>
 						</tui-textfield>
 					}
 					@case (3) {
 						<tui-textfield>
-							<textarea tuiTextarea [disabled]="true" [value]="ts"></textarea>
+							<textarea tuiTextarea [readOnly]="true" [value]="ts"></textarea>
 						</tui-textfield>
 					}
 				}
 			</section>
 	    </div>
-    `
+    `,
+	styles: `
+		tui-textfield {
+			::ng-deep tui-textarea-content {
+				max-height:100% !important;
+			}
+		}
+	`
 })
 export class SampleContainer {
     @Input() label: string = '';

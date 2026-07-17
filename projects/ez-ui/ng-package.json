@@ -10,6 +10,8 @@
 		"@taiga-ui/kit",
 		"@taiga-ui/icons",
 		"compressorjs",
-		"marked"
+		"marked",
+		"@taiga-ui/addon-table",
+		"uuid"
 	]
 }

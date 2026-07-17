@@ -1,26 +1,26 @@
 import { CommonModule } from "@angular/common";
 import { Component, Input, signal } from "@angular/core";
 import { TuiButton } from "@taiga-ui/core";
-import { FloatTable } from "../floattable";
-import { FloatTableSort } from "../models/FloatTableSort";
+import { EzUITableSort } from "../models/table.sort";
+import { EzUITable } from "../table";
 
 @Component({
-    selector: 'tuiThSortable',
+    selector: 'ezui-table-sortable',
     imports: [CommonModule, TuiButton],
     template: `
-		@if(tuiThSortable){
+		@if(column){
 			<button tuiButton style="opacity:0.72" [iconStart]="icon()" size="s" appearance="flat-grayscale" (click)="sort()"></button>
 		}
     `
 })
-export class TableSortableColumn {
-    @Input() tuiThSortable!: string;
+export class EzUITTableSortableColumn {
+    @Input() column!: string;
 
-	table : FloatTable;
+	table : EzUITable;
 	state : 'asc' | 'desc' | 'none' = 'none';
 	icon = signal<string | null | undefined>("text-align-justify");
 
-	constructor(table : FloatTable){
+	constructor(table : EzUITable){
 		this.table = table;
 
 		this.table.onPresetChange.subscribe(x => {
@@ -30,7 +30,7 @@ export class TableSortableColumn {
 				this.icon.set('text-align-justify');
 				return;
 			}
-			var sort = x.sorts.find(x => x.column == this.tuiThSortable);
+			var sort = x.sorts.find(x => x.column == this.column);
 			if (!sort)
 			{
 				this.state = 'none'
@@ -57,17 +57,17 @@ export class TableSortableColumn {
 		switch(this.state){
 			case 'none':
 				this.state = 'asc';
-				this.table.setSort({ column: this.tuiThSortable, state: this.state } as FloatTableSort)
+				this.table.setSort({ column: this.column, state: this.state } as EzUITableSort)
 				this.icon.set('arrow-up-wide-narrow');
 				break;
 			case 'asc':
 				this.state = 'desc';
-				this.table.setSort({ column: this.tuiThSortable, state: this.state } as FloatTableSort)
+				this.table.setSort({ column: this.column, state: this.state } as EzUITableSort)
 				this.icon.set('arrow-down-wide-narrow');
 				break;
 			case 'desc':
 				this.state = 'none';
-				this.table.clearSort(this.tuiThSortable);
+				this.table.clearSort(this.column);
 				this.icon.set('text-align-justify');
 				break;
 		}

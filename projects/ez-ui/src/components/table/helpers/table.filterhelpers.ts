@@ -1,4 +1,4 @@
-export class FilterHelpers {
+export class EzUIFilterHelpers {
 	public static textFilter(values: any[], fn : (i : string) => boolean, column : string) : any[]{
 		var filtered = []
 		for(let value of values)

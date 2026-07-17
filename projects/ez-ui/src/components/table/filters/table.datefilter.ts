@@ -4,14 +4,14 @@ import { FormsModule } from "@angular/forms";
 import { TuiDay, TuiTime } from "@taiga-ui/cdk/date-time";
 import { TuiButton, TuiDropdown, TuiInput } from "@taiga-ui/core";
 import { TuiBadgeNotification, TuiBadgedContent, TuiButtonSelect, TuiDataListWrapper, TuiInputDateTime, TuiStringifyContentPipe } from "@taiga-ui/kit";
-import { FloatTable } from "../floattable";
-import { FloatTableFilter } from "../models/FloatTableFilter";
+import { EzUITableFilter } from "../models/table.filter";
+import { EzUITable } from "../table";
 
 @Component({
-    selector: 'tuiThDateFilter',
+    selector: 'ezui-table-datefilter',
     imports: [CommonModule, FormsModule, TuiDropdown, TuiDataListWrapper, TuiButton, TuiButtonSelect, TuiStringifyContentPipe, TuiBadgeNotification, TuiBadgedContent, TuiInput, TuiInputDateTime],
     template: `
-		@if(tuiThDateFilter){
+		@if(column){
 			<tui-badged-content>
 				@if(filterApplied()){
 					<tui-badge-notification
@@ -33,7 +33,7 @@ import { FloatTableFilter } from "../models/FloatTableFilter";
 			</tui-badged-content>
 
 			<ng-template #filterPop>
-				<div class="flex flex-col gap-2 p-4" style="min-width:20rem">
+				<div class="filterPopContainer">
 					<button
 						appearance="outline-grayscale"
 						size="s"
@@ -79,15 +79,24 @@ import { FloatTableFilter } from "../models/FloatTableFilter";
 				</div>
 			</ng-template>
 		}
-    `
+    `,
+	styles: `
+		.filterPopContainer {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			padding: 10px;
+			min-width:20rem;
+		}
+	`
 })
-export class TableDateFilter {
-    @Input() tuiThDateFilter!: string;
+export class EzUITableDateFilter {
+    @Input() column!: string;
 
 	filterApplied = signal<boolean>(false);
 	filterVisible = signal<boolean>(false);
 
-	table : FloatTable;
+	table : EzUITable;
 
 	value : [TuiDay, TuiTime] = [TuiDay.currentLocal(), TuiTime.currentLocal()];
 	filterType : any;
@@ -95,7 +104,7 @@ export class TableDateFilter {
 
 	protected readonly stringify = (item: any): string => `${item.label}`;
 
-	constructor(table : FloatTable){
+	constructor(table : EzUITable){
 		this.table = table;
 
 		this.filterTypes = [
@@ -118,7 +127,7 @@ export class TableDateFilter {
 				this.filterApplied.set(false);
 				return;
 			}
-			var filter = x.filters.find(x => x.column == this.tuiThDateFilter);
+			var filter = x.filters.find(x => x.column == this.column);
 			if (!filter)
 			{
 				this.filterType = this.filterTypes[0];
@@ -143,16 +152,16 @@ export class TableDateFilter {
 
 	applyFilter(expression : string){
 		this.table.setFilter({
-			column: this.tuiThDateFilter,
+			column: this.column,
 			value: this.value,
 			expression: expression,
-		} as FloatTableFilter);
+		} as EzUITableFilter);
 		this.filterVisible.set(false);
 		this.filterApplied.set(true);
 	}
 
 	clearFilter(){
-		this.table.clearFilter(this.tuiThDateFilter);
+		this.table.clearFilter(this.column);
 		this.filterVisible.set(false);
 		this.filterApplied.set(false);
 	}

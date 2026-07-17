@@ -5,17 +5,17 @@ import { TuiTable, TuiTablePagination } from '@taiga-ui/addon-table';
 import { TuiButton, TuiDropdown, TuiHint, TuiIcon, TuiInput, TuiLoader, TuiScrollbar } from "@taiga-ui/core";
 import { TuiChevron, TuiDataListWrapper } from '@taiga-ui/kit';
 import { TuiBlockStatus } from '@taiga-ui/layout';
-import { FloatTablePresets } from './floattable.presets';
-import { FloatTableFilter } from './models/FloatTableFilter';
-import { FloatTableSort } from './models/FloatTableSort';
-import { FloatTableSortFilterPreset } from './models/FloatTableSortFilterPreset';
-import { FloatTableFilterService } from './services/floattable.filterservice';
+import { EzUITableFilter } from './models/table.filter';
+import { EzUITableSort } from './models/table.sort';
+import { EzUITableSortFilterPreset } from './models/table.sortFilterPreset';
+import { EzUITableFilterService } from './services/table.filterservice';
+import { EzUITablePresets } from './table.presets';
 
 @Component({
-    selector: 'app-floattable',
-    imports: [FormsModule, CommonModule, TuiTable, TuiScrollbar, TuiButton, TuiChevron, TuiDropdown, TuiDataListWrapper, TuiTablePagination, TuiLoader, TuiBlockStatus, TuiIcon, TuiInput, FloatTablePresets, TuiHint],
+    selector: 'ezui-table',
+    imports: [FormsModule, CommonModule, TuiTable, TuiScrollbar, TuiButton, TuiChevron, TuiDropdown, TuiDataListWrapper, TuiTablePagination, TuiLoader, TuiBlockStatus, TuiIcon, TuiInput, EzUITablePresets, TuiHint],
     template: `
-		<div class="app-floattable">
+		<div class="ezui-table">
 			<tui-loader [inheritColor]="true" [overlay]="true" size="xxl" [loading]="isLoading()">
 				@if(values.length == 0){
 					<tui-block-status>
@@ -28,7 +28,7 @@ import { FloatTableFilterService } from './services/floattable.filterservice';
 				}
 				@else {
 					@if(showAdd || showRefresh || showClearFilters){
-						<div class="flex flex-row gap-2 p-2" style="padding-bottom:0px">
+						<div class="ezui-table-header">
 							@if(showRefresh){
 								<button tuiButton iconStart="rotate-cw" size="s" appearance="info" (click)="onLoadItems.emit()" tuiHint="Refresh the table"></button>
 							}
@@ -41,11 +41,11 @@ import { FloatTableFilterService } from './services/floattable.filterservice';
 						</div>
 					}
 					@if(allowPresets){
-						<app-floattable-presets #presetHeader [storageKey]="storageKey" (onPresetChange)="onPresetChange.emit($event)">
-						</app-floattable-presets>
+						<ezui-table-presets #presetHeader [storageKey]="storageKey" (onPresetChange)="onPresetChange.emit($event)">
+						</ezui-table-presets>
 					}
-					<tui-scrollbar class="w-full h-full">
-						<table tuiTable class="w-full h-full">
+					<tui-scrollbar class="forcefullsize">
+						<table tuiTable class="forcefullsize">
 							<thead>
 								<tr>
 									@if(expandable){
@@ -59,7 +59,7 @@ import { FloatTableFilterService } from './services/floattable.filterservice';
 								<tbody tuiTbody>
 									<tr>
 										@if(expandable){
-											<td tuiTd class="app-floattable-expander">
+											<td tuiTd class="ezui-table-expander">
 												<button
 													appearance="flat-grayscale"
 													size="xs"
@@ -86,8 +86,9 @@ import { FloatTableFilterService } from './services/floattable.filterservice';
 							}
 						</table>
 					</tui-scrollbar>
-					<div class="app-floattable-footer">
-						<tui-table-pagination
+					@if(internalValues.length > pageSize() || pageSize() != 25){
+						<div class="ezui-table-footer">
+							<tui-table-pagination
 								[(size)]="pageSize"
 								[(page)]="page"
 								[total]="internalValues.length"
@@ -95,7 +96,8 @@ import { FloatTableFilterService } from './services/floattable.filterservice';
 								(pageChange)="processPage()"
 								(sizeChange)="processPage()"
 							/>
-					</div>
+						</div>
+					}
 				}
 			</tui-loader>
 		</div>
@@ -104,7 +106,7 @@ import { FloatTableFilterService } from './services/floattable.filterservice';
 		class:'w-full h-full'
     },
     styles: `
-		.app-floattable {
+		.ezui-table {
 			border: 2px solid var(--tui-border-normal);
 			border-radius: var(--tui-radius-l);
 			display:flex;
@@ -142,7 +144,17 @@ import { FloatTableFilterService } from './services/floattable.filterservice';
 				}
 			}
 
-			.app-floattable-footer {
+			.ezui-table-header {
+				display:flex;
+				flex-direction: row;
+				gap:10px;
+				padding-top:5px;
+				padding-left:5px;
+				padding-right:5px;
+				padding-bottom:0px;
+			}
+
+			.ezui-table-footer {
 				display:flex;
 				margin-bottom:0.5rem;
 				padding-left:2rem;
@@ -161,7 +173,7 @@ import { FloatTableFilterService } from './services/floattable.filterservice';
 				background-color: var(--tui-background-base-alt) !important;
 			}
 
-			::ng-deep .app-floattable-expander {
+			::ng-deep .ezui-table-expander {
 				padding:0px;
 
 				button {
@@ -174,15 +186,24 @@ import { FloatTableFilterService } from './services/floattable.filterservice';
 			th[tuiTh] {
 				align-items:center;
 			}
+
+			.forcefullsize {
+				width: 100% !important;
+			}
+
+			tui-block-status {
+				padding-top:20px;
+				padding-bottom:20px;
+			}
 		}
     `
 })
-export class FloatTable implements OnChanges {
+export class EzUITable implements OnChanges {
     @ContentChild('tableHeader', { static: false }) tableHeader: TemplateRef<any> | undefined;
     @ContentChild('tableRows', { static: false }) tableRows: TemplateRef<any> | undefined;
     @ContentChild('tableExpandedrow', { static: false }) tableExpandedrow: TemplateRef<any> | undefined;
 
-    @ViewChild('presetHeader', { static: false }) presetHeader: FloatTablePresets | undefined;
+    @ViewChild('presetHeader', { static: false }) presetHeader: EzUITablePresets | undefined;
 
     @Input() disabled: boolean = false;
     @Input() isLoading = signal<boolean>(false);
@@ -197,13 +218,13 @@ export class FloatTable implements OnChanges {
 	internalValues: any[] = [];
     displayValues = signal<any[]>([]);
 
-	sorts = signal<FloatTableSort[]>([]);
-	filters = signal<FloatTableFilter[]>([]);
+	sorts = signal<EzUITableSort[]>([]);
+	filters = signal<EzUITableFilter[]>([]);
 
 	@Input() storageKey: string | null = null;
 	@Input() allowPresets: boolean = false;
 
-	constructor(private filterService : FloatTableFilterService){
+	constructor(private filterService : EzUITableFilterService){
 
 	}
 
@@ -217,7 +238,7 @@ export class FloatTable implements OnChanges {
     @Output() onAddItem: EventEmitter<any> = new EventEmitter();
     @Output() onLoadItems: EventEmitter<any> = new EventEmitter();
     @Output() onRowExpanded: EventEmitter<any> = new EventEmitter();
-	@Output() onPresetChange: EventEmitter<FloatTableSortFilterPreset | null> = new EventEmitter<FloatTableSortFilterPreset | null>();
+	@Output() onPresetChange: EventEmitter<EzUITableSortFilterPreset | null> = new EventEmitter<EzUITableSortFilterPreset | null>();
 
     @Input() pageSize = signal<number>(25);
 	page = signal<number>(0);
@@ -252,7 +273,7 @@ export class FloatTable implements OnChanges {
 
 	state: Record<number, boolean> = {};
 
-	setSort(sort : FloatTableSort){
+	setSort(sort : EzUITableSort){
 		var sorts = this.sorts();
 		var target = sorts.findIndex(x => x.column == sort.column);
 		if (target != -1)
@@ -274,7 +295,7 @@ export class FloatTable implements OnChanges {
 		this.applyFilter();
 	}
 
-	setFilter(filter : FloatTableFilter){
+	setFilter(filter : EzUITableFilter){
 		var filters = this.filters();
 		var target = filters.findIndex(x => x.column == filter.column);
 		if (target != -1){

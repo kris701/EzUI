@@ -1,4 +1,4 @@
-export interface FloatTableFilter {
+export interface EzUITableFilter {
 	column : string;
 	value : any;
 	expression : string;
