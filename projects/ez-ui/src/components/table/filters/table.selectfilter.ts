@@ -1,16 +1,16 @@
 import { CommonModule } from "@angular/common";
 import { Component, Input, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { TuiButton, TuiDropdown, TuiInput } from "@taiga-ui/core";
-import { TuiBadgeNotification, TuiBadgedContent, TuiButtonSelect, TuiDataListWrapper, TuiStringifyContentPipe } from "@taiga-ui/kit";
-import { FloatTable } from "../floattable";
-import { FloatTableFilter } from "../models/FloatTableFilter";
+import { TuiButton, TuiDataList, TuiDropdown, TuiInput } from "@taiga-ui/core";
+import { TuiBadgeNotification, TuiBadgedContent, TuiButtonSelect, TuiDataListWrapper, TuiMultiSelect, TuiStringifyContentPipe } from "@taiga-ui/kit";
+import { EzUITableFilter } from "../models/table.filter";
+import { EzUITable } from "../table";
 
 @Component({
-    selector: 'tuiThTextFilter',
-    imports: [CommonModule, FormsModule, TuiDropdown, TuiDataListWrapper, TuiButton, TuiButtonSelect, TuiStringifyContentPipe, TuiBadgeNotification, TuiBadgedContent, TuiInput],
+    selector: 'ezui-table-selectfilter',
+    imports: [CommonModule, FormsModule, TuiDropdown, TuiDataListWrapper, TuiButton, TuiButtonSelect, TuiStringifyContentPipe, TuiBadgeNotification, TuiBadgedContent, TuiInput, TuiMultiSelect, TuiDataList],
     template: `
-		@if(tuiThTextFilter){
+		@if(column){
 			<tui-badged-content>
 				@if(filterApplied()){
 					<tui-badge-notification
@@ -32,7 +32,7 @@ import { FloatTableFilter } from "../models/FloatTableFilter";
 			</tui-badged-content>
 
 			<ng-template #filterPop>
-				<div class="flex flex-col gap-2 p-4" style="min-width:20rem">
+				<div class="filterPopContainer">
 					<button
 						appearance="outline-grayscale"
 						size="s"
@@ -41,16 +41,40 @@ import { FloatTableFilter } from "../models/FloatTableFilter";
 						[(ngModel)]="filterType"
 					>
 						{{ filterType.label }}
-						<tui-data-list-wrapper
+					<tui-data-list-wrapper
 							*tuiDropdown
 							[itemContent]="stringify | tuiStringifyContent"
 							[items]="filterTypes"
 						/>
 					</button>
 
-					<tui-textfield tuiTextfieldSize="s" (keydown.enter)="applyFilter(filterType.expression)">
-						<input tuiInput [(ngModel)]="value"/>
-					</tui-textfield>
+					<button
+						appearance="secondary-grayscale"
+						size="s"
+						tuiButton
+						tuiButtonSelect
+						[(ngModel)]="selected"
+					>
+						{{selected.length === 1 ? selected[0] : 'Selected ' + selected.length}}
+
+						<tui-data-list *tuiDropdown>
+							<tui-opt-group
+								label="Options"
+								tuiMultiSelectGroup
+							>
+								@for (option of options; track option) {
+									<button
+										tuiOption
+										type="button"
+										[value]="option"
+									>
+										{{ option }}
+									</button>
+								}
+							</tui-opt-group>
+						</tui-data-list>
+					</button>
+
 					<button
 						tuiButton size="s"
 						iconStart="funnel"
@@ -73,41 +97,43 @@ import { FloatTableFilter } from "../models/FloatTableFilter";
 				</div>
 			</ng-template>
 		}
-    `
+    `,
+	styles: `
+		.filterPopContainer {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			padding: 10px;
+			min-width:20rem;
+		}
+	`
 })
-export class TableTextFilter {
-    @Input() tuiThTextFilter!: string;
+export class EzUITableSelectFilter {
+    @Input() column!: string;
 
 	filterApplied = signal<boolean>(false);
 	filterVisible = signal<boolean>(false);
 
-	table : FloatTable;
+	table : EzUITable;
 
-	value : string = '';
+	@Input() options : string[] = [];
+	selected : string[] = [];
 	filterType : any;
 	filterTypes : any[];
 
 	protected readonly stringify = (item: any): string => `${item.label}`;
 
-	constructor(table : FloatTable){
+	constructor(table : EzUITable){
 		this.table = table;
 
 		this.filterTypes = [
 			{
 				label: 'Contains',
-				expression: 'str;con'
+				expression: 'sel;con'
 			},
 			{
 				label: 'Not Contains',
-				expression: 'str;ncon'
-			},
-			{
-				label: 'Starts With',
-				expression: 'str;sta'
-			},
-			{
-				label: 'Ends With',
-				expression: 'str;end'
+				expression: 'sel;ncon'
 			}
 		];
 		this.filterType = this.filterTypes[0];
@@ -116,15 +142,15 @@ export class TableTextFilter {
 			if (!x)
 			{
 				this.filterType = this.filterTypes[0];
-				this.value = "";
+				this.selected = [];
 				this.filterApplied.set(false);
 				return;
 			}
-			var filter = x.filters.find(x => x.column == this.tuiThTextFilter);
+			var filter = x.filters.find(x => x.column == this.column);
 			if (!filter)
 			{
 				this.filterType = this.filterTypes[0];
-				this.value = "";
+				this.selected = [];
 				this.filterApplied.set(false);
 				return;
 			}
@@ -132,29 +158,29 @@ export class TableTextFilter {
 			if (!type)
 			{
 				this.filterType = this.filterTypes[0];
-				this.value = "";
+				this.selected = [];
 				this.filterApplied.set(false);
 				return;
 			}
 
 			this.filterType = type;
-			this.value = filter.value;
+			this.selected = filter.value;
 			this.filterApplied.set(true);
 		})
 	}
 
 	applyFilter(expression : string){
 		this.table.setFilter({
-			column: this.tuiThTextFilter,
-			value: this.value,
+			column: this.column,
+			value: this.selected,
 			expression: expression,
-		} as FloatTableFilter);
+		} as EzUITableFilter);
 		this.filterVisible.set(false);
 		this.filterApplied.set(true);
 	}
 
 	clearFilter(){
-		this.table.clearFilter(this.tuiThTextFilter);
+		this.table.clearFilter(this.column);
 		this.filterVisible.set(false);
 		this.filterApplied.set(false);
 	}

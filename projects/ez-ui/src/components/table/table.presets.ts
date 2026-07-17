@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { TuiButton, TuiGroup, TuiHint, TuiInput, TuiScrollbar } from "@taiga-ui/core";
 import { TuiBadge, TuiStatus } from '@taiga-ui/kit';
 import { v4 as uuidv4 } from 'uuid';
-import { FloatTable } from './floattable';
-import { FloatTableSortFilterPreset } from './models/FloatTableSortFilterPreset';
-import { FloatTableSortFilterPresetSave } from './models/FloatTableSortFilterPresetSave';
+import { EzUITableSortFilterPreset } from './models/table.sortFilterPreset';
+import { EzUITableSortFilterPresetSave } from './models/table.sortFilterPresetSave';
+import { EzUITable } from './table';
 
 @Component({
-    selector: 'app-floattable-presets',
+    selector: 'ezui-table-presets',
     imports: [FormsModule, CommonModule, TuiScrollbar, TuiButton, TuiGroup, TuiBadge, TuiStatus, TuiInput, TuiHint],
     template: `
 		<button tuiButton iconStart="plus" size="s" appearance="secondary" (click)="createPreset()" tuiHint="Create new preset from current filters"></button>
 
-		<tui-scrollbar class="w-full">
+		<tui-scrollbar>
 			@let current = currentPreset();
 			@for(preset of presets(); track preset.id){
 				<div tuiGroup [collapsed]="true" [rounded]="true">
@@ -27,7 +27,7 @@ import { FloatTableSortFilterPresetSave } from './models/FloatTableSortFilterPre
 							<button style="flex: 0 0 auto;" tuiButton iconStart="save" size="s" appearance="info" (click)="preset.edit = false;saveCurrentPreset()" tuiHint="Save"></button>
 						}
 						@else {
-							<div class="h-full" appearance="positive" tuiBadge tuiStatus>
+							<div style="height:100%" appearance="positive" tuiBadge tuiStatus>
 								{{preset.name}}
 							</div>
 							<button style="flex: 0 0 auto;" tuiButton iconStart="square-pen" size="s" appearance="info" (click)="preset.edit = true" tuiHint="Edit"></button>
@@ -41,12 +41,18 @@ import { FloatTableSortFilterPresetSave } from './models/FloatTableSortFilterPre
 			}
 		</tui-scrollbar>
     `,
-    host: {
-		class:'flex flex-row gap-2 p-2',
-		style:"padding-bottom:0px;padding-top:0px"
-    },
     styles: `
+		.ezui-table-presets{
+			display:flex;
+			flex-direction: row;
+			gap:10px;
+			padding:5px;
+			padding-bottom:0px;
+			padding-top:0px;
+		}
+
 		::ng-deep tui-scrollbar {
+			width:100% !important;
 			> .t-content {
 				display:flex;
 				gap:10px;
@@ -55,12 +61,12 @@ import { FloatTableSortFilterPresetSave } from './models/FloatTableSortFilterPre
 		}
     `
 })
-export class FloatTablePresets implements OnChanges {
+export class EzUITablePresets implements OnChanges {
 	@Input() storageKey: string | null = null;
-	currentPreset = signal<FloatTableSortFilterPreset | null>(null);
-	presets = signal<FloatTableSortFilterPreset[]>([])
+	currentPreset = signal<EzUITableSortFilterPreset | null>(null);
+	presets = signal<EzUITableSortFilterPreset[]>([])
 
-	constructor(private table : FloatTable){
+	constructor(private table : EzUITable){
 
 	}
 
@@ -70,7 +76,7 @@ export class FloatTablePresets implements OnChanges {
 			if (this.storageKey){
 				var item = localStorage.getItem(this.storageKey)
 				if (item){
-					var parsed : FloatTableSortFilterPresetSave = JSON.parse(item)
+					var parsed : EzUITableSortFilterPresetSave = JSON.parse(item)
 					if (parsed){
 						this.presets.set(parsed.presets);
 						if (parsed.current){
@@ -95,7 +101,7 @@ export class FloatTablePresets implements OnChanges {
 		)
 	}
 
-	@Output() onPresetChange: EventEmitter<FloatTableSortFilterPreset | null> = new EventEmitter<FloatTableSortFilterPreset | null>();
+	@Output() onPresetChange: EventEmitter<EzUITableSortFilterPreset | null> = new EventEmitter<EzUITableSortFilterPreset | null>();
 
 	saveCurrentPreset(){
 		var currentPreset = this.currentPreset();
@@ -138,7 +144,7 @@ export class FloatTablePresets implements OnChanges {
 			name: 'New Preset',
 			sorts : [...this.table.sorts()],
 			filters: [...this.table.filters()]
-		} as FloatTableSortFilterPreset
+		} as EzUITableSortFilterPreset
 		this.currentPreset.set(preset);
 
 		var presets = this.presets();
@@ -178,7 +184,7 @@ export class FloatTablePresets implements OnChanges {
 			var saveBody = {
 				current: this.currentPreset()?.id,
 				presets: [...this.presets()]
-			} as FloatTableSortFilterPresetSave
+			} as EzUITableSortFilterPresetSave
 			localStorage.setItem(
 				this.storageKey,
 				JSON.stringify(saveBody));
