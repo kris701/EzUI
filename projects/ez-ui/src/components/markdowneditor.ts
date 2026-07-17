@@ -152,7 +152,8 @@ export class EzUIMarkdownEditor implements OnChanges {
     items = signal<MenuBarItem[]>([
 		{
 			icon: 'save',
-			command: async () => await this.toggleEdit(true)
+			command: async () => await this.toggleEdit(true),
+			style: 'border-bottom-left-radius: 0px !important;'
 		} as MenuBarItem,
 		{
 			icon: 'x',
@@ -249,7 +250,8 @@ export class EzUIMarkdownEditor implements OnChanges {
                 if (this.editor){
                     this.fileUpload?.nativeElement.click();
                 }
-            }
+            },
+			style: 'border-bottom-right-radius: 0px !important;border-top-right-radius: 0px !important;'
         } as MenuBarItem,
     ])
 

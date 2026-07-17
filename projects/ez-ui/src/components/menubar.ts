@@ -11,6 +11,7 @@ export interface MenuBarItem {
 	disabled: boolean;
 	expanded: boolean;
 	command() : Promise<any>;
+	style : string;
 }
 
 @Component({
@@ -33,6 +34,7 @@ export interface MenuBarItem {
 					[(tuiDropdownOpen)]="item.expanded"
 					tuiDropdownLimitWidth="fixed"
 					tuiDropdownSided="true"
+					[style]="item.style"
 				>
 				{{item.label}}
 				</button>
@@ -50,6 +52,7 @@ export interface MenuBarItem {
 					[iconStart]="item.icon"
 					[disabled]="item.disabled"
 					(click)="item.command()"
+					[style]="item.style"
 				>
 					{{item.label}}
 				</button>
@@ -94,6 +97,7 @@ export class EzUIMenuBarSubDataList {
 						[tuiDropdown]="dropdownContent"
 						[(tuiDropdownOpen)]="item.expanded"
 						tuiDropdownLimitWidth="fixed"
+						[style]="item.style"
 					>
 						{{item.label}}
 					</button>
@@ -114,6 +118,7 @@ export class EzUIMenuBarSubDataList {
 						[iconStart]="item.icon"
 						[disabled]="item.disabled"
 						(click)="item.command()"
+						[style]="item.style"
 					>
 						{{item.label}}
 					</button>
