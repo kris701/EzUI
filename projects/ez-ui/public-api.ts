@@ -1,5 +1,5 @@
 // Components
-export * from './src/components/dateinputput';
+export * from './src/components/dateinput';
 export * from './src/components/markdowneditor';
 export * from './src/components/multiselect';
 export * from './src/components/numberinput';
