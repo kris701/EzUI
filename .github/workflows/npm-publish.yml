@@ -39,7 +39,9 @@ jobs:
           node-version: 26.4.0
           registry-url: https://registry.npmjs.org/
       - run: npm i
-      - run: npm publish ./projects/ez-ui --access public
+      - run: ng build @kris701/ez-ui
+      - run: cd dist/ez-ui
+      - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
