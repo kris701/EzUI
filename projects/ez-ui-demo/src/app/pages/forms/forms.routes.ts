@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { DateInput } from './dateinput';
+import { FileInput } from './fileinput';
 import { MultiSelect } from './multiselect';
 import { NumberInput } from './numberinput';
 import { PasswordInput } from './passwordinput';
@@ -11,4 +12,5 @@ export default [
     { path: 'number', component: NumberInput },
     { path: 'date', component: DateInput },
     { path: 'multiselect', component: MultiSelect },
+    { path: 'files', component: FileInput },
 ] as Routes;

@@ -96,6 +96,11 @@ export class AppSideBar {
 					icon: 'list',
 					routerLink: '/forms/multiselect'
 				} as SubMenuItem,
+				{
+					label: 'Files',
+					icon: 'file',
+					routerLink: '/forms/files'
+				} as SubMenuItem,
 			]
 		} as MenuItem,
 		{

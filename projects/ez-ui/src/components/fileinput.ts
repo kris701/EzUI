@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { TuiFiles } from '@taiga-ui/kit';
 
 @Component({
-	selector: 'app-floatfileupload',
+	selector: 'ezui-fileinput',
     imports: [FormsModule, TuiFiles],
 	template:`
 		<label tuiInputFiles>
@@ -27,7 +27,7 @@ import { TuiFiles } from '@taiga-ui/kit';
 		</tui-files>
 	`
 })
-export default class FloatFileUpload {
+export class EzUIFileInput {
 	public files = signal<File[]>([]);
 
 	public clear(){
