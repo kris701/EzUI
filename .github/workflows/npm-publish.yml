@@ -38,6 +38,7 @@ jobs:
         with:
           node-version: 26.4.0
           registry-url: https://registry.npmjs.org/
+      - run: npm i @angular/build -g
       - run: npm i
       - run: ng build @kris701/ez-ui
       - run: cd dist/ez-ui
