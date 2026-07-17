@@ -38,15 +38,25 @@ jobs:
         with:
           node-version: 26.4.0
           registry-url: https://registry.npmjs.org/
-      - run: npm i @angular/cli -g
-      - run: npm i
-      - run: ng build @kris701/ez-ui
-      - run: cd dist/ez-ui
-      - run: npm publish @kris701/ez-ui --access public
+      
+      - name: Install Angular CLI
+        run: npm i @angular/cli -g
+
+      - name: Install dependencies
+        run: npm i
+        
+      - name: Build package
+        run: ng build @kris701/ez-ui
+        
+      - name: Publish Package
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        run: |
+            cd dist/ez-ui
+            npm publish @kris701/ez-ui --access public
 
-      - run: npm pack ./projects/ez-ui/
+      - name: Pack package (for Git release)
+        run: npm pack ./dist/ez-ui/
 
       - name: Get Library Project version 
         id: get-version
