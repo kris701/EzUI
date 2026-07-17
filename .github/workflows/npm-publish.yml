@@ -52,8 +52,8 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         run: |
-            cd dist/ez-ui
-            npm publish @kris701/ez-ui --access public
+            cd ./dist/ez-ui
+            npm publish --access public
 
       - name: Pack package (for Git release)
         run: npm pack ./dist/ez-ui/
