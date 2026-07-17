@@ -2,6 +2,7 @@
 export * from './src/components/dateinput';
 export * from './src/components/fileinput';
 export * from './src/components/markdowneditor';
+export * from './src/components/menubar';
 export * from './src/components/multiselect';
 export * from './src/components/numberinput';
 export * from './src/components/passwordinput';
