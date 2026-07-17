@@ -41,19 +41,13 @@ import { EzUITable } from './table';
 			}
 		</tui-scrollbar>
     `,
+	host:{
+		style:'display:flex;flex-direction: row;gap:10px;padding:5px;padding-top:0px;'
+	},
     styles: `
-		.ezui-table-presets{
-			display:flex;
-			flex-direction: row;
-			gap:10px;
-			padding:5px;
-			padding-bottom:0px;
-			padding-top:0px;
-		}
-
-		::ng-deep tui-scrollbar {
+		tui-scrollbar {
 			width:100% !important;
-			> .t-content {
+			::ng-deep > .t-content {
 				display:flex;
 				gap:10px;
 				width:0px;

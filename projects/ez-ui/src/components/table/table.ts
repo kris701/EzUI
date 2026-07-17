@@ -86,8 +86,9 @@ import { EzUITablePresets } from './table.presets';
 							}
 						</table>
 					</tui-scrollbar>
-					<div class="ezui-table-footer">
-						<tui-table-pagination
+					@if(internalValues.length > pageSize() || pageSize() != 25){
+						<div class="ezui-table-footer">
+							<tui-table-pagination
 								[(size)]="pageSize"
 								[(page)]="page"
 								[total]="internalValues.length"
@@ -95,7 +96,8 @@ import { EzUITablePresets } from './table.presets';
 								(pageChange)="processPage()"
 								(sizeChange)="processPage()"
 							/>
-					</div>
+						</div>
+					}
 				}
 			</tui-loader>
 		</div>
@@ -187,7 +189,11 @@ import { EzUITablePresets } from './table.presets';
 
 			.forcefullsize {
 				width: 100% !important;
-				height: 100% !important;
+			}
+
+			tui-block-status {
+				padding-top:20px;
+				padding-bottom:20px;
 			}
 		}
     `
