@@ -42,7 +42,7 @@ jobs:
       - run: npm i
       - run: ng build @kris701/ez-ui
       - run: cd dist/ez-ui
-      - run: npm publish --access public
+      - run: npm publish @kris701/ez-ui --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
