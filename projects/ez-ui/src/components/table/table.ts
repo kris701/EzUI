@@ -120,7 +120,7 @@ import { EzUITablePresets } from './table.presets';
 				width:100%;
 				flex-direction: column;
 
-				> .t-content {
+				::ng-deep > .t-content {
 					display:flex;
 					height:100%;
 					width:100%;
@@ -129,7 +129,7 @@ import { EzUITablePresets } from './table.presets';
 					overflow-x:auto;
 				}
 
-				> .t-loader {
+				::ng-deep > .t-loader {
 					position:absolute;
 					width:100%;
 					height:100%;
