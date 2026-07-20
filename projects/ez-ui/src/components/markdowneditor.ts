@@ -163,11 +163,11 @@ export class EzUIMarkdownEditor implements OnChanges {
             label: 'B',
             command: async () => {
                 if (this.editor){
-                    var editor = this.editor.nativeElement;
-                    var start = editor.selectionStart;
-                    var finish = editor.selectionEnd;
-                    var sel = editor.value.substring(start, finish);
-                    var newStr = "**" + sel + "**"
+                    const editor = this.editor.nativeElement;
+                    const start = editor.selectionStart;
+                    const finish = editor.selectionEnd;
+                    const sel = editor.value.substring(start, finish);
+                    const newStr = "**" + sel + "**"
                     await this.replaceSection(newStr, start + 2, finish + 2);
                 }
             }
@@ -176,11 +176,11 @@ export class EzUIMarkdownEditor implements OnChanges {
             label: 'I',
             command: async () => {
                 if (this.editor){
-                    var editor = this.editor.nativeElement;
-                    var start = editor.selectionStart;
-                    var finish = editor.selectionEnd;
-                    var sel = editor.value.substring(start, finish);
-                    var newStr = "*" + sel + "*"
+                    const editor = this.editor.nativeElement;
+                    const start = editor.selectionStart;
+                    const finish = editor.selectionEnd;
+                    const sel = editor.value.substring(start, finish);
+                    const newStr = "*" + sel + "*"
                     await this.replaceSection(newStr, start + 1, finish + 1);
                 }
             }
@@ -192,11 +192,11 @@ export class EzUIMarkdownEditor implements OnChanges {
                     label: 'H1',
                     command: async () => {
                         if (this.editor){
-                            var editor = this.editor.nativeElement;
-                            var start = editor.selectionStart;
-                            var finish = editor.selectionEnd;
-                            var sel = editor.value.substring(start, finish);
-                            var newStr = "# " + sel
+                            const editor = this.editor.nativeElement;
+                            const start = editor.selectionStart;
+                            const finish = editor.selectionEnd;
+                            const sel = editor.value.substring(start, finish);
+                            const newStr = "# " + sel
                             await this.replaceSection(newStr, start + 2, finish + 2);
                         }
                     }
@@ -205,11 +205,11 @@ export class EzUIMarkdownEditor implements OnChanges {
                     label: 'H2',
                     command: async () => {
                         if (this.editor){
-                            var editor = this.editor.nativeElement;
-                            var start = editor.selectionStart;
-                            var finish = editor.selectionEnd;
-                            var sel = editor.value.substring(start, finish);
-                            var newStr = "## " + sel
+                            const editor = this.editor.nativeElement;
+                            const start = editor.selectionStart;
+                            const finish = editor.selectionEnd;
+                            const sel = editor.value.substring(start, finish);
+                            const newStr = "## " + sel
                             await this.replaceSection(newStr, start + 3, finish + 3);
                         }
                     }
@@ -218,11 +218,11 @@ export class EzUIMarkdownEditor implements OnChanges {
                     label: 'H3',
                     command: async () => {
                         if (this.editor){
-                            var editor = this.editor.nativeElement;
-                            var start = editor.selectionStart;
-                            var finish = editor.selectionEnd;
-                            var sel = editor.value.substring(start, finish);
-                            var newStr = "### " + sel
+                            const editor = this.editor.nativeElement;
+                            const start = editor.selectionStart;
+                            const finish = editor.selectionEnd;
+                            const sel = editor.value.substring(start, finish);
+                            const newStr = "### " + sel
                             await this.replaceSection(newStr, start + 4, finish + 4);
                         }
                     }
@@ -234,11 +234,11 @@ export class EzUIMarkdownEditor implements OnChanges {
             icon: 'link',
             command: async () => {
                 if (this.editor){
-                    var editor = this.editor.nativeElement;
-                    var start = editor.selectionStart;
-                    var finish = editor.selectionEnd;
-                    var sel = editor.value.substring(start, finish);
-                    var newStr = "[" + sel + "](link)"
+                    const editor = this.editor.nativeElement;
+                    const start = editor.selectionStart;
+                    const finish = editor.selectionEnd;
+                    const sel = editor.value.substring(start, finish);
+                    const newStr = "[" + sel + "](link)"
                     await this.replaceSection(newStr, start + 1, finish + 1);
                 }
             }
@@ -256,9 +256,9 @@ export class EzUIMarkdownEditor implements OnChanges {
     ])
 
     async onFileSelected(event: any) {
-        var files: File[] = Array.from(event.target.files);
+        const files: File[] = Array.from(event.target.files);
         if (files && files.length > 0) {
-            var file = files[0];
+            const file = files[0];
             await this.insertImageInEditor(file);
             this.fileUpload!.nativeElement.value = '';
         }
@@ -266,7 +266,7 @@ export class EzUIMarkdownEditor implements OnChanges {
 
     toBase65(file : File){
         return new Promise((resolve, reject) => {
-            var reader = new FileReader();
+            const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = () => resolve(reader.result);
             reader.onerror = reject;
@@ -285,20 +285,20 @@ export class EzUIMarkdownEditor implements OnChanges {
     }
 
     async insertImageInEditor(file : File){
-        var compressed = await compressImage(file, 0.5, 300, 300);
-        var asBase64 = await this.toBase65(compressed as File);
+        const compressed = await compressImage(file, 0.5, 300, 300);
+        const asBase64 = await this.toBase65(compressed as File);
         if (asBase64 && this.editor){
-            var editor = this.editor.nativeElement;
-            var start = editor.selectionStart;
-            var finish = editor.selectionEnd;
-            var sel = editor.value.substring(start, finish);
-            var newStr = "![" + sel + "](" + asBase64 + ")"
+            const editor = this.editor.nativeElement;
+            const start = editor.selectionStart;
+            const finish = editor.selectionEnd;
+            const sel = editor.value.substring(start, finish);
+            const newStr = "![" + sel + "](" + asBase64 + ")"
             await this.replaceSection(newStr, start + newStr.length, finish + newStr.length);
         }
     }
 
     async replaceSection(newStr : string, finalStart : number, finalFinish : number){
-        var editor = this.editor!.nativeElement;
+        const editor = this.editor!.nativeElement;
         editor.focus();
         document.execCommand("insertText", false, newStr);
         await this.formatPreview();

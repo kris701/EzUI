@@ -15,7 +15,7 @@ export class LayoutService {
     isMenuExpanded = signal<boolean>(false);
 
     constructor(){
-        var existing = localStorage.getItem("state");
+        const existing = localStorage.getItem("state");
         if (existing)
         {
           var state = JSON.parse(existing) as LayoutState
@@ -24,8 +24,8 @@ export class LayoutService {
 		  this.isMenuExpanded.set(state.isMenuExpanded);
         }
 
-		var isDesktop = this.isDesktop();
-		var isMenuExpanded = this.isMenuExpanded();
+		let isDesktop = this.isDesktop();
+		let isMenuExpanded = this.isMenuExpanded();
 
         isDesktop = window.innerWidth > 991
 		if (isMenuExpanded){
@@ -40,7 +40,7 @@ export class LayoutService {
     }
 
     public ToggleDarkMode(){
-        var isDarkMode = this.isDarkMode();
+        let isDarkMode = this.isDarkMode();
         this.darkMode.update((dark) => !isDarkMode);
         isDarkMode = !isDarkMode;
         this.isDarkMode.set(isDarkMode);
@@ -48,14 +48,14 @@ export class LayoutService {
     }
 
     public ToggleMenu(){
-		var isMenuExpanded = this.isMenuExpanded();
+		let isMenuExpanded = this.isMenuExpanded();
 		isMenuExpanded = !isMenuExpanded;
 		this.isMenuExpanded.set(isMenuExpanded);
 		this.saveState();
     }
 
     public SetMenu(to : boolean){
-        var isMenuExpanded = this.isMenuExpanded();
+        let isMenuExpanded = this.isMenuExpanded();
         isMenuExpanded = to;
         this.isMenuExpanded.set(isMenuExpanded);
 		this.saveState();

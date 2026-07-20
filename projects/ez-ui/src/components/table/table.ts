@@ -245,21 +245,21 @@ export class EzUITable implements OnChanges {
 	pages = signal<number>(0);
 	readonly pageSizes = [10, 25, 50, 100, 1000];
 	processPage(){
-		var fromIndex = this.pageSize() * this.page();
-		var toIndex = fromIndex + this.pageSize();
+		const fromIndex = this.pageSize() * this.page();
+		const toIndex = fromIndex + this.pageSize();
 		this.displayValues.set(this.internalValues.slice(fromIndex, toIndex));
 	}
 
 	applySorts(){
-		var sorted = [...this.internalValues]
-		for(var sort of this.sorts())
+		let sorted = [...this.internalValues]
+		for(const sort of this.sorts())
 			sorted = this.filterService.sort(sorted, sort);
 		this.internalValues = sorted;
 	}
 
 	applyFilter(){
-		var filtered = [...this.values]
-		for(var filter of this.filters())
+		let filtered = [...this.values]
+		for(const filter of this.filters())
 			filtered = this.filterService.filter(filtered, filter);
 		this.internalValues = filtered;
 		this.applySorts();
@@ -274,8 +274,8 @@ export class EzUITable implements OnChanges {
 	state: Record<number, boolean> = {};
 
 	setSort(sort : EzUITableSort){
-		var sorts = this.sorts();
-		var target = sorts.findIndex(x => x.column == sort.column);
+		const sorts = this.sorts();
+		const target = sorts.findIndex(x => x.column == sort.column);
 		if (target != -1)
 			sorts[target] = sort;
 		else
@@ -286,8 +286,8 @@ export class EzUITable implements OnChanges {
 	}
 
 	clearSort(column : string){
-		var sorts = this.sorts();
-		var target = sorts.findIndex(x => x.column == column);
+		const sorts = this.sorts();
+		const target = sorts.findIndex(x => x.column == column);
 		if (target != -1)
 			sorts.splice(target, 1)
 		this.sorts.set(sorts);
@@ -296,8 +296,8 @@ export class EzUITable implements OnChanges {
 	}
 
 	setFilter(filter : EzUITableFilter){
-		var filters = this.filters();
-		var target = filters.findIndex(x => x.column == filter.column);
+		const filters = this.filters();
+		const target = filters.findIndex(x => x.column == filter.column);
 		if (target != -1){
 			filters[target] = filter;
 		}
@@ -309,8 +309,8 @@ export class EzUITable implements OnChanges {
 	}
 
 	clearFilter(column : string){
-		var filters = this.filters();
-		var target = filters.findIndex(x => x.column == column);
+		const filters = this.filters();
+		const target = filters.findIndex(x => x.column == column);
 		if (target != -1)
 			filters.splice(target, 1)
 		this.filters.set(filters);

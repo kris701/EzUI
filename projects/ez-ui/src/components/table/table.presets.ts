@@ -68,13 +68,13 @@ export class EzUITablePresets implements OnChanges {
 		if (changes['storageKey'] && changes['storageKey'].previousValue != changes['storageKey'].currentValue) {
 			this.storageKey = changes['storageKey'].currentValue;
 			if (this.storageKey){
-				var item = localStorage.getItem(this.storageKey)
+				const item = localStorage.getItem(this.storageKey)
 				if (item){
-					var parsed : EzUITableSortFilterPresetSave = JSON.parse(item)
+					const parsed : EzUITableSortFilterPresetSave = JSON.parse(item)
 					if (parsed){
 						this.presets.set(parsed.presets);
 						if (parsed.current){
-							var target = (parsed.presets).find(x => x.id == parsed.current);
+							const target = (parsed.presets).find(x => x.id == parsed.current);
 							if (target)
 								this.selectPreset(target.id)
 						}
@@ -87,7 +87,7 @@ export class EzUITablePresets implements OnChanges {
 	ngOnInit(){
 		setTimeout(
 			() => {
-				var current = this.currentPreset();
+				const current = this.currentPreset();
 				if (current)
 					this.onPresetChange.emit(current);
 			},
@@ -98,14 +98,14 @@ export class EzUITablePresets implements OnChanges {
 	@Output() onPresetChange: EventEmitter<EzUITableSortFilterPreset | null> = new EventEmitter<EzUITableSortFilterPreset | null>();
 
 	saveCurrentPreset(){
-		var currentPreset = this.currentPreset();
+		const currentPreset = this.currentPreset();
 		if (currentPreset){
 			currentPreset.sorts = [...this.table.sorts()];
 			currentPreset.filters = [...this.table.filters()];
 			this.currentPreset.set(currentPreset);
 
-			var presets = this.presets();
-			var target = this.presets().findIndex(x => x.id == currentPreset?.id)
+			const presets = this.presets();
+			const target = this.presets().findIndex(x => x.id == currentPreset?.id)
 			if (target != -1)
 				presets[target] = currentPreset;
 			this.presets.set(presets);
@@ -115,11 +115,11 @@ export class EzUITablePresets implements OnChanges {
 	}
 
 	selectPreset(id : string){
-		var presets = this.presets();
-		var target = presets.findIndex(x => x.id == id);
+		const presets = this.presets();
+		const target = presets.findIndex(x => x.id == id);
 		if (target != -1)
 		{
-			var preset = presets[target];
+			const preset = presets[target];
 			this.currentPreset.set(preset);
 			this.table.sorts.set(preset.sorts);
 			this.table.filters.set(preset.filters);
@@ -133,7 +133,7 @@ export class EzUITablePresets implements OnChanges {
 	createPreset(){
 		this.saveCurrentPreset();
 
-		var preset = {
+		const preset = {
 			id: uuidv4(),
 			name: 'New Preset',
 			sorts : [...this.table.sorts()],
@@ -141,7 +141,7 @@ export class EzUITablePresets implements OnChanges {
 		} as EzUITableSortFilterPreset
 		this.currentPreset.set(preset);
 
-		var presets = this.presets();
+		const presets = this.presets();
 		presets.push(preset);
 		this.presets.set(presets);
 
@@ -149,13 +149,13 @@ export class EzUITablePresets implements OnChanges {
 	}
 
 	removePreset(id : string){
-		var presets = this.presets();
-		var target = presets.findIndex(x => x.id == id);
+		const presets = this.presets();
+		const target = presets.findIndex(x => x.id == id);
 		if (target != -1)
 			presets.splice(target, 1);
 		this.presets.set(presets);
 
-		var current = this.currentPreset();
+		const current = this.currentPreset();
 		if (current?.id == id){
 			if (presets.length > 0)
 			{
@@ -175,7 +175,7 @@ export class EzUITablePresets implements OnChanges {
 
 	savePresets(){
 		if(this.storageKey){
-			var saveBody = {
+			const saveBody = {
 				current: this.currentPreset()?.id,
 				presets: [...this.presets()]
 			} as EzUITableSortFilterPresetSave
