@@ -127,7 +127,7 @@ export class EzUITableDateFilter {
 				this.filterApplied.set(false);
 				return;
 			}
-			var filter = x.filters.find(x => x.column == this.column);
+			const filter = x.filters.find(x => x.column == this.column);
 			if (!filter)
 			{
 				this.filterType = this.filterTypes[0];
@@ -135,7 +135,7 @@ export class EzUITableDateFilter {
 				this.filterApplied.set(false);
 				return;
 			}
-			var type = this.filterTypes.find(x => x.expression == filter!.expression);
+			const type = this.filterTypes.find(x => x.expression == filter!.expression);
 			if (!type)
 			{
 				this.filterType = this.filterTypes[0];

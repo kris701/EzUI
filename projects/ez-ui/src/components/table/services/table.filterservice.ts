@@ -93,15 +93,15 @@ export class EzUITableFilterService {
 	]
 
 	public sort(values : any[], sort : EzUITableSort) : any[]{
-		var target = this.sortMethods.find(x => x.state == sort.state);
+		const target = this.sortMethods.find(x => x.state == sort.state);
 		if (target)
 			return values.sort((a : any, b: any) => target!.sort(a,b,sort.column));
 		return values;
 	}
 
 	public filter(values : any[], filter : EzUITableFilter) : any[]{
-		var split = filter.expression.split(';');
-		var target = this.filterMethods.find(x => split[0] == x.key && split[1] == x.action);
+		const split = filter.expression.split(';');
+		const target = this.filterMethods.find(x => split[0] == x.key && split[1] == x.action);
 		if (target)
 			return target!.filter(values, filter.column, filter.value);
 		return values;

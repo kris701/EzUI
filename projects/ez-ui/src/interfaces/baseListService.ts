@@ -23,7 +23,7 @@ export class BaseListService<T,TList extends IIdentifiable> {
         if (!this.isLoading){
             this.isLoaded = false;
             this.isLoading = true;
-			var value = await firstValueFrom(this.http.get<TList[]>(this.getAllEndpoint));
+			const value = await firstValueFrom(this.http.get<TList[]>(this.getAllEndpoint));
             this.items.set(value);
             this.isLoading = false;
             this.isLoaded = true;
@@ -40,14 +40,14 @@ export class BaseListService<T,TList extends IIdentifiable> {
     public async ListGet(id : string) : Promise<TList | null>{
         if (!this.isLoaded)
             await this.waitForValue(() => this.isLoaded === true);
-        var target = this.items().find(x => x.id == id);
+        const target = this.items().find(x => x.id == id);
         if (target)
             return target;
         return null;
     }
 
     public async Get(id : string) : Promise<T> {
-        var item = await firstValueFrom(this.http.get<T>(this.getEndpoint + "?ID=" + id));
+        const item = await firstValueFrom(this.http.get<T>(this.getEndpoint + "?ID=" + id));
         return item;
     }
 

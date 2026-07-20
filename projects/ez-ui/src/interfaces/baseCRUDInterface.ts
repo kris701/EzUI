@@ -82,7 +82,7 @@ export abstract class BaseCRUDInterface {
     async saveItemInner(){
         this.isLoading.set(true);
         try {
-            var current = this.currentItem();
+            const current = this.currentItem();
             if (current.id != '') {
                 await firstValueFrom(this.http.patch(this.patchEndpoint, current));
 				this.messageService.open("The item was updated with the new values", {
@@ -160,7 +160,7 @@ export abstract class BaseCRUDInterface {
         if (!this.canRead) throw new Error('You do not have read permissions!');
         this.isLoading.set(true);
         try {
-            var fetched = await firstValueFrom(this.http.get<any>(this.getEndpoint + '?ID=' + id));
+            const fetched = await firstValueFrom(this.http.get<any>(this.getEndpoint + '?ID=' + id));
             this.currentItem.set(fetched);
             this.showDialog.set(true);
         } catch {

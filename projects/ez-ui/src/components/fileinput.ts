@@ -42,8 +42,8 @@ export class EzUIFileInput {
 	}
 
 	removeFile(file : File){
-		var files = this.files();
-		var index = files.indexOf(file);
+		const files = this.files();
+		const index = files.indexOf(file);
 		if (index != -1){
 			files.splice(index, 1);
 			this.files.set(files);

@@ -1,9 +1,9 @@
 export class EzUIFilterHelpers {
 	public static textFilter(values: any[], fn : (i : string) => boolean, column : string) : any[]{
-		var filtered = []
-		for(let value of values)
+		const filtered = []
+		for(const value of values)
 		{
-			var asStr : string = value[column];
+			const asStr : string = value[column];
 			if (fn(asStr))
 				filtered.push(value);
 		}
@@ -11,10 +11,10 @@ export class EzUIFilterHelpers {
 	}
 
 	public static dateFilter(values: any[], fn : (i : Date) => boolean, column : string) : any[]{
-		var filtered = []
-		for(let value of values)
+		const filtered = []
+		for(const value of values)
 		{
-			var asDate : Date = new Date(value[column]);
+			const asDate : Date = new Date(value[column]);
 			if (fn(asDate))
 				filtered.push(value);
 		}

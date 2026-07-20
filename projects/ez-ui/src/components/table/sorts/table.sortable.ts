@@ -30,7 +30,7 @@ export class EzUITTableSortableColumn {
 				this.icon.set('text-align-justify');
 				return;
 			}
-			var sort = x.sorts.find(x => x.column == this.column);
+			const sort = x.sorts.find(x => x.column == this.column);
 			if (!sort)
 			{
 				this.state = 'none'
