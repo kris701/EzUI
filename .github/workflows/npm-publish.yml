@@ -72,6 +72,7 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           name: dist
+          path: ./dist/ez-ui
 
       - name: Publish Package
         env:
@@ -99,6 +100,7 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           name: dist
+          path: ./dist/ez-ui
 
       - name: Publish Package
         env:
@@ -125,6 +127,7 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           name: dist
+          path: ./dist/ez-ui
 
       - name: Pack package (for Git release)
         run: npm pack ./dist/ez-ui/
