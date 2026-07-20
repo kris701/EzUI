@@ -11,12 +11,12 @@ jobs:
   check-tag:
     name: Check build tag
     runs-on: ubuntu-latest
-    outputs: 
+    outputs:
         releaseExists: ${{ steps.check-tag.outputs.exists }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get Library Project version 
+      - name: Get Library Project version
         id: get-version
         uses: beaconbrigade/package-json-version@v0.3.2
         with:
@@ -24,11 +24,11 @@ jobs:
 
       - uses: mukunku/tag-exists-action@v1.6.0
         id: check-tag
-        with: 
+        with:
           tag: 'v${{ steps.get-version.outputs.version }}'
 
-  publish-npm:
-    name: Build and publish (NPM)
+  build:
+    name: Build
     needs: check-tag
     if: needs.check-tag.outputs.releaseExists == 'false'
     runs-on: ubuntu-latest
@@ -38,27 +38,51 @@ jobs:
         with:
           node-version: 26.4.0
           registry-url: https://registry.npmjs.org/
-      
+
       - name: Install Angular CLI
         run: npm i @angular/cli -g
 
       - name: Install dependencies
         run: npm i
-        
+
       - name: Build package
         run: ng build @kris701/ez-ui
-        
+
+      - name: Archive dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: ./dist/ez-ui
+
+  publish-npm:
+    name: Publish (NPM)
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26.4.0
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install Angular CLI
+        run: npm i @angular/cli -g
+
+      - name: Download dist
+        uses: actions/download-artifact@v5
+        with:
+          name: dist
+
       - name: Publish Package
         env:
           NODE_AUTH_TOKEN: ${{secrets.API_KEY_NPM}}
         run: |
             cd ./dist/ez-ui
             npm publish --access public
-            
+
   publish-github:
-    name: Build and publish (Github)
-    needs: check-tag
-    if: needs.check-tag.outputs.releaseExists == 'false'
+    name: Publish (Github)
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -67,16 +91,15 @@ jobs:
           node-version: 26.4.0
           registry-url: 'https://npm.pkg.github.com'
           scope: '@kris701'
-      
+
       - name: Install Angular CLI
         run: npm i @angular/cli -g
 
-      - name: Install dependencies
-        run: npm i
-        
-      - name: Build package
-        run: ng build @kris701/ez-ui
-        
+      - name: Download dist
+        uses: actions/download-artifact@v5
+        with:
+          name: dist
+
       - name: Publish Package
         env:
           NODE_AUTH_TOKEN: ${{ secrets.API_KEY_GITHUB }}
@@ -86,7 +109,7 @@ jobs:
 
   publish-local:
     name: Create Github Release
-    needs: [publish-npm,publish-github]
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -94,20 +117,19 @@ jobs:
         with:
           node-version: 26.4.0
           registry-url: https://registry.npmjs.org/
-      
+
       - name: Install Angular CLI
         run: npm i @angular/cli -g
 
-      - name: Install dependencies
-        run: npm i
-        
-      - name: Build package
-        run: ng build @kris701/ez-ui
+      - name: Download dist
+        uses: actions/download-artifact@v5
+        with:
+          name: dist
 
       - name: Pack package (for Git release)
         run: npm pack ./dist/ez-ui/
 
-      - name: Get Library Project version 
+      - name: Get Library Project version
         id: get-version
         uses: beaconbrigade/package-json-version@v0.3.2
         with:
@@ -120,7 +142,7 @@ jobs:
         with:
           tag: "v${{ steps.get-version.outputs.version }}"
           message: "Latest release"
-      
+
       - name: Generate Release
         uses: ncipollo/release-action@v1
         with:
