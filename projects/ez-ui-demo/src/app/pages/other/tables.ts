@@ -26,7 +26,9 @@ import { SampleContainer } from "../../common/samplecontainer";
 		label="Simple"
 		html='<ezui-table />'>
 		<ng-template #preview>
-			<ezui-table />
+			<div style="height:300px">
+				<ezui-table />
+			</div>
 		</ng-template>
 	</app-samplecontainer>
 
@@ -335,7 +337,7 @@ filterData : any = [
 
 	<app-samplecontainer
 		label="Presets"
-		html='<ezui-table [values]="filterData" [showClearFilters]="true" storageKey="ezui-table" [allowPresets]="true">
+		html='<ezui-table [values]="longFilterData" [showClearFilters]="true" storageKey="ezui-table" [allowPresets]="true">
 	<ng-template #tableHeader>
 		<th tuiTh>
 			ID
@@ -345,7 +347,7 @@ filterData : any = [
 		<th tuiTh>
 			Type
 			<ezui-table-sortable column="type"></ezui-table-sortable>
-			<ezui-table-selectfilter column="type" [options]="filterOptions"></ezui-table-selectfilter>
+			<ezui-table-selectfilter column="type" [options]="longFilterOptions"></ezui-table-selectfilter>
 		</th>
 		<th tuiTh>
 			Timestamp
@@ -364,9 +366,44 @@ filterData : any = [
 	</ng-template>
 </ezui-table>'
 		[enableTypescript]="true"
-		ts='filterOptions : string[] = ["Type 1", "Type 2", "Type 3"];
-filterData : any = [
+		ts='longFilterOptions : string[] = ["Type 1", "Type 2", "Type 3"];
+longFilterData : any = [
 	{ id:"abc", type: "Type 1", timestamp: new Date() },
+	{ id:"123", type: "Type 1", timestamp: new Date() },
+	{ id:"55g", type: "Type 2", timestamp: new Date() },
+	{ id:"dfg", type: "Type 3", timestamp: new Date() },
+	{ id:"123", type: "Type 1", timestamp: new Date() },
+	{ id:"55g", type: "Type 2", timestamp: new Date() },
+	{ id:"dfg", type: "Type 3", timestamp: new Date() },
+	{ id:"123", type: "Type 1", timestamp: new Date() },
+	{ id:"55g", type: "Type 2", timestamp: new Date() },
+	{ id:"dfg", type: "Type 3", timestamp: new Date() },
+	{ id:"123", type: "Type 1", timestamp: new Date() },
+	{ id:"55g", type: "Type 2", timestamp: new Date() },
+	{ id:"dfg", type: "Type 3", timestamp: new Date() },
+	{ id:"123", type: "Type 1", timestamp: new Date() },
+	{ id:"55g", type: "Type 2", timestamp: new Date() },
+	{ id:"dfg", type: "Type 3", timestamp: new Date() },
+	{ id:"123", type: "Type 1", timestamp: new Date() },
+	{ id:"55g", type: "Type 2", timestamp: new Date() },
+	{ id:"55g", type: "Type 2", timestamp: new Date() },
+	{ id:"dfg", type: "Type 3", timestamp: new Date() },
+	{ id:"123", type: "Type 1", timestamp: new Date() },
+	{ id:"55g", type: "Type 2", timestamp: new Date() },
+	{ id:"55g", type: "Type 2", timestamp: new Date() },
+	{ id:"dfg", type: "Type 3", timestamp: new Date() },
+	{ id:"123", type: "Type 1", timestamp: new Date() },
+	{ id:"55g", type: "Type 2", timestamp: new Date() },
+	{ id:"55g", type: "Type 2", timestamp: new Date() },
+	{ id:"dfg", type: "Type 3", timestamp: new Date() },
+	{ id:"123", type: "Type 1", timestamp: new Date() },
+	{ id:"55g", type: "Type 2", timestamp: new Date() },
+	{ id:"55g", type: "Type 2", timestamp: new Date() },
+	{ id:"dfg", type: "Type 3", timestamp: new Date() },
+	{ id:"123", type: "Type 1", timestamp: new Date() },
+	{ id:"55g", type: "Type 2", timestamp: new Date() },
+	{ id:"55g", type: "Type 2", timestamp: new Date() },
+	{ id:"dfg", type: "Type 3", timestamp: new Date() },
 	{ id:"123", type: "Type 1", timestamp: new Date() },
 	{ id:"55g", type: "Type 2", timestamp: new Date() },
 	{ id:"dfg", type: "Type 3", timestamp: new Date() },
@@ -375,7 +412,7 @@ filterData : any = [
 			<span appearance="warning" tuiMessage style="width:100%">
 				Put "EzUITableFilterService" into your app.config proividers for the sorting and filtering to work!
 			</span>
-			<ezui-table [values]="filterData" [showClearFilters]="true" storageKey="ezui-table" [allowPresets]="true">
+			<ezui-table [values]="longFilterData" [showClearFilters]="true" storageKey="ezui-table" [allowPresets]="true">
 				<ng-template #tableHeader>
 					<th tuiTh>
 						ID
@@ -385,7 +422,7 @@ filterData : any = [
 					<th tuiTh>
 						Type
 						<ezui-table-sortable column="type"></ezui-table-sortable>
-						<ezui-table-selectfilter column="type" [options]="filterOptions"></ezui-table-selectfilter>
+						<ezui-table-selectfilter column="type" [options]="longFilterOptions"></ezui-table-selectfilter>
 					</th>
 					<th tuiTh>
 						Timestamp
@@ -459,6 +496,49 @@ export class Tables {
 	filterOptions : string[] = ["Type 1", "Type 2", "Type 3"];
 	filterData : any = [
 		{ id:"abc", type: "Type 1", timestamp: new Date() },
+		{ id:"123", type: "Type 1", timestamp: new Date() },
+		{ id:"55g", type: "Type 2", timestamp: new Date() },
+		{ id:"dfg", type: "Type 3", timestamp: new Date() },
+	]
+
+	longFilterOptions : string[] = ["Type 1", "Type 2", "Type 3"];
+	longFilterData : any = [
+		{ id:"abc", type: "Type 1", timestamp: new Date() },
+		{ id:"123", type: "Type 1", timestamp: new Date() },
+		{ id:"55g", type: "Type 2", timestamp: new Date() },
+		{ id:"dfg", type: "Type 3", timestamp: new Date() },
+		{ id:"123", type: "Type 1", timestamp: new Date() },
+		{ id:"55g", type: "Type 2", timestamp: new Date() },
+		{ id:"dfg", type: "Type 3", timestamp: new Date() },
+		{ id:"123", type: "Type 1", timestamp: new Date() },
+		{ id:"55g", type: "Type 2", timestamp: new Date() },
+		{ id:"dfg", type: "Type 3", timestamp: new Date() },
+		{ id:"123", type: "Type 1", timestamp: new Date() },
+		{ id:"55g", type: "Type 2", timestamp: new Date() },
+		{ id:"dfg", type: "Type 3", timestamp: new Date() },
+		{ id:"123", type: "Type 1", timestamp: new Date() },
+		{ id:"55g", type: "Type 2", timestamp: new Date() },
+		{ id:"dfg", type: "Type 3", timestamp: new Date() },
+		{ id:"123", type: "Type 1", timestamp: new Date() },
+		{ id:"55g", type: "Type 2", timestamp: new Date() },
+		{ id:"55g", type: "Type 2", timestamp: new Date() },
+		{ id:"dfg", type: "Type 3", timestamp: new Date() },
+		{ id:"123", type: "Type 1", timestamp: new Date() },
+		{ id:"55g", type: "Type 2", timestamp: new Date() },
+		{ id:"55g", type: "Type 2", timestamp: new Date() },
+		{ id:"dfg", type: "Type 3", timestamp: new Date() },
+		{ id:"123", type: "Type 1", timestamp: new Date() },
+		{ id:"55g", type: "Type 2", timestamp: new Date() },
+		{ id:"55g", type: "Type 2", timestamp: new Date() },
+		{ id:"dfg", type: "Type 3", timestamp: new Date() },
+		{ id:"123", type: "Type 1", timestamp: new Date() },
+		{ id:"55g", type: "Type 2", timestamp: new Date() },
+		{ id:"55g", type: "Type 2", timestamp: new Date() },
+		{ id:"dfg", type: "Type 3", timestamp: new Date() },
+		{ id:"123", type: "Type 1", timestamp: new Date() },
+		{ id:"55g", type: "Type 2", timestamp: new Date() },
+		{ id:"55g", type: "Type 2", timestamp: new Date() },
+		{ id:"dfg", type: "Type 3", timestamp: new Date() },
 		{ id:"123", type: "Type 1", timestamp: new Date() },
 		{ id:"55g", type: "Type 2", timestamp: new Date() },
 		{ id:"dfg", type: "Type 3", timestamp: new Date() },

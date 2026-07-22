@@ -38,11 +38,13 @@ import { EzUITablePresets } from './table.presets';
 							@if(showClearFilters){
 								<button tuiButton iconStart="funnel-x" size="s" appearance="info" (click)="clearFilters()" tuiHint="Clear filters"></button>
 							}
+
+							@if(allowPresets){
+								<div class="seperator"></div>
+								<ezui-table-presets #presetHeader [storageKey]="storageKey" (onPresetChange)="onPresetChange.emit($event)">
+								</ezui-table-presets>
+							}
 						</div>
-					}
-					@if(allowPresets){
-						<ezui-table-presets #presetHeader [storageKey]="storageKey" (onPresetChange)="onPresetChange.emit($event)">
-						</ezui-table-presets>
 					}
 					<tui-scrollbar class="forcefullsize">
 						<table tuiTable class="forcefullsize">
@@ -115,25 +117,8 @@ import { EzUITablePresets } from './table.presets';
 			overflow:hidden;
 
 			::ng-deep tui-loader {
-				display:flex;
 				height:100%;
 				width:100%;
-				flex-direction: column;
-
-				::ng-deep > .t-content {
-					display:flex;
-					height:100%;
-					width:100%;
-					flex-direction: column;
-					gap:0.5rem;
-					overflow-x:auto;
-				}
-
-				::ng-deep > .t-loader {
-					position:absolute;
-					width:100%;
-					height:100%;
-				}
 			}
 
 			::ng-deep tui-scrollbar {
@@ -145,17 +130,21 @@ import { EzUITablePresets } from './table.presets';
 			}
 
 			.ezui-table-header {
+				background-color: var(--tui-background-base-alt);
 				display:flex;
 				flex-direction: row;
 				gap:10px;
-				padding-top:5px;
-				padding-left:5px;
-				padding-right:5px;
-				padding-bottom:0px;
+				padding:5px;
+
+				.seperator {
+					width:2px;
+					background-color: var(--tui-border-normal);
+				}
 			}
 
 			.ezui-table-footer {
 				display:flex;
+				margin-top:0.5rem;
 				margin-bottom:0.5rem;
 				padding-left:2rem;
 				padding-right:2rem;

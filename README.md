@@ -19,8 +19,7 @@ You can run the demo UI by doing the following:
 
 ```
 npm i
-ng build @kris701/ez-ui
-ng serve @kris701/ez-ui-demo
+npm start
 ```
 
 This will serve the demo UI on the route `http://localhost:6816`
