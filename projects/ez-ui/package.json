@@ -1,6 +1,6 @@
 {
   "name": "@kris701/ez-ui",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "peerDependencies": {
     "@angular/common": "^22.0.0",
     "@angular/core": "^22.0.0"
