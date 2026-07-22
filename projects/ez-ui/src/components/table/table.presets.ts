@@ -42,7 +42,7 @@ import { EzUITable } from './table';
 		</tui-scrollbar>
     `,
 	host:{
-		style:'display:flex;flex-direction: row;gap:10px;padding:5px;padding-top:0px;'
+		style:'display:flex;flex-direction: row;gap:10px;width:100%'
 	},
     styles: `
 		tui-scrollbar {
