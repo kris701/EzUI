@@ -26,5 +26,4 @@ export * from './src/helpers/compressImage';
 
 // Interfaces
 export * from './src/interfaces/baseCRUDInterface';
-export * from './src/interfaces/baseListService';
-
+export * from './src/interfaces/baseListInterface';

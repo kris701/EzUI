@@ -47,6 +47,10 @@
 			"tsConfig": "projects/ez-ui-demo/tsconfig.json",
             "inlineStyleLanguage": "less",
             "assets": [
+			  {
+                "glob": "**/*",
+                "input": "projects/ez-ui-demo/public"
+              },
               {
                 "glob": "**/*",
                 "input": "node_modules/@taiga-ui/icons/src",

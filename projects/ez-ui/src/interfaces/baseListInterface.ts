@@ -3,7 +3,7 @@ import { Directive, EventEmitter, signal } from "@angular/core";
 import { firstValueFrom } from "rxjs";
 
 @Directive()
-export class BaseListService<T,TList extends IIdentifiable> {
+export class BaseListInterface<T,TList extends IIdentifiable> {
     public items = signal<TList[]>([]);
 
     public getAllEndpoint: string = '';

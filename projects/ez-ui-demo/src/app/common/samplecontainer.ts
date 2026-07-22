@@ -26,6 +26,7 @@ import { TuiCardLarge, TuiHeader } from '@taiga-ui/layout';
 						iconStart="eye"
 						tuiTab
 						type="button"
+						[disabled]="!enablePreview"
 						(click)="index.set(0)"
 					>
 						Preview
@@ -34,6 +35,7 @@ import { TuiCardLarge, TuiHeader } from '@taiga-ui/layout';
 						iconStart="code"
 						tuiTab
 						type="button"
+						[disabled]="!enableHtml"
 						(click)="index.set(1)"
 					>
 						HTML
@@ -100,6 +102,8 @@ export class SampleContainer {
 	@Input() css : string = "";
 	@Input() ts : string = "";
 
+	@Input() enablePreview : boolean = true;
+	@Input() enableHtml : boolean = true;
 	@Input() enableStyle : boolean = false;
 	@Input() enableTypescript : boolean = false;
 

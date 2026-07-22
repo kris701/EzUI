@@ -19,6 +19,7 @@ import { LayoutService } from './services/layoutService';
           >
           </button>
           <span tuiNavigationLogo>
+			  <img src="logo.png" [style]="{ height: '45px' }" />
               <span tuiFade>EzUI Demo</span>
           </span>
 		  <hr />
