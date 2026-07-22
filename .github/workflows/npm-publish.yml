@@ -72,8 +72,6 @@ jobs:
           name: dist
           path: ./dist/ez-ui
 
-      - run: npm ci
-
       - name: Publish Package
         run: |
             cd ./dist/ez-ui
@@ -84,7 +82,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
+      contents: read
       packages: write
     steps:
       - uses: actions/checkout@v4
@@ -100,9 +98,9 @@ jobs:
           name: dist
           path: ./dist/ez-ui
 
-      - run: npm ci
-
       - name: Publish Package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
             cd ./dist/ez-ui
             npm publish --access public
@@ -134,7 +132,7 @@ jobs:
         uses: rickstaa/action-create-tag@v1
         id: "tag_create"
         with:
-          tag: '{{ needs.check-tag.outputs.version }}'
+          tag: ${{ needs.check-tag.outputs.version }}
           message: "Latest release"
 
       - name: Generate Release
@@ -142,5 +140,5 @@ jobs:
         with:
           skipIfReleaseExists: true
           artifacts: "*.tgz"
-          tag: '{{ needs.check-tag.outputs.version }}'
+          tag: ${{ needs.check-tag.outputs.version }}
           generateReleaseNotes: true
