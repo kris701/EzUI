@@ -1,6 +1,7 @@
 // Components
 export * from './src/components/dateinput';
 export * from './src/components/fileinput';
+export * from './src/components/iconselector';
 export * from './src/components/markdowneditor';
 export * from './src/components/menubar';
 export * from './src/components/multiselect';
@@ -27,3 +28,4 @@ export * from './src/helpers/compressImage';
 // Interfaces
 export * from './src/interfaces/baseCRUDInterface';
 export * from './src/interfaces/baseListInterface';
+
