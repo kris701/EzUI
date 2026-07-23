@@ -9,7 +9,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule
 ],
     template: `
-	<span>Hello</span>
+	<span>Welcome to EzUI!</span>
+	<span>Explore the sections in the sidebar for the different components</span>
     `,
     host: {
         class: 'base-view'

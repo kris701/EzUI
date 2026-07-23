@@ -92,6 +92,11 @@ export class AppSideBar {
 					routerLink: '/forms/date'
 				} as SubMenuItem,
 				{
+					label: 'Date Time',
+					icon: 'calendar-clock',
+					routerLink: '/forms/datetime'
+				} as SubMenuItem,
+				{
 					label: 'Multi Select',
 					icon: 'list',
 					routerLink: '/forms/multiselect'
