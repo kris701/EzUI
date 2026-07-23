@@ -117,6 +117,11 @@ export class AppSideBar {
 					icon: 'table',
 					routerLink: '/other/tables'
 				} as SubMenuItem,
+				{
+					label: 'Icon Selector',
+					icon: 'circle',
+					routerLink: '/other/iconselector'
+				} as SubMenuItem,
 			]
 		} as MenuItem,
 	]
