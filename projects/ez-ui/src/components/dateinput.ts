@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, signal, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiDay } from '@taiga-ui/cdk/date-time';
 import { TuiInput } from '@taiga-ui/core';
@@ -16,7 +16,7 @@ import { TuiInputDate } from '@taiga-ui/kit';
 			@if(label){
 				<label tuiLabel>{{label}}</label>
 			}
-			<input tuiInputDate [(ngModel)]="internalValue" (ngModelChange)="updateValue()" [disabled]="disabled" [min]="min ? TuiDay.fromLocalNativeDate(min) : null" [max]="max ? TuiDay.fromLocalNativeDate(max) : null"/>
+			<input tuiInputDate [(ngModel)]="internalValue" (ngModelChange)="updateValue()" [disabled]="disabled" [min]="toTuiDate(min)" [max]="toTuiDate(max)"/>
 			<tui-calendar *tuiDropdown />
 		</tui-textfield>
     `,
@@ -36,23 +36,35 @@ export class EzUIDateInput implements OnChanges {
 
 	TuiDay = TuiDay;
 
-    @Input() value: Date | string = new Date;
-    @Output() valueChange = new EventEmitter<Date | string>();
+    @Input() value: Date | null = new Date;
+    @Output() valueChange = new EventEmitter<Date | null>();
 
-	internalValue : TuiDay | null = null;
+	internalValue = signal<TuiDay | null>(null);
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['value'] && changes['value'].currentValue != changes['value'].previousValue) {
             this.value = changes['value'].currentValue;
-			this.value = new Date(this.value);
-			this.internalValue = TuiDay.fromUtcNativeDate(this.value);
+			this.internalValue.set(this.toTuiDate(this.value));
         }
     }
 
 	updateValue(){
 		if (this.internalValue){
-			this.value = this.internalValue?.toUtcNativeDate();
+			this.value = this.fromTuiDate(this.internalValue());
 			this.valueChange.emit(this.value);
 		}
+	}
+
+	toTuiDate(date : Date | null) : TuiDay | null {
+		if (date)
+			return TuiDay.fromUtcNativeDate(date);
+		return null;
+	}
+
+	fromTuiDate(date : TuiDay | null) : Date | null{
+		if(date){
+			return date.toUtcNativeDate();
+		}
+		return null;
 	}
 }
