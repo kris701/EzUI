@@ -101,7 +101,14 @@
           "options": {
             "port": 6816
           }
-        }
+        },
+		"deploy": {
+			"builder": "angular-cli-ghpages:deploy",
+			"options": {
+				"name": "Kristian Skov",
+				"email": "kris701kj@gmail.com"
+			}
+		}
       }
     }
   }
