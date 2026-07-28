@@ -29,7 +29,7 @@ jobs:
         run: ng build @kris701/ez-ui
 
       - name: Deploy
-        run: ng deploy --project @kris701/ez-ui-demo --base-ref=/EzUI/
+        run: ng deploy --project @kris701/ez-ui-demo --base-href=/EzUI/
         env:
           CI: true
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
