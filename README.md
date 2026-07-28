@@ -15,7 +15,10 @@
 
 This is a simple project to make some reusable Taiga UI 5 controls.
 It is available on NPM, under the name `@kris701/ez-ui`.
-You can run the demo UI by doing the following:
+
+You can view the demo under the [github pages](https://kris701.github.io/EzUI/) for this repo.
+
+You can run the demo UI locally by doing the following:
 
 ```
 npm i
