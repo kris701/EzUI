@@ -25,6 +25,9 @@ jobs:
       - name: Install
         run: npm i
 
+      - name: Build Library
+        run: ng build @kris701/ez-ui
+
       - name: Deploy
         run: ng deploy --project @kris701/ez-ui-demo
         env:
