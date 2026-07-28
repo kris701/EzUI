@@ -53,6 +53,7 @@ import { AppTopBar } from "./app.topbar";
 			padding:1rem;
 			display:flex;
 			block-size:auto !important;
+			box-sizing: border-box;
 		}
 	`
 })
