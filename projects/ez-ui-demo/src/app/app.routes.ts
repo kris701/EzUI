@@ -15,6 +15,10 @@ export const appRoutes: Routes = [
 			{
 				path: 'other',
 				loadChildren: () => import('./pages/other/other.routes')
+			},
+			{
+				path: 'layout',
+				loadChildren: () => import('./pages/layout/layout.routes')
 			}
 		]
 	}

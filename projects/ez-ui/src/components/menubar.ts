@@ -26,6 +26,7 @@ export interface MenuBarItem {
 		@for(item of subdatalist; track $index){
 			@if(item.items){
 				<button
+					class="subdatalistitem"
 					tuiOption
 					tuiChevron
 					[iconStart]="item.icon"
@@ -48,6 +49,7 @@ export interface MenuBarItem {
 			}
 			@else {
 				<button
+					class="subdatalistitem"
 					tuiOption
 					[iconStart]="item.icon"
 					[disabled]="item.disabled"
@@ -63,6 +65,10 @@ export interface MenuBarItem {
 		.subdatalist {
 			display:flex;
 			flex-direction: column;
+		}
+
+		.subdatalistitem {
+			padding: 0px 10px 0px 10px !important;
 		}
 	`
 })

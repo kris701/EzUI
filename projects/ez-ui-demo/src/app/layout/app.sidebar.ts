@@ -104,6 +104,17 @@ export class AppSideBar {
 			]
 		} as MenuItem,
 		{
+			label: 'Layout',
+			icon: 'layout-panel-left',
+			items: [
+				{
+					label: 'Menubar',
+					icon: 'rectangle-ellipsis',
+					routerLink: '/layout/menubar'
+				} as SubMenuItem,
+			]
+		} as MenuItem,
+		{
 			label: 'Other',
 			icon: 'circle-alert',
 			items: [
