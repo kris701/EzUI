@@ -55,7 +55,7 @@ import { EzUITextInput } from "./textinput";
 				display: flex;
 				flex-wrap: wrap;
 				gap:5px;
-				max-width:30vw;
+				max-width:80vw;
 				max-height:30vh;
 			}
 		}

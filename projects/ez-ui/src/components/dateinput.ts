@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, signal, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TuiDropdownSheet } from '@taiga-ui/addon-mobile';
 import { TuiDay } from '@taiga-ui/cdk/date-time';
 import { TuiInput } from '@taiga-ui/core';
 import { TuiInputDate } from '@taiga-ui/kit';
@@ -9,10 +10,11 @@ import { TuiInputDate } from '@taiga-ui/kit';
     imports: [
 		FormsModule,
 		TuiInput,
-		TuiInputDate
+		TuiInputDate,
+		TuiDropdownSheet
 	],
     template: `
-		<tui-textfield [tuiTextfieldSize]="size" [iconStart]="icon">
+		<tui-textfield [tuiTextfieldSize]="size" [iconStart]="icon" tuiDropdownSheet>
 			@if(label){
 				<label tuiLabel>{{label}}</label>
 			}

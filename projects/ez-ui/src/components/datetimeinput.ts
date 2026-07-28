@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, signal, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TuiDropdownSheet } from '@taiga-ui/addon-mobile';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk/date-time';
 import { TuiButton, TuiInput } from '@taiga-ui/core';
 import { TuiInputDateTime } from '@taiga-ui/kit';
@@ -10,31 +11,42 @@ import { TuiInputDateTime } from '@taiga-ui/kit';
 		FormsModule,
 		TuiInput,
 		TuiInputDateTime,
-		TuiButton
+		TuiButton,
+		TuiDropdownSheet
 	],
     template: `
-		<tui-textfield [tuiTextfieldSize]="size" [iconStart]="icon">
+		<tui-textfield [tuiTextfieldSize]="size" [iconStart]="icon" tuiDropdownSheet>>
 			@if(label){
 				<label tuiLabel>{{label}}</label>
 			}
 			<input tuiInputDateTime [(ngModel)]="internalValue" (ngModelChange)="updateValue()" [disabled]="disabled" [min]="toTuiDateTime(min)" [max]="toTuiDateTime(max)"/>
 			<section *tuiDropdown class="datetime-dropdown">
-				<tui-calendar/>
 				@let internal = internalValue();
-				@if(internal && internal[1]){
-					@let time = internal[1];
-					<div class="timeselector">
-						<div class="selector">
-							<button tuiButton (click)="setHours(time.hours + 1)" iconStart="plus" size="l"></button>
-							<span>{{time.hours}}</span>
-							<button tuiButton (click)="setHours(time.hours - 1)" iconStart="minus" size="l"></button>
+				@if(showDate()){
+					@if(internal && internal[1]){
+						<button tuiButton iconStart="clock" (click)="showDate.set(false)" size="s">Set Time</button>
+					}
+
+					<tui-calendar/>
+				}
+				@else {
+					<button tuiButton iconStart="calendar" (click)="showDate.set(true)" size="s">Set Date</button>
+
+					@if(internal && internal[1]){
+						@let time = internal[1];
+						<div class="timeselector">
+							<div class="selector">
+								<button tuiButton (click)="setHours(time.hours + 1)" iconStart="plus" size="l"></button>
+								<span>{{time.hours}}</span>
+								<button tuiButton (click)="setHours(time.hours - 1)" iconStart="minus" size="l"></button>
+							</div>
+							<div class="selector">
+								<button tuiButton (click)="setMinutes(time.minutes + 1)" iconStart="plus" size="l"></button>
+								<span>{{time.minutes}}</span>
+								<button tuiButton (click)="setMinutes(time.minutes - 1)" iconStart="minus" size="l"></button>
+							</div>
 						</div>
-						<div class="selector">
-							<button tuiButton (click)="setMinutes(time.minutes + 1)" iconStart="plus" size="l"></button>
-							<span>{{time.minutes}}</span>
-							<button tuiButton (click)="setMinutes(time.minutes - 1)" iconStart="minus" size="l"></button>
-						</div>
-					</div>
+					}
 				}
 			</section>
 		</tui-textfield>
@@ -42,11 +54,14 @@ import { TuiInputDateTime } from '@taiga-ui/kit';
     styles: `
 		.datetime-dropdown {
 			display:flex;
+			flex-direction: column;
 
 			.timeselector {
 				inline-size: 12rem;
-				box-shadow: -1px 0 var(--tui-border-normal);
 				display:flex;
+				gap:10px;
+				margin-top:10px;
+				align-self:center;
 
 				.selector {
 					display:flex;
@@ -77,6 +92,8 @@ export class EzUIDateTimeInput implements OnChanges {
 	TuiDay = TuiDay;
 	TuiTime = TuiTime;
 
+	showDate = signal<boolean>(true);
+
     @Input() value: Date | null = new Date();
     @Output() valueChange = new EventEmitter<Date | null>();
 
@@ -86,6 +103,9 @@ export class EzUIDateTimeInput implements OnChanges {
         if (changes['value'] && changes['value'].currentValue != changes['value'].previousValue) {
             this.value = changes['value'].currentValue;
 			this.internalValue.set(this.toTuiDateTime(this.value));
+			const internal = this.internalValue();
+			if (!internal || !internal[1])
+				this.showDate.set(true);
         }
     }
 
