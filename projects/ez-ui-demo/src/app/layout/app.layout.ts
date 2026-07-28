@@ -41,6 +41,7 @@ import { AppTopBar } from "./app.topbar";
 			max-height: inherit;
 			width:100%;
 			justify-content: space-between;
+			overflow:hidden;
 		}
 
 		.layout-main {

@@ -23,7 +23,7 @@ import { SampleContainer } from "../../common/samplecontainer";
 		icon: 'check'
 	} as MenuBarItem,
 	{
-		label: 'Button 2',
+		label: 'Some longer value name here',
 		icon: 'x'
 	} as MenuBarItem,
 	{
@@ -95,7 +95,7 @@ export class MenuBar {
 			command: () => alert('button 1 click')
 		} as MenuBarItem,
 		{
-			label: 'Button 2',
+			label: 'Some longer value name here',
 			icon: 'x',
 			command: () => alert('button 2 click')
 		} as MenuBarItem,
