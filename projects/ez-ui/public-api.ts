@@ -30,3 +30,8 @@ export * from './src/helpers/compressImage';
 export * from './src/interfaces/baseCRUDInterface';
 export * from './src/interfaces/baseListInterface';
 
+// Layout
+export * from './src/layout/ezui.layout';
+export * from './src/layout/models/MenuItem';
+export * from './src/layout/services/ezui.layout.service';
+

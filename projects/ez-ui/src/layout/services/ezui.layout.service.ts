@@ -7,7 +7,7 @@ interface LayoutState {
     isMenuExpanded : boolean,
 }
 
-export class LayoutService {
+export class EzUILayoutService {
     protected readonly darkMode = inject(TUI_DARK_MODE);
 
     isDarkMode = signal<boolean>(true);
