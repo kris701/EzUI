@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { TuiButton } from '@taiga-ui/core';
 import { TuiNavigation } from '@taiga-ui/layout';
 import { EzUILayout } from './ezui.layout';
-import { LayoutService } from './services/layoutService';
+import { EzUILayoutService } from './services/ezui.layout.service';
 
 @Component({
     selector: 'ezui-topbar',
@@ -36,7 +36,7 @@ import { LayoutService } from './services/layoutService';
 })
 export class EzUITopBar {
 	constructor(
-		public layoutService: LayoutService,
+		public layoutService: EzUILayoutService,
 		public layout : EzUILayout
 	){}
 }

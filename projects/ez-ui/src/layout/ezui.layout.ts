@@ -5,6 +5,7 @@ import { TuiRoot, TuiScrollbar } from "@taiga-ui/core";
 import { TuiNavigation } from '@taiga-ui/layout';
 import { EzUISideBar } from "./ezui.sidebar";
 import { EzUITopBar } from "./ezui.topbar";
+import { MenuItem } from './models/MenuItem';
 
 @Component({
     selector: 'ezui-layout',
@@ -80,18 +81,4 @@ export class EzUILayout {
 	@ContentChild('topbarlogo', { static: false }) public topbarlogo: TemplateRef<any> | undefined;
 }
 
-export interface MenuItem {
-	label: string,
-	icon: string | null,
-	routerLink: string | null,
-	items: SubMenuItem[] | null
-	command() : Promise<any>;
-}
 
-export interface SubMenuItem {
-	label: string,
-	icon: string | null,
-	routerLink: string | null
-	queryParams: {[id:string]:string}
-	command() : Promise<any>;
-}
