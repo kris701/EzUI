@@ -19,7 +19,7 @@ import { TuiInputDateTime } from '@taiga-ui/kit';
 			@if(label){
 				<label tuiLabel>{{label}}</label>
 			}
-			<input tuiInputDateTime [(ngModel)]="internalValue" (ngModelChange)="updateValue()" [disabled]="disabled" [min]="toTuiDateTime(min)" [max]="toTuiDateTime(max)"/>
+			<input tuiInputDateTime [(ngModel)]="internalValue" (ngModelChange)="updateValue()" [disabled]="disabled" [min]="toTuiDateTime(toDateOrNull(min))" [max]="toTuiDateTime(toDateOrNull(max))"/>
 			<section *tuiDropdown class="datetime-dropdown">
 				@let internal = internalValue();
 				@if(showDate()){
@@ -86,23 +86,23 @@ export class EzUIDateTimeInput implements OnChanges {
 
     @Input() disabled: boolean = false;
 
-	@Input() min : Date | null = null;
-	@Input() max : Date | null = null;
+	@Input() min : Date | string | null = null;
+	@Input() max : Date | string | null = null;
 
 	TuiDay = TuiDay;
 	TuiTime = TuiTime;
 
 	showDate = signal<boolean>(true);
 
-    @Input() value: Date | null = new Date();
-    @Output() valueChange = new EventEmitter<Date | null>();
+    @Input() value: Date | string | null = new Date();
+    @Output() valueChange = new EventEmitter<Date | string | null>();
 
 	internalValue = signal<[TuiDay, TuiTime] | null>(null);
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['value'] && changes['value'].currentValue != changes['value'].previousValue) {
             this.value = changes['value'].currentValue;
-			this.internalValue.set(this.toTuiDateTime(this.value));
+			this.internalValue.set(this.toTuiDateTime(this.toDateOrNull(this.value)));
 			const internal = this.internalValue();
 			if (!internal || !internal[1])
 				this.showDate.set(true);
@@ -167,5 +167,10 @@ export class EzUIDateTimeInput implements OnChanges {
 			this.internalValue.set(internal)
 			this.updateValue();
 		}
+	}
+
+	toDateOrNull(value : Date | string | null) : Date | null {
+		if (value) return new Date(value);
+		return null;
 	}
 }

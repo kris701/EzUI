@@ -18,7 +18,7 @@ import { TuiInputDate } from '@taiga-ui/kit';
 			@if(label){
 				<label tuiLabel>{{label}}</label>
 			}
-			<input tuiInputDate [(ngModel)]="internalValue" (ngModelChange)="updateValue()" [disabled]="disabled" [min]="toTuiDate(min)" [max]="toTuiDate(max)"/>
+			<input tuiInputDate [(ngModel)]="internalValue" (ngModelChange)="updateValue()" [disabled]="disabled" [min]="toTuiDate(toDateOrNull(min))" [max]="toTuiDate(toDateOrNull(max))"/>
 			<tui-calendar *tuiDropdown />
 		</tui-textfield>
     `,
@@ -33,20 +33,20 @@ export class EzUIDateInput implements OnChanges {
 
     @Input() disabled: boolean = false;
 
-	@Input() min : Date | null = null;
-	@Input() max : Date | null = null;
+	@Input() min : Date | string | null = null;
+	@Input() max : Date | string | null = null;
 
 	TuiDay = TuiDay;
 
-    @Input() value: Date | null = new Date;
-    @Output() valueChange = new EventEmitter<Date | null>();
+    @Input() value: Date | string | null = new Date;
+    @Output() valueChange = new EventEmitter<Date | string | null>();
 
 	internalValue = signal<TuiDay | null>(null);
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['value'] && changes['value'].currentValue != changes['value'].previousValue) {
             this.value = changes['value'].currentValue;
-			this.internalValue.set(this.toTuiDate(this.value));
+			this.internalValue.set(this.toTuiDate(this.toDateOrNull(this.value)));
         }
     }
 
@@ -67,6 +67,11 @@ export class EzUIDateInput implements OnChanges {
 		if(date){
 			return date.toUtcNativeDate();
 		}
+		return null;
+	}
+
+	toDateOrNull(value : Date | string | null) : Date | null {
+		if (value) return new Date(value);
 		return null;
 	}
 }
