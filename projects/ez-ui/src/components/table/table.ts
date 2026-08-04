@@ -18,6 +18,16 @@ import { EzUITablePresets } from './table.presets';
 		<div class="ezui-table">
 			<tui-loader [inheritColor]="true" [overlay]="true" size="xxl" [loading]="isLoading()">
 				@if(values.length == 0){
+					@if(showAdd || showRefresh){
+						<div class="ezui-table-header">
+							@if(showRefresh){
+								<button tuiButton iconStart="rotate-cw" size="s" appearance="info" (click)="onLoadItems.emit()" tuiHint="Refresh the table"></button>
+							}
+							@if(showAdd){
+								<button tuiButton iconStart="plus" size="s" appearance="info" (click)="onAddItem.emit()" tuiHint="Add new item"></button>
+							}
+						</div>
+					}
 					<tui-block-status>
 						<tui-icon tuiSlot="top" icon="grid-2x2-x" />
 
