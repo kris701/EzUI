@@ -9,6 +9,9 @@ export class BaseListInterface<T,TList extends IIdentifiable> {
     public getAllEndpoint: string = '';
     public getEndpoint: string = '';
 
+	public canGetAll : boolean = true;
+	public canGet : boolean = true;
+
     isLoaded : boolean = false;
     isLoading : boolean = false;
 
@@ -20,7 +23,7 @@ export class BaseListInterface<T,TList extends IIdentifiable> {
     }
 
     public async Load(){
-        if (!this.isLoading){
+        if (!this.isLoading && this.canGetAll){
             this.isLoaded = false;
             this.isLoading = true;
 			const value = await firstValueFrom(this.http.get<TList[]>(this.getAllEndpoint));
@@ -29,6 +32,9 @@ export class BaseListInterface<T,TList extends IIdentifiable> {
             this.isLoaded = true;
 			this.onUpdated.emit();
         }
+		else {
+			this.isLoaded = true;
+		}
     }
 
     public async List() : Promise<TList[]>{
@@ -47,6 +53,8 @@ export class BaseListInterface<T,TList extends IIdentifiable> {
     }
 
     public async Get(id : string) : Promise<T> {
+		if (!this.canGet)
+			return null as any;
         const item = await firstValueFrom(this.http.get<T>(this.getEndpoint + "?ID=" + id));
         return item;
     }
