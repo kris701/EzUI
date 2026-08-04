@@ -69,7 +69,7 @@ import { EzUITablePresets } from './table.presets';
 							@for (item of displayValues(); track page() * pageSize() + i; let i = $index){
 								@let fullIndex = page() * pageSize() + i;
 								<tbody tuiTbody>
-									<tr>
+									<tr [class]="{'rowrlickable':clickable}" (click)="onRowClick.emit(item)">
 										@if(expandable){
 											<td tuiTd class="ezui-table-expander">
 												<button
@@ -90,7 +90,7 @@ import { EzUITablePresets } from './table.presets';
 
 								<tbody tuiTableExpand [expanded]="state[fullIndex] ?? false">
 									@if(state[fullIndex] ?? false){
-										<tr>
+										<tr [class]="{'rowrlickable':clickable}" (click)="onRowClick.emit(item)">
 											<ng-container [ngTemplateOutlet]="tableExpandedrow" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
 										</tr>
 									}
@@ -194,6 +194,10 @@ import { EzUITablePresets } from './table.presets';
 				padding-top:20px;
 				padding-bottom:20px;
 			}
+
+			.rowrlickable {
+				cursor:pointer;
+			}
 		}
     `
 })
@@ -212,6 +216,7 @@ export class EzUITable implements OnChanges {
     @Input() showClearFilters: boolean = false;
 
 	@Input() expandable: boolean = false;
+	@Input() clickable: boolean = false;
 
     @Input() values: any[] = [];
 	internalValues: any[] = [];
@@ -237,6 +242,7 @@ export class EzUITable implements OnChanges {
     @Output() onAddItem: EventEmitter<any> = new EventEmitter();
     @Output() onLoadItems: EventEmitter<any> = new EventEmitter();
     @Output() onRowExpanded: EventEmitter<any> = new EventEmitter();
+    @Output() onRowClick: EventEmitter<any> = new EventEmitter();
 	@Output() onPresetChange: EventEmitter<EzUITableSortFilterPreset | null> = new EventEmitter<EzUITableSortFilterPreset | null>();
 
     @Input() pageSize = signal<number>(25);

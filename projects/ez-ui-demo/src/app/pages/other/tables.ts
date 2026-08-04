@@ -70,6 +70,47 @@ import { SampleContainer } from "../../common/samplecontainer";
 	</app-samplecontainer>
 
 	<app-samplecontainer
+		label="Row Clickable"
+		html='<ezui-table [values]="data" [clickable]="true" (onRowClick)="rowClicked($event)">
+	<ng-template #tableHeader>
+		<th tuiTh>ID</th>
+		<th tuiTh>Value</th>
+		<th tuiTh>Description</th>
+	</ng-template>
+	<ng-template #tableRows let-item>
+		<td tuiTd>\{\{ item.id \} \}</td>
+		<td tuiTd>\{\{ item.value \} \}</td>
+		<td tuiTd>\{\{ item.desc \} \}</td>
+	</ng-template>
+</ezui-table>'
+		[enableTypescript]="true"
+		ts='data : any = [
+	{ id:"abc", value: "123", desc: "works" },
+	{ id:"123", value: "wwww", desc: "works" },
+	{ id:"55g", value: "1115892", desc: "works :)" },
+	{ id:"dfg", value: "yyes", desc: "works" },
+]
+
+rowClicked(item : any){
+	alert("Clicked on row " + item.id);
+}'>
+		<ng-template #preview>
+			<ezui-table [values]="data" [clickable]="true" (onRowClick)="rowClicked($event)">
+				<ng-template #tableHeader>
+					<th tuiTh>ID</th>
+					<th tuiTh>Value</th>
+					<th tuiTh>Description</th>
+				</ng-template>
+				<ng-template #tableRows let-item>
+					<td tuiTd>{{ item.id }}</td>
+					<td tuiTd>{{ item.value }}</td>
+					<td tuiTd>{{ item.desc }}</td>
+				</ng-template>
+			</ezui-table>
+		</ng-template>
+	</app-samplecontainer>
+
+	<app-samplecontainer
 		label="Pagination"
 		html='<ezui-table [values]="longData" [pageSize]="pageSize">
 	<ng-template #tableHeader>
@@ -543,4 +584,8 @@ export class Tables {
 		{ id:"55g", type: "Type 2", timestamp: new Date() },
 		{ id:"dfg", type: "Type 3", timestamp: new Date() },
 	]
+
+	rowClicked(item : any){
+		alert("Clicked on row " + item.id);
+	}
 }
