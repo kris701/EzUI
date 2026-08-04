@@ -197,6 +197,16 @@ import { EzUITablePresets } from './table.presets';
 
 			.rowrlickable {
 				cursor:pointer;
+
+				background-color: var(--tui-background-base);
+
+				::ng-deep td[tuitd] {
+					background-color: transparent !important;
+				}
+			}
+
+			.rowrlickable:hover {
+				background-color: var(--tui-background-neutral-1-hover) !important;
 			}
 		}
     `
