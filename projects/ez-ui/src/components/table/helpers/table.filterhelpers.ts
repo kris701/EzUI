@@ -20,4 +20,15 @@ export class EzUIFilterHelpers {
 		}
 		return filtered;
 	}
+
+	public static boolFilter(values: any[], fn : (i : boolean) => boolean, column : string) : any[]{
+		const filtered = []
+		for(const value of values)
+		{
+			const asBoolean : boolean = value[column];
+			if (fn(asBoolean))
+				filtered.push(value);
+		}
+		return filtered;
+	}
 }

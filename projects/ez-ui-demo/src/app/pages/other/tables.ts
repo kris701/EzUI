@@ -3,7 +3,7 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiTable } from '@taiga-ui/addon-table';
 import { TuiChip, TuiMessage } from '@taiga-ui/kit';
-import { EzUITable, EzUITableDateFilter, EzUITableSelectFilter, EzUITableTextFilter, EzUITTableSortableColumn } from 'EzUI';
+import { EzUITable, EzUITableBooleanFilter, EzUITableDateFilter, EzUITableSelectFilter, EzUITableTextFilter, EzUITTableSortableColumn } from 'EzUI';
 import { SampleContainer } from "../../common/samplecontainer";
 
 @Component({
@@ -11,15 +11,16 @@ import { SampleContainer } from "../../common/samplecontainer";
     imports: [
     FormsModule,
     CommonModule,
-	EzUITable,
+    EzUITable,
     SampleContainer,
-	TuiTable,
-	EzUITTableSortableColumn,
-	TuiMessage,
-	EzUITableDateFilter,
-	EzUITableTextFilter,
-	EzUITableSelectFilter,
-	TuiChip
+    TuiTable,
+    EzUITTableSortableColumn,
+    TuiMessage,
+    EzUITableDateFilter,
+    EzUITableTextFilter,
+    EzUITableSelectFilter,
+    TuiChip,
+    EzUITableBooleanFilter
 ],
     template: `
 	<app-samplecontainer
@@ -252,6 +253,10 @@ longData : any = [
 			Timestamp
 			<ezui-table-datefilter column="timestamp"></ezui-table-datefilter>
 		</th>
+		<th tuiTh>
+			Is Active
+			<ezui-table-booleanfilter column="active"></ezui-table-booleanfilter>
+		</th>
 	</ng-template>
 	<ng-template #tableRows let-item>
 		<td tuiTd>\{\{ item.id \} \}</td>
@@ -261,15 +266,16 @@ longData : any = [
 			</span>
 		</td>
 		<td tuiTd>\{\{ item.timestamp | date: "dd/MM/yyyy HH:mm:ss" \} \}</td>
+		<td tuiTd>\{\{ item.active \} \}</td>
 	</ng-template>
 </ezui-table>'
 		[enableTypescript]="true"
 		ts='filterOptions : string[] = ["Type 1", "Type 2", "Type 3"];
 filterData : any = [
-	{ id:"abc", type: "Type 1", timestamp: new Date() },
-	{ id:"123", type: "Type 1", timestamp: new Date() },
-	{ id:"55g", type: "Type 2", timestamp: new Date() },
-	{ id:"dfg", type: "Type 3", timestamp: new Date() },
+	{ id:"abc", type: "Type 1", timestamp: new Date(), active:true },
+	{ id:"123", type: "Type 1", timestamp: new Date(), active:false },
+	{ id:"55g", type: "Type 2", timestamp: new Date(), active:true },
+	{ id:"dfg", type: "Type 3", timestamp: new Date(), active:false },
 ]'>
 		<ng-template #preview>
 			<span appearance="warning" tuiMessage style="width:100%">
@@ -289,6 +295,10 @@ filterData : any = [
 						Timestamp
 						<ezui-table-datefilter column="timestamp"></ezui-table-datefilter>
 					</th>
+					<th tuiTh>
+						Is Active
+						<ezui-table-booleanfilter column="active"></ezui-table-booleanfilter>
+					</th>
 				</ng-template>
 				<ng-template #tableRows let-item>
 					<td tuiTd>{{ item.id }}</td>
@@ -298,6 +308,7 @@ filterData : any = [
 						</span>
 					</td>
 					<td tuiTd>{{ item.timestamp| date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+					<td tuiTd>{{ item.active }}</td>
 				</ng-template>
 			</ezui-table>
 		</ng-template>
@@ -536,10 +547,10 @@ export class Tables {
 
 	filterOptions : string[] = ["Type 1", "Type 2", "Type 3"];
 	filterData : any = [
-		{ id:"abc", type: "Type 1", timestamp: new Date() },
-		{ id:"123", type: "Type 1", timestamp: new Date() },
-		{ id:"55g", type: "Type 2", timestamp: new Date() },
-		{ id:"dfg", type: "Type 3", timestamp: new Date() },
+		{ id:"abc", type: "Type 1", timestamp: new Date(), active:true },
+		{ id:"123", type: "Type 1", timestamp: new Date(), active:false },
+		{ id:"55g", type: "Type 2", timestamp: new Date(), active:true },
+		{ id:"dfg", type: "Type 3", timestamp: new Date(), active:false },
 	]
 
 	longFilterOptions : string[] = ["Type 1", "Type 2", "Type 3"];

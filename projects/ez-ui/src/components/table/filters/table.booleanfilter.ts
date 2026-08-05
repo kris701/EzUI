@@ -1,14 +1,14 @@
 import { CommonModule } from "@angular/common";
 import { Component, Input, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { TuiButton, TuiDropdown, TuiInput } from "@taiga-ui/core";
-import { TuiBadgeNotification, TuiBadgedContent, TuiButtonSelect, TuiDataListWrapper, TuiStringifyContentPipe } from "@taiga-ui/kit";
+import { TuiButton, TuiCheckbox, TuiDropdown, TuiInput } from "@taiga-ui/core";
+import { TuiBadgeNotification, TuiBadgedContent, TuiBlock, TuiDataListWrapper } from "@taiga-ui/kit";
 import { EzUITableFilter } from "../models/table.filter";
 import { EzUITable } from "../table";
 
 @Component({
-    selector: 'ezui-table-textfilter',
-    imports: [CommonModule, FormsModule, TuiDropdown, TuiDataListWrapper, TuiButton, TuiButtonSelect, TuiStringifyContentPipe, TuiBadgeNotification, TuiBadgedContent, TuiInput],
+    selector: 'ezui-table-booleanfilter',
+    imports: [CommonModule, FormsModule, TuiDropdown, TuiDataListWrapper, TuiButton, TuiBadgeNotification, TuiBadgedContent, TuiInput, TuiCheckbox, TuiBlock],
     template: `
 		@if(column){
 			<tui-badged-content>
@@ -33,29 +33,20 @@ import { EzUITable } from "../table";
 
 			<ng-template #filterPop>
 				<div class="filterPopContainer">
-					<button
-						appearance="outline-grayscale"
-						size="s"
-						tuiButton
-						tuiButtonSelect
-						[(ngModel)]="filterType"
-					>
-						{{ filterType.label }}
-						<tui-data-list-wrapper
-							*tuiDropdown
-							[itemContent]="stringify | tuiStringifyContent"
-							[items]="filterTypes"
+					<label tuiBlock="s" style="justify-content:center">
+						True
+						<input
+							size="s"
+							tuiCheckbox
+							type="checkbox"
+							[(ngModel)]="value"
 						/>
-					</button>
-
-					<tui-textfield tuiTextfieldSize="s" (keydown.enter)="applyFilter(filterType.expression)">
-						<input tuiInput [(ngModel)]="value"/>
-					</tui-textfield>
+					</label>
 					<button
 						tuiButton size="s"
 						iconStart="funnel"
 						tuiButton
-						(click)="applyFilter(filterType.expression)"
+						(click)="applyFilter()"
 					>
 						Apply
 					</button>
@@ -85,7 +76,7 @@ import { EzUITable } from "../table";
 		}
 	`
 })
-export class EzUITableTextFilter {
+export class EzUITableBooleanFilter {
     @Input() column!: string;
 
 	filterApplied = signal<boolean>(false);
@@ -93,71 +84,37 @@ export class EzUITableTextFilter {
 
 	table : EzUITable;
 
-	value : string = '';
-	filterType : any;
-	filterTypes : any[];
-
-	protected readonly stringify = (item: any): string => `${item.label}`;
+	value : boolean = false;
 
 	constructor(table : EzUITable){
 		this.table = table;
 
-		this.filterTypes = [
-			{
-				label: 'Contains',
-				expression: 'str;con'
-			},
-			{
-				label: 'Not Contains',
-				expression: 'str;ncon'
-			},
-			{
-				label: 'Starts With',
-				expression: 'str;sta'
-			},
-			{
-				label: 'Ends With',
-				expression: 'str;end'
-			}
-		];
-		this.filterType = this.filterTypes[0];
-
 		this.table.onPresetChange.subscribe(x => {
 			if (!x)
 			{
-				this.filterType = this.filterTypes[0];
-				this.value = "";
+				this.value = false;
 				this.filterApplied.set(false);
 				return;
 			}
-			const filter = x.filters.find(x => x.column == this.column);
-			if (!filter)
+			const filter = x.filters.find(x => x.column == this.column)
+			console.log(filter)
+			if (!filter || filter!.expression != "bol;true")
 			{
-				this.filterType = this.filterTypes[0];
-				this.value = "";
-				this.filterApplied.set(false);
-				return;
-			}
-			const type = this.filterTypes.find(x => x.expression == filter!.expression);
-			if (!type)
-			{
-				this.filterType = this.filterTypes[0];
-				this.value = "";
+				this.value = false;
 				this.filterApplied.set(false);
 				return;
 			}
 
-			this.filterType = type;
 			this.value = filter.value;
 			this.filterApplied.set(true);
 		})
 	}
 
-	applyFilter(expression : string){
+	applyFilter(){
 		this.table.setFilter({
 			column: this.column,
 			value: this.value,
-			expression: expression,
+			expression: "bol;true",
 		} as EzUITableFilter);
 		this.filterVisible.set(false);
 		this.filterApplied.set(true);

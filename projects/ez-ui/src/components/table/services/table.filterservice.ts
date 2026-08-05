@@ -90,6 +90,13 @@ export class EzUITableFilterService {
 					},
 					column)
 		},
+
+		// Boolean filters
+		{
+			key: 'bol',
+			action: 'true',
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.boolFilter(values, (i : boolean) => i === value, column)
+		},
 	]
 
 	public sort(values : any[], sort : EzUITableSort) : any[]{

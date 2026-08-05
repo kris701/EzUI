@@ -70,6 +70,7 @@ import { EzUITable } from "../table";
 						<button
 							tuiButton size="s"
 							iconStart="circle-x"
+							appearance="secondary"
 							tuiButton
 							(click)="clearFilter()"
 						>
