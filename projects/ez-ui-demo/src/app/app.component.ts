@@ -46,6 +46,12 @@ export class AppComponent {
 					visible: true
 				} as MenuItem,
 				{
+					label: 'Boolean',
+					icon: 'toggle-right',
+					routerLink: '/forms/boolean',
+					visible: true
+				} as MenuItem,
+				{
 					label: 'Date',
 					icon: 'calendar',
 					routerLink: '/forms/date',

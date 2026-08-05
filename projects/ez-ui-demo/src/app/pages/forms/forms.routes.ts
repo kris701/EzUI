@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { BooleanInput } from './booleaninput';
 import { DateInput } from './dateinput';
 import { DateTimeInput } from './datetimeinput';
 import { FileInput } from './fileinput';
@@ -15,4 +16,5 @@ export default [
     { path: 'datetime', component: DateTimeInput },
     { path: 'multiselect', component: MultiSelect },
     { path: 'files', component: FileInput },
+    { path: 'boolean', component: BooleanInput },
 ] as Routes;

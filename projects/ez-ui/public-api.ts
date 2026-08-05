@@ -1,4 +1,5 @@
 // Components
+export * from './src/components/booleaninput';
 export * from './src/components/dateinput';
 export * from './src/components/datetimeinput';
 export * from './src/components/fileinput';
