@@ -97,7 +97,6 @@ export class EzUITableBooleanFilter {
 				return;
 			}
 			const filter = x.filters.find(x => x.column == this.column)
-			console.log(filter)
 			if (!filter || filter!.expression != "bol;true")
 			{
 				this.value = false;
