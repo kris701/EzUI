@@ -1,11 +1,24 @@
 export class EzUIFilterHelpers {
-	public static textFilter(values: any[], fn : (i : string) => boolean, column : string) : any[]{
+	public static genericFilter<T>(values: any[], fn : (i : T) => boolean, column : string) : any[]{
 		const filtered = []
 		for(const value of values)
 		{
-			const asStr : string = value[column];
-			if (fn(asStr))
-				filtered.push(value);
+			const base = value[column];
+			if (Array.isArray(base)){
+				for(let item of base){
+					const asGeneric : T = item;
+					if (fn(asGeneric))
+					{
+						filtered.push(value);
+						break;
+					}
+				}
+			}
+			else {
+				const asGeneric : T = base;
+				if (fn(asGeneric))
+					filtered.push(value);
+			}
 		}
 		return filtered;
 	}
@@ -14,20 +27,22 @@ export class EzUIFilterHelpers {
 		const filtered = []
 		for(const value of values)
 		{
-			const asDate : Date = new Date(value[column]);
-			if (fn(asDate))
-				filtered.push(value);
-		}
-		return filtered;
-	}
-
-	public static boolFilter(values: any[], fn : (i : boolean) => boolean, column : string) : any[]{
-		const filtered = []
-		for(const value of values)
-		{
-			const asBoolean : boolean = value[column];
-			if (fn(asBoolean))
-				filtered.push(value);
+			const base = value[column];
+			if (Array.isArray(base)){
+				for(let item of base){
+					const asDate : Date = new Date(item);
+					if (fn(asDate))
+					{
+						filtered.push(value);
+						break;
+					}
+				}
+			}
+			else {
+				const asDate : Date = new Date(base);
+				if (fn(asDate))
+					filtered.push(value);
+			}
 		}
 		return filtered;
 	}

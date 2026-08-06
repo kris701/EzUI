@@ -62,13 +62,13 @@ import { EzUITable } from "../table";
 								label="Options"
 								tuiMultiSelectGroup
 							>
-								@for (option of options; track option) {
+								@for (option of options; track getOptionValue(option)) {
 									<button
 										tuiOption
 										type="button"
-										[value]="option"
+										[value]="getOptionValue(option)"
 									>
-										{{ option }}
+										{{ getOptionLabel(option) }}
 									</button>
 								}
 							</tui-opt-group>
@@ -117,12 +117,29 @@ export class EzUITableSelectFilter {
 
 	table : EzUITable;
 
+	@Input() optionLabel: string | undefined = undefined;
+    @Input() optionValue: string | undefined = undefined;
+
 	@Input() options : string[] = [];
 	selected : string[] = [];
 	filterType : any;
 	filterTypes : any[];
 
-	protected readonly stringify = (item: any): string => `${item.label}`;
+	stringify = (value: string): string => this.getOptionLabel(this.options.find((item) => this.getOptionValue(item) === value));
+
+    getOptionLabel(item: any) {
+		if (!item)
+			return "";
+        if (this.optionLabel == undefined || this.optionLabel == '') return item;
+        return item[this.optionLabel];
+    }
+
+    getOptionValue(item: any) {
+		if (!item)
+			return "";
+        if (this.optionValue == undefined || this.optionValue == '') return item;
+        return item[this.optionValue];
+    }
 
 	constructor(table : EzUITable){
 		this.table = table;

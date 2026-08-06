@@ -33,34 +33,34 @@ export class EzUITableFilterService {
 		{
 			key: 'str',
 			action: 'con',
-			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.textFilter(values, (i : string) => i.includes(value), column)
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.genericFilter<string>(values, (i : string) => i.includes(value), column)
 		},
 		{
 			key: 'str',
 			action: 'ncon',
-			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.textFilter(values, (i : string) => !i.includes(value), column)
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.genericFilter<string>(values, (i : string) => !i.includes(value), column)
 		},
 		{
 			key: 'str',
 			action: 'sta',
-			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.textFilter(values, (i : string) => i.startsWith(value), column)
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.genericFilter<string>(values, (i : string) => i.startsWith(value), column)
 		},
 		{
 			key: 'str',
 			action: 'end',
-			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.textFilter(values, (i : string) => i.endsWith(value), column)
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.genericFilter<string>(values, (i : string) => i.endsWith(value), column)
 		},
 
 		// Select filters
 		{
 			key: 'sel',
 			action: 'con',
-			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.textFilter(values, (i : string) => value.includes(i), column)
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.genericFilter<string>(values, (i : string) => value.includes(i), column)
 		},
 		{
 			key: 'sel',
 			action: 'ncon',
-			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.textFilter(values, (i : string) => !value.includes(i), column)
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.genericFilter<string>(values, (i : string) => !value.includes(i), column)
 		},
 
 		// Date filters
@@ -95,7 +95,7 @@ export class EzUITableFilterService {
 		{
 			key: 'bol',
 			action: 'true',
-			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.boolFilter(values, (i : boolean) => i === value, column)
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.genericFilter<boolean>(values, (i : boolean) => i === value, column)
 		},
 	]
 
