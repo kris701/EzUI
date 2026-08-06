@@ -43,7 +43,7 @@ import { EzUITable } from "../table";
 						{{ filterType.label }}
 					<tui-data-list-wrapper
 							*tuiDropdown
-							[itemContent]="stringify | tuiStringifyContent"
+							[itemContent]="stringifyOption | tuiStringifyContent"
 							[items]="filterTypes"
 						/>
 					</button>
@@ -55,7 +55,7 @@ import { EzUITable } from "../table";
 						tuiButtonSelect
 						[(ngModel)]="selected"
 					>
-						{{selected.length === 1 ? selected[0] : 'Selected ' + selected.length}}
+						{{selected.length === 1 ? stringifyValue(selected[0]) : 'Selected ' + selected.length}}
 
 						<tui-data-list *tuiDropdown>
 							<tui-opt-group
@@ -125,7 +125,8 @@ export class EzUITableSelectFilter {
 	filterType : any;
 	filterTypes : any[];
 
-	stringify = (value: string): string => this.getOptionLabel(this.options.find((item) => this.getOptionValue(item) === value));
+	protected readonly stringifyOption = (item: any): string => `${item.label}`;
+	stringifyValue = (value: string): string => this.getOptionLabel(this.options.find((item) => this.getOptionValue(item) === value));
 
     getOptionLabel(item: any) {
 		if (!item)
