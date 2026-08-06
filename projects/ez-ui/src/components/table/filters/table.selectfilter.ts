@@ -120,7 +120,7 @@ export class EzUITableSelectFilter {
 	@Input() optionLabel: string | undefined = undefined;
     @Input() optionValue: string | undefined = undefined;
 
-	@Input() options : string[] = [];
+	@Input() options : any[] = [];
 	selected : string[] = [];
 	filterType : any;
 	filterTypes : any[];
