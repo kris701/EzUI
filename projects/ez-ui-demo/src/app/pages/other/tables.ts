@@ -494,6 +494,92 @@ longFilterData : any = [
 			</ezui-table>
 		</ng-template>
 	</app-samplecontainer>
+
+	<app-samplecontainer
+		label="Filtering (advanced arrays)"
+		html='<ezui-table [values]="filterData2" [showClearFilters]="true">
+	<ng-template #tableHeader>
+		<th tuiTh>
+			ID
+			<ezui-table-textfilter column="id"></ezui-table-textfilter>
+		</th>
+		<th tuiTh>
+			Type
+			<ezui-table-selectfilter column="types" [options]="filterOptions2" optionLabel="value" optionValue="id"></ezui-table-selectfilter>
+		</th>
+		<th tuiTh>
+			Timestamp
+			<ezui-table-datefilter column="timestamp"></ezui-table-datefilter>
+		</th>
+		<th tuiTh>
+			Is Active
+			<ezui-table-booleanfilter column="active"></ezui-table-booleanfilter>
+		</th>
+	</ng-template>
+	<ng-template #tableRows let-item>
+		<td tuiTd>\{\{ item.id \} \}</td>
+		<td tuiTd>
+			@for(type of item.types;track type){
+				<span size="xs" tuiChip style="margin-right:5px">
+					\{\{type\} \}
+				</span>
+			}
+		</td>
+		<td tuiTd>\{\{ item.timestamp | date: "dd/MM/yyyy HH:mm:ss" \} \}</td>
+		<td tuiTd>\{\{ item.active \} \}</td>
+	</ng-template>
+</ezui-table>'
+		[enableTypescript]="true"
+		ts='filterOptions2 : Example[] = [{id: "tp1", value: "Type 1"}, {id: "tp2", value: "Type 2"}, {id: "tp3", value: "Type 3"}];
+filterData2 : any = [
+	{ id:"abc", types: ["tp1", "tp2"], timestamp: new Date(), active:true },
+	{ id:"123", types: ["tp3", "tp2"], timestamp: new Date(), active:false },
+	{ id:"55g", types: ["tp1"], timestamp: new Date(), active:true },
+	{ id:"dfg", types: ["tp3", "tp1"], timestamp: new Date(), active:false },
+]
+
+interface Example {
+	id: string;
+	value : string;
+}'>
+		<ng-template #preview>
+			<span appearance="warning" tuiMessage style="width:100%">
+				Put "EzUITableFilterService" into your app.config proividers for the sorting and filtering to work!
+			</span>
+			<ezui-table [values]="filterData2" [showClearFilters]="true">
+				<ng-template #tableHeader>
+					<th tuiTh>
+						ID
+						<ezui-table-textfilter column="id"></ezui-table-textfilter>
+					</th>
+					<th tuiTh>
+						Type
+						<ezui-table-selectfilter column="types" [options]="filterOptions2" optionLabel="value" optionValue="id"></ezui-table-selectfilter>
+					</th>
+					<th tuiTh>
+						Timestamp
+						<ezui-table-datefilter column="timestamp"></ezui-table-datefilter>
+					</th>
+					<th tuiTh>
+						Is Active
+						<ezui-table-booleanfilter column="active"></ezui-table-booleanfilter>
+					</th>
+				</ng-template>
+				<ng-template #tableRows let-item>
+					<td tuiTd>{{ item.id }}</td>
+					<td tuiTd>
+						@for(type of item.types;track type){
+							<span size="xs" tuiChip style="margin-right:5px">
+								{{type}}
+							</span>
+						}
+					</td>
+					<td tuiTd>{{ item.timestamp| date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+					<td tuiTd>{{ item.active }}</td>
+				</ng-template>
+			</ezui-table>
+		</ng-template>
+	</app-samplecontainer>
     `,
     host: {
         class: 'base-view'
@@ -599,4 +685,17 @@ export class Tables {
 	rowClicked(item : any){
 		alert("Clicked on row " + item.id);
 	}
+
+	filterOptions2 : Example[] = [{id: "tp1", value: "Type 1"}, {id: "tp2", value: "Type 2"}, {id: "tp3", value: "Type 3"}];
+	filterData2 : any = [
+		{ id:"abc", types: ["tp1", "tp2"], timestamp: new Date(), active:true },
+		{ id:"123", types: ["tp3", "tp2"], timestamp: new Date(), active:false },
+		{ id:"55g", types: ["tp1"], timestamp: new Date(), active:true },
+		{ id:"dfg", types: ["tp3", "tp1"], timestamp: new Date(), active:false },
+	]
+}
+
+interface Example {
+	id: string;
+	value : string;
 }
