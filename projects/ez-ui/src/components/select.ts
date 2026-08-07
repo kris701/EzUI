@@ -1,18 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TuiDataList, TuiDropdown, TuiInput, TuiSelectLike, TuiTextfield } from '@taiga-ui/core';
-import { TuiChevron, TuiInputNumber } from '@taiga-ui/kit';
+import { TuiDataList, TuiDropdown, TuiInput, TuiTextfield } from '@taiga-ui/core';
+import { TuiChevron, TuiSelect } from '@taiga-ui/kit';
 
 @Component({
     selector: 'ezui-select',
     imports: [
 		FormsModule,
 		CommonModule,
-		TuiInputNumber,
+		TuiSelect,
 		TuiDataList,
 		TuiTextfield,
-		TuiSelectLike,
 		TuiDropdown,
 		TuiChevron,
 		TuiInput
@@ -22,7 +21,7 @@ import { TuiChevron, TuiInputNumber } from '@taiga-ui/kit';
 			@if(label != ''){
 				<label tuiLabel>{{label}}</label>
 			}
-			<input tuiInput tuiSelectLike [(ngModel)]="selected" (ngModelChange)="selectedChange.emit(this.selected)" [disabled]="disabled"/>
+			<input tuiSelect [(ngModel)]="selected" (ngModelChange)="selectedChange.emit(this.selected)" [disabled]="disabled"/>
 			<tui-data-list *tuiDropdown >
 				@for (item of options; track getOptionValue(item)) {
 					<button tuiOption [value]="getOptionValue(item)">
