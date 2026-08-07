@@ -64,6 +64,12 @@ export class AppComponent {
 					visible: true
 				} as MenuItem,
 				{
+					label: 'Select',
+					icon: 'list',
+					routerLink: '/forms/select',
+					visible: true
+				} as MenuItem,
+				{
 					label: 'Multi Select',
 					icon: 'list',
 					routerLink: '/forms/multiselect',

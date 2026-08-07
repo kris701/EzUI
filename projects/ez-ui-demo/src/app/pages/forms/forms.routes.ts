@@ -6,6 +6,7 @@ import { FileInput } from './fileinput';
 import { MultiSelect } from './multiselect';
 import { NumberInput } from './numberinput';
 import { PasswordInput } from './passwordinput';
+import { Select } from './selectinput';
 import { TextInput } from './textInput';
 
 export default [
@@ -15,6 +16,7 @@ export default [
     { path: 'date', component: DateInput },
     { path: 'datetime', component: DateTimeInput },
     { path: 'multiselect', component: MultiSelect },
+    { path: 'select', component: Select },
     { path: 'files', component: FileInput },
     { path: 'boolean', component: BooleanInput },
 ] as Routes;
