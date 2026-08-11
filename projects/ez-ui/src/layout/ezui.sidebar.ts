@@ -39,11 +39,11 @@ export class EzUISideBar {
 	){
         router.events.subscribe((val) => {
             if (val instanceof NavigationEnd)
-                this.initialize();
+                this.initialize()
         });
 	}
 
-	initialize(){
+	public initialize(){
         this.hideEmptySections(this.layout.sidebarItems());
         this.hideEmptySections(this.layout.sidebarFooterItems());
 
