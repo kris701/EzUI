@@ -133,4 +133,5 @@ export class AppComponent {
 			visible : true
 		} as MenuItem
 	])
+
 }

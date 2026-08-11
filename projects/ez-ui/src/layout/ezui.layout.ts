@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ContentChild, Input, signal, TemplateRef } from '@angular/core';
+import { Component, ContentChild, Input, signal, TemplateRef, viewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TuiRoot, TuiScrollbar } from "@taiga-ui/core";
 import { TuiNavigation } from '@taiga-ui/layout';
@@ -79,11 +79,10 @@ export class EzUILayout {
 
 	@ContentChild('topbarright', { static: false }) public topbarright: TemplateRef<any> | undefined;
 	@ContentChild('topbarlogo', { static: false }) public topbarlogo: TemplateRef<any> | undefined;
-	@ContentChild('sidebar', { static: false }) public sidebar: EzUISideBar | undefined;
+	sidebar = viewChild<EzUISideBar>("sidebar");
 
 	public forceLoadSidebar(){
-		if (this.sidebar)
-			this.sidebar.initialize();
+		this.sidebar()?.initialize();
 	}
 }
 
