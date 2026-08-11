@@ -33,6 +33,8 @@ export class EzUISideBar {
 	@Input() sidebarFooterItems = signal<MenuItem[]>([]);
 	haveMoved = signal<boolean>(false);
 
+	@Input() baseRoute = signal<string>("/");
+
     constructor(
           	public layoutService: EzUILayoutService,
 			private router: Router
@@ -49,7 +51,7 @@ export class EzUISideBar {
         this.hideEmptySections(sidebarItems);
         this.hideEmptySections(sidebarFooterItems);
 
-        if (!this.haveMoved() && this.router.routerState.snapshot.url == '/') this.gotoFirstPage(sidebarItems);
+        if (!this.haveMoved() && this.router.routerState.snapshot.url == this.baseRoute()) this.gotoFirstPage(sidebarItems);
 
         this.setActiveRoute(sidebarItems);
         this.setActiveRoute(sidebarFooterItems);
