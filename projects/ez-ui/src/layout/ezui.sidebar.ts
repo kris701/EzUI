@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { TuiNavigation } from "@taiga-ui/layout";
 import { EzUISideBarItem } from "./ezui.sidebar.item";
 import { MenuItem } from './models/MenuItem';
@@ -39,6 +39,10 @@ export class EzUISideBar {
           	public layoutService: EzUILayoutService,
 			private router: Router
 	){
+        router.events.subscribe((val) => {
+            if (val instanceof NavigationEnd)
+                this.initialize()
+        });
 	}
 
 	ngOnInit(){
