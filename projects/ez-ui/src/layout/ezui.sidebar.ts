@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { Component, Input, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { TuiNavigation } from "@taiga-ui/layout";
-import { EzUILayout } from './ezui.layout';
 import { EzUISideBarItem } from "./ezui.sidebar.item";
 import { MenuItem } from './models/MenuItem';
 import { EzUILayoutService } from './services/ezui.layout.service';
@@ -17,12 +16,12 @@ import { EzUILayoutService } from './services/ezui.layout.service';
 			tuitheme=""
 	        [tuiNavigationAside]="layoutService.isMenuExpanded()"
 	    >
-			@for(item of layout.sidebarItems(); track item){
+			@for(item of sidebarItems(); track item){
 				<ezui-sidebar-item [item]="item"/>
 			}
 
 			<footer>
-				@for(item of layout.sidebarFooterItems(); track item){
+				@for(item of sidebarFooterItems(); track item){
 					<ezui-sidebar-item [item]="item"/>
 				}
 			</footer>
@@ -30,50 +29,56 @@ import { EzUILayoutService } from './services/ezui.layout.service';
     `
 })
 export class EzUISideBar {
+	@Input() sidebarItems = signal<MenuItem[]>([]);
+	@Input() sidebarFooterItems = signal<MenuItem[]>([]);
 	haveMoved = signal<boolean>(false);
 
     constructor(
           	public layoutService: EzUILayoutService,
-			public layout : EzUILayout,
 			private router: Router
 	){
-        router.events.subscribe((val) => {
-            if (val instanceof NavigationEnd)
-                this.initialize()
-        });
+	}
+
+	ngOnInit(){
+		this.initialize();
 	}
 
 	public initialize(){
-        this.hideEmptySections(this.layout.sidebarItems());
-        this.hideEmptySections(this.layout.sidebarFooterItems());
+		var sidebarItems = [...this.sidebarItems()]
+		var sidebarFooterItems = [...this.sidebarFooterItems()]
+        this.hideEmptySections(sidebarItems);
+        this.hideEmptySections(sidebarFooterItems);
 
-        if (!this.haveMoved() && this.router.routerState.snapshot.url == '/') this.gotoFirstPage(this.layout.sidebarItems());
+        if (!this.haveMoved() && this.router.routerState.snapshot.url == '/') this.gotoFirstPage(sidebarItems);
 
-        this.setActiveRoute(this.layout.sidebarItems());
-        this.setActiveRoute(this.layout.sidebarFooterItems());
+        this.setActiveRoute(sidebarItems);
+        this.setActiveRoute(sidebarFooterItems);
+
+		this.sidebarItems.set(sidebarItems)
+		this.sidebarFooterItems.set(sidebarFooterItems)
 	}
 
     hideEmptySections(menu: MenuItem[]) {
-        menu.forEach((x) => {
-            if (x.items) {
-                this.hideEmptySections(x.items);
-                if (x.items.every((x) => x.visible == false)) {
-                    x.visible = false;
-                };
+		for(let item of menu) {
+			if (item.items) {
+                this.hideEmptySections(item.items);
+                if (item.items.every((x) => x.visible == false)) {
+                    item.visible = false;
+                }
             }
-        });
+		}
     }
 
     setActiveRoute(menu: MenuItem[], parent: MenuItem | null = null) {
-        menu.forEach((x) => {
-            if (x.routerLink) {
-                if (x.routerLink == this.router.routerState.snapshot.url) {
-                    x.expanded = true;
+        for(let item of menu) {
+            if (item.routerLink) {
+                if (item.routerLink == this.router.routerState.snapshot.url) {
+                    item.expanded = true;
                     if (parent) parent.expanded = true;
                 }
             }
-            if (x.items) this.setActiveRoute(x.items, x);
-        });
+            if (item.items) this.setActiveRoute(item.items, item);
+        }
     }
 
     gotoFirstPage(menu: MenuItem[]) {

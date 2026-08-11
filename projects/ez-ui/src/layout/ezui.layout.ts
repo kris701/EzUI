@@ -14,9 +14,9 @@ import { MenuItem } from './models/MenuItem';
     template: `
 	<tui-root class="rootContainer">
 		<div class="layout-wrapper">
-			<ezui-topbar></ezui-topbar>
+			<ezui-topbar #topbar></ezui-topbar>
 			<div class="layout-wrapper-split">
-				<ezui-sidebar #sidebar></ezui-sidebar>
+				<ezui-sidebar [sidebarItems]="sidebarItems" [sidebarFooterItems]="sidebarFooterItems" #sidebar></ezui-sidebar>
 				<div class="layout-main-container">
 					<tui-scrollbar class="layout-main">
 						<router-outlet></router-outlet>
@@ -79,11 +79,9 @@ export class EzUILayout {
 
 	@ContentChild('topbarright', { static: false }) public topbarright: TemplateRef<any> | undefined;
 	@ContentChild('topbarlogo', { static: false }) public topbarlogo: TemplateRef<any> | undefined;
-	sidebar = viewChild<EzUISideBar>("sidebar");
 
-	public forceLoadSidebar(){
-		this.sidebar()?.initialize();
-	}
+	sidebar = viewChild<EzUISideBar>("sidebar");
+	topbar = viewChild<EzUITopBar>("topbar");
 }
 
 
