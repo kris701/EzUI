@@ -112,6 +112,53 @@ rowClicked(item : any){
 	</app-samplecontainer>
 
 	<app-samplecontainer
+		label="Expandable"
+		html='<ezui-table [values]="data" [expandable]="true">
+	<ng-template #tableHeader>
+		<th tuiTh>ID</th>
+		<th tuiTh>Value</th>
+		<th tuiTh>Description</th>
+	</ng-template>
+	<ng-template #tableRows let-item>
+		<td tuiTd>\{\{ item.id \} \}</td>
+		<td tuiTd>\{\{ item.value \} \}</td>
+		<td tuiTd>\{\{ item.desc \} \}</td>
+	</ng-template>
+	<ng-template #tableExpandedrow let-item>
+		<td colSpan="4">
+			<span style="margin:10px">You expanded the row \{\{item.id\} \}!</span>
+		</td>
+	</ng-template>
+</ezui-table>'
+		[enableTypescript]="true"
+		ts='data : any = [
+	{ id:"abc", value: "123", desc: "works" },
+	{ id:"123", value: "wwww", desc: "works" },
+	{ id:"55g", value: "1115892", desc: "works :)" },
+	{ id:"dfg", value: "yyes", desc: "works" },
+]'>
+		<ng-template #preview>
+			<ezui-table [values]="data" [expandable]="true">
+				<ng-template #tableHeader>
+					<th tuiTh>ID</th>
+					<th tuiTh>Value</th>
+					<th tuiTh>Description</th>
+				</ng-template>
+				<ng-template #tableRows let-item>
+					<td tuiTd>{{ item.id }}</td>
+					<td tuiTd>{{ item.value }}</td>
+					<td tuiTd>{{ item.desc }}</td>
+				</ng-template>
+				<ng-template #tableExpandedrow let-item>
+					<td colSpan="4">
+						<span style="margin:10px">You expanded the row {{item.id}}!</span>
+					</td>
+				</ng-template>
+			</ezui-table>
+		</ng-template>
+	</app-samplecontainer>
+
+	<app-samplecontainer
 		label="Pagination"
 		html='<ezui-table [values]="longData" [pageSize]="pageSize">
 	<ng-template #tableHeader>

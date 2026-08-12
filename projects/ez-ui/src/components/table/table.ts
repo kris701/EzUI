@@ -73,6 +73,7 @@ import { EzUITablePresets } from './table.presets';
 										@if(expandable){
 											<td tuiTd class="ezui-table-expander">
 												<button
+													class="ezui-table-expander-button"
 													appearance="flat-grayscale"
 													size="xs"
 													tuiIconButton
@@ -173,13 +174,14 @@ import { EzUITablePresets } from './table.presets';
 			}
 
 			::ng-deep .ezui-table-expander {
+				display:flex;
 				padding:0px;
+			}
 
-				button {
-					width:100%;
-					height:100%;
-					border-radius: 0px;
-				}
+			::ng-deep .ezui-table-expander-button {
+				width:100% !important;
+				height:100%;
+				border-radius: 0px;
 			}
 
 			th[tuiTh] {
