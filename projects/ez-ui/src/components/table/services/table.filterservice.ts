@@ -97,6 +97,33 @@ export class EzUITableFilterService {
 			action: 'true',
 			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.genericFilter<boolean>(values, (i : boolean) => i === value, column)
 		},
+
+		// Number filters
+		{
+			key: 'num',
+			action: 'gr',
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.genericFilter<number>(values, (i : number) => i > value, column)
+		},
+		{
+			key: 'num',
+			action: 'greq',
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.genericFilter<number>(values, (i : number) => i >= value, column)
+		},
+		{
+			key: 'num',
+			action: 'eq',
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.genericFilter<number>(values, (i : number) => i == value, column)
+		},
+		{
+			key: 'num',
+			action: 'ls',
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.genericFilter<number>(values, (i : number) => i < value, column)
+		},
+		{
+			key: 'num',
+			action: 'lseq',
+			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.genericFilter<number>(values, (i : number) => i <= value, column)
+		},
 	]
 
 	public sort(values : any[], sort : EzUITableSort) : any[]{
