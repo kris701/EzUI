@@ -174,7 +174,6 @@ import { EzUITablePresets } from './table.presets';
 			}
 
 			::ng-deep .ezui-table-expander {
-				display:flex;
 				padding:0px;
 			}
 
