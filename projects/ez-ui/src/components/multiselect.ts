@@ -28,13 +28,13 @@ import { TuiChevron, TuiChip, TuiInputChip, TuiInputNumber, TuiMultiSelect } fro
 			<input tuiInputChip tuiSelectLike [(ngModel)]="selected" (ngModelChange)="selectedChange.emit(this.selected)" [disabled]="disabled"/>
 			<tui-input-chip
 				*tuiItem="let context"
-				[appearance]="appearanceMap[getOptionValue(context.item)] ? appearanceMap[getOptionValue(context.item)] : 'neutral'"/>
+				[appearance]="appearanceMap[context.item] ? appearanceMap[context.item] : 'neutral'"/>
 			<tui-data-list *tuiDropdown tuiMultiSelectGroup >
 				@for (item of options; track getOptionValue(item)) {
 					@let value = getOptionValue(item);
 					@let label = getOptionLabel(item);
 					<button tuiOption [value]="value" >
-						<span tuiChip size="xs" [appearance]="appearanceMap[value]">{{label}}</span>
+						<span tuiChip size="xs" [appearance]="appearanceMap[value] ? appearanceMap[value] : 'neutral'">{{label}}</span>
 					</button>
 				}
 			</tui-data-list>
@@ -59,6 +59,7 @@ export class EzUIMultiSelect implements OnChanges {
     @Output() selectedChange = new EventEmitter<any[] | null | undefined>();
 
 	@Input() appearanceMap : {[value:string | number]:string} = {
+		"b":"negative"
 	}
 
     ngOnChanges(changes: SimpleChanges) {
