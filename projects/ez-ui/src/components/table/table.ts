@@ -28,13 +28,15 @@ import { EzUITablePresets } from './table.presets';
 							}
 						</div>
 					}
-					<tui-block-status>
-						<tui-icon tuiSlot="top" icon="grid-2x2-x" />
+					@if(!isLoading()){
+						<tui-block-status>
+							<tui-icon tuiSlot="top" icon="grid-2x2-x" />
 
-						<h3>No Data</h3>
+							<h3>No Data</h3>
 
-						No data to display.
-					</tui-block-status>
+							No data to display.
+						</tui-block-status>
+					}
 				}
 				@else {
 					@if(showAdd || showRefresh || showClearFilters){
