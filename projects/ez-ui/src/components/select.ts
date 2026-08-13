@@ -18,7 +18,7 @@ import { TuiChevron, TuiChip, TuiSelect } from '@taiga-ui/kit';
     TuiChip
 ],
     template: `
-		<tui-textfield tuiChevron [content]="selected && content" [tuiTextfieldSize]="size" [iconStart]="icon">
+		<tui-textfield tuiChevron [content]="content" [tuiTextfieldSize]="size" [iconStart]="icon">
 			@if(label != ''){
 				<label tuiLabel>{{label}}</label>
 			}
@@ -35,7 +35,7 @@ import { TuiChevron, TuiChip, TuiSelect } from '@taiga-ui/kit';
 		</tui-textfield>
 
 		<ng-template #content>
-			<span tuiChip [size]="size == 's' ? 'xxs' : 'xs'" [appearance]="appearanceMap[selected]">{{stringify(selected)}}</span>
+			<span tuiChip [size]="label != '' ? 'xxs' : 'xs'" [appearance]="appearanceMap[selected]">{{stringify(selected)}}</span>
 		</ng-template>
     `,
     styles: `
