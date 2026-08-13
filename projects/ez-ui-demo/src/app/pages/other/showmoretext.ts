@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EzUIShowMoreText } from 'EzUI';
 import { SampleContainer } from "../../common/samplecontainer";
@@ -24,5 +24,4 @@ import { SampleContainer } from "../../common/samplecontainer";
     }
 })
 export class ShowMoreText {
-	binding = signal<string>("circle");
 }

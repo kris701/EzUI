@@ -99,6 +99,12 @@ export class AppComponent {
 						routerLink: '/layout/menubar',
 						visible : true
 					} as MenuItem,
+					{
+						label: 'Dialog',
+						icon: 'captions',
+						routerLink: '/layout/dialog',
+						visible : true
+					} as MenuItem,
 				]
 			} as MenuItem,
 			{
