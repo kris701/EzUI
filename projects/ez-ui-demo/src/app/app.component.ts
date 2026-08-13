@@ -124,6 +124,12 @@ export class AppComponent {
 						routerLink: '/other/iconselector',
 						visible : true
 					} as MenuItem,
+					{
+						label: 'Show More Text',
+						icon: 'text',
+						routerLink: '/other/showmoretext',
+						visible : true
+					} as MenuItem,
 				]
 			} as MenuItem,
 		])
