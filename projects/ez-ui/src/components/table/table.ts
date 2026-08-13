@@ -132,19 +132,21 @@ import { EzUITablePresets } from './table.presets';
 			::ng-deep tui-loader {
 				height:100%;
 				width:100%;
+			}
 
-				> .t-content {
-					display:flex;
-					flex-direction: column;
-				}
+			::ng-deep tui-loader > .t-content {
+				display:flex;
+				flex-direction: column;
 			}
 
 			::ng-deep tui-scrollbar {
-				> .t-content {
-					display:flex;
-					gap:10px;
-					width:0px;
-				}
+				flex-grow:1;
+			}
+
+			::ng-deep tui-scrollbar > .t-content {
+				display:flex;
+				gap:10px;
+				width:0px;
 			}
 
 			.ezui-table-header {
@@ -196,7 +198,6 @@ import { EzUITablePresets } from './table.presets';
 
 			.forcefullsize {
 				width: 100% !important;
-				height: 100% !important;
 			}
 
 			tui-block-status {
