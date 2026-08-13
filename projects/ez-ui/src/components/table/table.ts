@@ -130,6 +130,11 @@ import { EzUITablePresets } from './table.presets';
 			::ng-deep tui-loader {
 				height:100%;
 				width:100%;
+
+				> .t-content {
+					display:flex;
+					flex-direction: column;
+				}
 			}
 
 			::ng-deep tui-scrollbar {
@@ -189,6 +194,7 @@ import { EzUITablePresets } from './table.presets';
 
 			.forcefullsize {
 				width: 100% !important;
+				height: 100% !important;
 			}
 
 			tui-block-status {

@@ -627,6 +627,55 @@ interface Example {
 			</ezui-table>
 		</ng-template>
 	</app-samplecontainer>
+
+	<app-samplecontainer
+		label="Scroll"
+		html='<ezui-table [values]="data">
+	<ng-template #tableHeader>
+		<th tuiTh>ID</th>
+		<th tuiTh>Value</th>
+		<th tuiTh>Description</th>
+	</ng-template>
+	<ng-template #tableRows let-item>
+		<td tuiTd>\{\{ item.id \} \}</td>
+		<td tuiTd>\{\{ item.value \} \}</td>
+		<td tuiTd>\{\{ item.desc \} \}</td>
+	</ng-template>
+</ezui-table>'
+		[enableTypescript]="true"
+		ts='data : any = [
+	{ id:"abc", value: "123", desc: "works" },
+	{ id:"123", value: "wwww", desc: "works" },
+	{ id:"55g", value: "1115892", desc: "works :)" },
+	{ id:"dfg", value: "yyes", desc: "works" },
+]'>
+		<ng-template #preview>
+			<ezui-table [values]="scrollData">
+				<ng-template #tableHeader>
+					<th tuiTh>ID</th>
+					<th tuiTh>Value 1</th>
+					<th tuiTh>Value 2</th>
+					<th tuiTh>Value 3</th>
+					<th tuiTh>Value 4</th>
+					<th tuiTh>Value 5</th>
+					<th tuiTh>Value 6</th>
+					<th tuiTh>Value 7</th>
+					<th tuiTh>Value 8</th>
+				</ng-template>
+				<ng-template #tableRows let-item>
+					<td tuiTd>{{ item.id }}</td>
+					<td tuiTd>{{ item.value1 }}</td>
+					<td tuiTd>{{ item.value2 }}</td>
+					<td tuiTd>{{ item.value3 }}</td>
+					<td tuiTd>{{ item.value4 }}</td>
+					<td tuiTd>{{ item.value5 }}</td>
+					<td tuiTd>{{ item.value6 }}</td>
+					<td tuiTd>{{ item.value7 }}</td>
+					<td tuiTd>{{ item.value8 }}</td>
+				</ng-template>
+			</ezui-table>
+		</ng-template>
+	</app-samplecontainer>
     `,
     host: {
         class: 'base-view'
@@ -739,6 +788,19 @@ export class Tables {
 		{ id:"123", types: ["tp3", "tp2"], timestamp: new Date(), active:false },
 		{ id:"55g", types: ["tp1"], timestamp: new Date(), active:true },
 		{ id:"dfg", types: ["tp3", "tp1"], timestamp: new Date(), active:false },
+	]
+
+	scrollData : any = [
+		{ id:"abc", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"1213", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"s", value1: "123", value2: "works with some very wide value like this one is", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"aa", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a22bc", value1: "123", value2: "works", value3: "works", value4: "works with some very wide value like this one is", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5bc", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5sbc", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a56bc", value1: "123", value2: "works with some very wide value like this one is", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a51bc", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works with some very wide value like this one is" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
 	]
 }
 
