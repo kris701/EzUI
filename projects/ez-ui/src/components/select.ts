@@ -2,34 +2,41 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiDataList, TuiDropdown, TuiInput, TuiTextfield } from '@taiga-ui/core';
-import { TuiChevron, TuiSelect } from '@taiga-ui/kit';
+import { TuiChevron, TuiChip, TuiSelect } from '@taiga-ui/kit';
 
 @Component({
     selector: 'ezui-select',
     imports: [
-		FormsModule,
-		CommonModule,
-		TuiSelect,
-		TuiDataList,
-		TuiTextfield,
-		TuiDropdown,
-		TuiChevron,
-		TuiInput
-	],
+    FormsModule,
+    CommonModule,
+    TuiSelect,
+    TuiDataList,
+    TuiTextfield,
+    TuiDropdown,
+    TuiChevron,
+    TuiInput,
+    TuiChip
+],
     template: `
-		<tui-textfield tuiChevron [stringify]="stringify" [tuiTextfieldSize]="size" [iconStart]="icon">
+		<tui-textfield tuiChevron [content]="selected && content" [tuiTextfieldSize]="size" [iconStart]="icon">
 			@if(label != ''){
 				<label tuiLabel>{{label}}</label>
 			}
 			<input tuiSelect [(ngModel)]="selected" (ngModelChange)="selectedChange.emit(this.selected)" [disabled]="disabled"/>
 			<tui-data-list *tuiDropdown >
 				@for (item of options; track getOptionValue(item)) {
-					<button tuiOption [value]="getOptionValue(item)">
-						{{ getOptionLabel(item) }}
+					@let value = getOptionValue(item);
+					@let label = getOptionLabel(item);
+					<button tuiOption [value]="value" >
+						<span tuiChip size="xs" [appearance]="appearanceMap[value]">{{label}}</span>
 					</button>
 				}
 			</tui-data-list>
 		</tui-textfield>
+
+		<ng-template #content>
+			<span tuiChip [size]="size == 's' ? 'xxs' : 'xs'" [appearance]="appearanceMap[selected]">{{stringify(selected)}}</span>
+		</ng-template>
     `,
     styles: `
     `
@@ -48,6 +55,9 @@ export class EzUISelect implements OnChanges {
 
     @Input() selected: any | null | undefined = undefined;
     @Output() selectedChange = new EventEmitter<any | null | undefined>();
+
+	@Input() appearanceMap : {[value:string]:string} = {
+	}
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['selected'] && changes['selected'].currentValue != changes['selected'].previousValue) {
