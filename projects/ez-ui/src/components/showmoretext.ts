@@ -14,7 +14,7 @@ import { TuiElasticContainer } from '@taiga-ui/layout';
 	],
     template: `
 		<tui-elastic-container>
-			{{ current() }}
+			<div [innerHTML]="current()"></div>
 			<button
 				tuiLink
 				type="button"
