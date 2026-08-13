@@ -56,7 +56,7 @@ export class EzUISelect implements OnChanges {
     @Input() selected: any | null | undefined = undefined;
     @Output() selectedChange = new EventEmitter<any | null | undefined>();
 
-	@Input() appearanceMap : {[value:string]:string} = {
+	@Input() appearanceMap : {[value:string | number]:string} = {
 	}
 
     ngOnChanges(changes: SimpleChanges) {
