@@ -6,6 +6,7 @@ import { TuiNavigation } from '@taiga-ui/layout';
 import { EzUISideBar } from "./ezui.sidebar";
 import { EzUITopBar } from "./ezui.topbar";
 import { MenuItem } from './models/MenuItem';
+import { EzUILayoutService } from './services/ezui.layout.service';
 
 @Component({
     selector: 'ezui-layout',
@@ -16,8 +17,15 @@ import { MenuItem } from './models/MenuItem';
 		<div class="layout-wrapper">
 			<ezui-topbar #topbar></ezui-topbar>
 			<div class="layout-wrapper-split">
-				<ezui-sidebar [sidebarItems]="sidebarItems" [sidebarFooterItems]="sidebarFooterItems" [baseRoute]="baseRoute" #sidebar></ezui-sidebar>
-				<div class="layout-main-container">
+				<ezui-sidebar
+					#sidebar
+					[sidebarItems]="sidebarItems"
+					[sidebarFooterItems]="sidebarFooterItems"
+					[baseRoute]="baseRoute"
+					[style.width]="layoutService.isDesktop() ? '' : '0px'"></ezui-sidebar>
+				<div
+					class="layout-main-container"
+					[style.opacity]="layoutService.isDesktop() ? 1 : (layoutService.isMenuExpanded() ? 0.5 : 1)">
 					<tui-scrollbar class="layout-main">
 						<router-outlet></router-outlet>
 					</tui-scrollbar>
@@ -83,6 +91,11 @@ export class EzUILayout {
 
 	sidebar = viewChild<EzUISideBar>("sidebar");
 	topbar = viewChild<EzUITopBar>("topbar");
+
+    constructor(
+          	public layoutService: EzUILayoutService,
+	){
+	}
 }
 
 

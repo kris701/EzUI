@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TuiChevron } from '@taiga-ui/kit';
 import { TuiAsideGroupComponent, TuiNavigation } from "@taiga-ui/layout";
@@ -23,7 +23,7 @@ import { MenuItem } from './models/MenuItem';
 
 						<ng-template>
 							@for(subitem of item.items; track subitem){
-								<ezui-sidebar-item [item]="subitem"/>
+								<ezui-sidebar-item [item]="subitem" (onItemClick)="onItemClick.emit()"/>
 							}
 						</ng-template>
 					</button>
@@ -37,7 +37,7 @@ import { MenuItem } from './models/MenuItem';
 					[routerLinkActiveOptions]="{ exact:true }"
 					[routerLink]="item.routerLink"
 					[queryParams]="item.queryParams"
-					(click)="item.command && item.command()"
+					(click)="item.command && item.command();onItemClick.emit()"
 				>
 					{{item.label}}
 				</button>
@@ -47,4 +47,6 @@ import { MenuItem } from './models/MenuItem';
 })
 export class EzUISideBarItem {
     @Input() item: MenuItem | undefined;
+
+	@Output() onItemClick = new EventEmitter();
 }

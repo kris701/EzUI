@@ -11,21 +11,32 @@ import { EzUILayoutService } from './services/ezui.layout.service';
     standalone: true,
     imports: [CommonModule, TuiNavigation, EzUISideBarItem],
     template: `
-	    <aside
-	        style="height:100%"
-			tuitheme=""
-	        [tuiNavigationAside]="layoutService.isMenuExpanded()"
-	    >
-			@for(item of sidebarItems(); track item){
-				<ezui-sidebar-item [item]="item"/>
-			}
-
-			<footer>
-				@for(item of sidebarFooterItems(); track item){
+		@if(layoutService.isDesktop()){
+			<aside style="height:100%" tuitheme="" [tuiNavigationAside]="layoutService.isMenuExpanded()">
+				@for(item of sidebarItems(); track item){
 					<ezui-sidebar-item [item]="item"/>
 				}
-			</footer>
-	    </aside>
+
+				<footer>
+					@for(item of sidebarFooterItems(); track item){
+						<ezui-sidebar-item [item]="item"/>
+					}
+				</footer>
+			</aside>
+		}
+		@else {
+			<aside style="height:100%" tuitheme="" [tuiNavigationAside]="true" [style.display]="layoutService.isMenuExpanded() ? '' : 'none'">
+				@for(item of sidebarItems(); track item){
+					<ezui-sidebar-item [item]="item" (onItemClick)="layoutService.isMenuExpanded.set(false)"/>
+				}
+
+				<footer>
+					@for(item of sidebarFooterItems(); track item){
+						<ezui-sidebar-item [item]="item" (onItemClick)="layoutService.isMenuExpanded.set(false)"/>
+					}
+				</footer>
+			</aside>
+		}
     `
 })
 export class EzUISideBar {

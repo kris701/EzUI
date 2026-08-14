@@ -14,7 +14,7 @@ import { EzUILayoutService } from './services/ezui.layout.service';
 		<button
 			type="button"
 			tuiIconButton
-			[iconStart]="layoutService.isMenuExpanded() ? '@tui.chevron-left' : '@tui.chevron-right'"
+			[iconStart]="layoutService.isDesktop() ? (layoutService.isMenuExpanded() ? '@tui.chevron-left' : '@tui.chevron-right') : (layoutService.isMenuExpanded() ? '@tui.chevron-up' : '@tui.chevron-down')"
 			(click)="layoutService.ToggleMenu()"
 		>
 		</button>
