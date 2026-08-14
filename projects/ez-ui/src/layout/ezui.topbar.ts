@@ -21,7 +21,7 @@ import { EzUILayoutService } from './services/ezui.layout.service';
 		<span tuiNavigationLogo>
 			<ng-container [ngTemplateOutlet]="layout.topbarlogo"></ng-container>
 		</span>
-		<hr />
+		<hr style="min-inline-size:0px"/>
 		<button
 			[iconStart]="layoutService.isDarkMode() ? 'moon' : 'sun'"
 			tuiIconButton
