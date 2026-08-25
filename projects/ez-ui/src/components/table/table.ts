@@ -68,6 +68,18 @@ import { EzUITablePresets } from './table.presets';
 									<ng-container [ngTemplateOutlet]="tableHeader"></ng-container>
 								</tr>
 							</thead>
+							@if(displayValues().length == 0){
+								<td colSpan="9999">
+									<tui-block-status>
+										<tui-icon tuiSlot="top" icon="grid-2x2-x" />
+
+										<h3>No Data</h3>
+
+										No data matches your filters
+									</tui-block-status>
+								</td>
+							}
+
 							@for (item of displayValues(); track page() * pageSize() + i; let i = $index){
 								@let fullIndex = page() * pageSize() + i;
 								<tbody tuiTbody>
