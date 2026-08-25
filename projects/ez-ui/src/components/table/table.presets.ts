@@ -10,50 +10,50 @@ import { EzUITable } from './table';
 
 @Component({
     selector: 'ezui-table-presets',
-    imports: [FormsModule, CommonModule, TuiScrollbar, TuiButton, TuiGroup, TuiBadge, TuiStatus, TuiInput, TuiHint],
+    imports: [FormsModule, CommonModule, TuiButton, TuiGroup, TuiBadge, TuiStatus, TuiInput, TuiHint],
     template: `
 		<button tuiButton iconStart="plus" size="s" appearance="secondary" (click)="createPreset()" tuiHint="Create new preset from current filters"></button>
 
-		<tui-scrollbar>
-			@let current = currentPreset();
-			@for(preset of presets(); track preset.id){
-				<div tuiGroup [collapsed]="true" [rounded]="true">
-					@let isActive = current?.id == preset.id;
-					@if(isActive){
-						@if(preset.edit){
-							<tui-textfield style="width:10rem" tuiTextfieldSize="s" (keydown.enter)="preset.edit = false;saveCurrentPreset()">
-								<input tuiInput [(ngModel)]="preset.name"/>
-							</tui-textfield>
-							<button style="flex: 0 0 auto;" tuiButton iconStart="save" size="s" appearance="info" (click)="preset.edit = false;saveCurrentPreset()" tuiHint="Save"></button>
-						}
-						@else {
-							<div style="height:100%" appearance="positive" tuiBadge tuiStatus>
-								{{preset.name}}
-							</div>
-							<button style="flex: 0 0 auto;" tuiButton iconStart="square-pen" size="s" appearance="info" (click)="preset.edit = true" tuiHint="Edit"></button>
-						}
-					<button style="flex: 0 0 auto;" tuiButton iconStart="x" size="s" appearance="negative" (click)="removePreset(preset.id)" tuiHint="Delete"></button>
+		@let current = currentPreset();
+		@for(preset of presets(); track preset.id){
+			<div tuiGroup class="preset-group" [collapsed]="true" [rounded]="true">
+				@let isActive = current?.id == preset.id;
+				@if(isActive){
+					@if(preset.edit){
+						<tui-textfield style="width:10rem" tuiTextfieldSize="s" (keydown.enter)="preset.edit = false;saveCurrentPreset()">
+							<input tuiInput [(ngModel)]="preset.name"/>
+						</tui-textfield>
+						<button style="flex: 0 0 auto;" tuiButton iconStart="save" size="s" appearance="info" (click)="preset.edit = false;saveCurrentPreset()" tuiHint="Save"></button>
 					}
 					@else {
-						<button style="flex: 0 0 auto;" tuiButton appearance="secondary" size="s"  (click)="selectPreset(preset.id)">{{preset.name}}</button>
+						<button style="flex: 0 0 auto;" tuiButton iconStart="square-pen" size="s" appearance="info" (click)="preset.edit = true" tuiHint="Edit"></button>
+						<div class="preset-name" appearance="positive" tuiBadge tuiStatus>
+							{{preset.name}}
+						</div>
+						<button style="flex: 0 0 auto;" tuiButton iconStart="x" size="s" appearance="negative" (click)="removePreset(preset.id)" tuiHint="Delete"></button>
 					}
-				</div>
-			}
-		</tui-scrollbar>
+				}
+				@else {
+					<button style="flex: 0 0 auto;" class="preset-name" tuiButton appearance="secondary" size="s"  (click)="selectPreset(preset.id)">{{preset.name}}</button>
+				}
+			</div>
+		}
     `,
-	host:{
-		style:'display:flex;flex-direction: row;gap:10px;width:100%'
-	},
-    styles: `
-		tui-scrollbar {
-			width:100% !important;
-			::ng-deep > .t-content {
-				display:flex;
-				gap:10px;
-				width:0px;
+	styles: `
+		.preset-group {
+			max-width:25vw;
+
+			.preset-name {
+				height:100%;
+				display:inline;
+				text-overflow: ellipsis;
+				align-content: center;
 			}
 		}
-    `
+	`,
+	host:{
+		style:'display:flex;flex-direction: row;gap:10px;width:100%;flex-wrap:wrap;'
+	}
 })
 export class EzUITablePresets implements OnChanges {
 	@Input() storageKey: string | null = null;
