@@ -14,6 +14,7 @@ export * from './src/components/select';
 export * from './src/components/showmoretext';
 export * from './src/components/table/filters/table.booleanfilter';
 export * from './src/components/table/filters/table.datefilter';
+export * from './src/components/table/filters/table.datetimefilter';
 export * from './src/components/table/filters/table.numberfilter';
 export * from './src/components/table/filters/table.selectfilter';
 export * from './src/components/table/filters/table.textfilter';

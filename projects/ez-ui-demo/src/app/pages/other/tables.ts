@@ -3,7 +3,7 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiTable } from '@taiga-ui/addon-table';
 import { TuiChip, TuiMessage } from '@taiga-ui/kit';
-import { EzUITable, EzUITableBooleanFilter, EzUITableDateFilter, EzUITableSelectFilter, EzUITableTextFilter, EzUITTableSortableColumn } from 'EzUI';
+import { EzUITable, EzUITableBooleanFilter, EzUITableDateFilter, EzUITableDateTimeFilter, EzUITableSelectFilter, EzUITableTextFilter, EzUITTableSortableColumn } from 'EzUI';
 import { SampleContainer } from "../../common/samplecontainer";
 
 @Component({
@@ -20,7 +20,8 @@ import { SampleContainer } from "../../common/samplecontainer";
     EzUITableTextFilter,
     EzUITableSelectFilter,
     TuiChip,
-    EzUITableBooleanFilter
+    EzUITableBooleanFilter,
+    EzUITableDateTimeFilter
 ],
     template: `
 	<app-samplecontainer
@@ -298,7 +299,7 @@ longData : any = [
 		</th>
 		<th tuiTh>
 			Timestamp
-			<ezui-table-datefilter column="timestamp"></ezui-table-datefilter>
+			<ezui-table-datetimefilter column="timestamp"></ezui-table-datetimefilter>
 		</th>
 		<th tuiTh>
 			Is Active
@@ -340,7 +341,7 @@ filterData : any = [
 					</th>
 					<th tuiTh>
 						Timestamp
-						<ezui-table-datefilter column="timestamp"></ezui-table-datefilter>
+						<ezui-table-datetimefilter column="timestamp"></ezui-table-datetimefilter>
 					</th>
 					<th tuiTh>
 						Is Active
@@ -388,7 +389,7 @@ filterData : any = [
 				\{\{item.type\} \}
 			</span>
 		</td>
-		<td tuiTd>\{\{ item.timestamp | date: "dd/MM/yyyy HH:mm:ss" \} \}</td>
+		<td tuiTd>\{\{ item.timestamp | date: "dd/MM/yyyy" \} \}</td>
 	</ng-template>
 </ezui-table>'
 		[enableTypescript]="true"
@@ -428,7 +429,7 @@ filterData : any = [
 							{{item.type}}
 						</span>
 					</td>
-					<td tuiTd>{{ item.timestamp| date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+					<td tuiTd>{{ item.timestamp| date: 'dd/MM/yyyy' }}</td>
 				</ng-template>
 			</ezui-table>
 		</ng-template>

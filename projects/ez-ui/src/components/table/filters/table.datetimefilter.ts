@@ -3,13 +3,13 @@ import { Component, Input, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { TuiDay, TuiTime } from "@taiga-ui/cdk/date-time";
 import { TuiButton, TuiDropdown, TuiInput } from "@taiga-ui/core";
-import { TuiBadgeNotification, TuiBadgedContent, TuiButtonSelect, TuiDataListWrapper, TuiInputDateTime, TuiStringifyContentPipe, TuiInputDateDirective } from "@taiga-ui/kit";
+import { TuiBadgeNotification, TuiBadgedContent, TuiButtonSelect, TuiDataListWrapper, TuiInputDateTime, TuiStringifyContentPipe } from "@taiga-ui/kit";
 import { EzUITableFilter } from "../models/table.filter";
 import { EzUITable } from "../table";
 
 @Component({
-    selector: 'ezui-table-datefilter',
-    imports: [CommonModule, FormsModule, TuiDropdown, TuiDataListWrapper, TuiButton, TuiButtonSelect, TuiStringifyContentPipe, TuiBadgeNotification, TuiBadgedContent, TuiInput, TuiInputDateTime, TuiInputDateDirective],
+    selector: 'ezui-table-datetimefilter',
+    imports: [CommonModule, FormsModule, TuiDropdown, TuiDataListWrapper, TuiButton, TuiButtonSelect, TuiStringifyContentPipe, TuiBadgeNotification, TuiBadgedContent, TuiInput, TuiInputDateTime],
     template: `
 		@if(column){
 			<tui-badged-content>
@@ -51,9 +51,9 @@ import { EzUITable } from "../table";
 					</button>
 
 					<tui-textfield (keydown.enter)="applyFilter(filter.expression)">
-						<label tuiLabel>Choose a date</label>
+						<label tuiLabel>Choose a date and time</label>
 						<input
-							tuiInputDate
+							tuiInputDateTime
 							[(ngModel)]="value"
 						/>
 						<tui-calendar *tuiDropdown />
@@ -92,7 +92,7 @@ import { EzUITable } from "../table";
 		}
 	`
 })
-export class EzUITableDateFilter {
+export class EzUITableDateTimeFilter {
     @Input() column!: string;
 
 	filterApplied = signal<boolean>(false);
@@ -100,7 +100,7 @@ export class EzUITableDateFilter {
 
 	table : EzUITable;
 
-	value : TuiDay = TuiDay.currentLocal();
+	value : [TuiDay, TuiTime] = [TuiDay.currentLocal(), TuiTime.currentLocal()];
 	filterType = signal<any>({});
 	filterTypes : any[];
 
@@ -112,11 +112,11 @@ export class EzUITableDateFilter {
 		this.filterTypes = [
 			{
 				label: 'After',
-				expression: 'dat;aft'
+				expression: 'datt;aft'
 			},
 			{
 				label: 'Before',
-				expression: 'dat;bef'
+				expression: 'datt;bef'
 			}
 		];
 		this.filterType.set(this.filterTypes[0]);
@@ -125,7 +125,7 @@ export class EzUITableDateFilter {
 			if (!x)
 			{
 				this.filterType.set(this.filterTypes[0]);
-				this.value = TuiDay.currentLocal();
+				this.value = [TuiDay.currentLocal(), TuiTime.currentLocal()];
 				this.filterApplied.set(false);
 				return;
 			}
@@ -133,7 +133,7 @@ export class EzUITableDateFilter {
 			if (!filter)
 			{
 				this.filterType.set(this.filterTypes[0]);
-				this.value = TuiDay.currentLocal();
+				this.value = [TuiDay.currentLocal(), TuiTime.currentLocal()];
 				this.filterApplied.set(false);
 				return;
 			}
@@ -141,7 +141,7 @@ export class EzUITableDateFilter {
 			if (!type)
 			{
 				this.filterType.set(this.filterTypes[0]);
-				this.value = TuiDay.currentLocal();
+				this.value = [TuiDay.currentLocal(), TuiTime.currentLocal()];
 				this.filterApplied.set(false);
 				return;
 			}
@@ -149,7 +149,7 @@ export class EzUITableDateFilter {
 			this.filterType.set(type);
 			let forceReapply = false;
 			if (typeof filter.value[0] == 'string'){
-				this.value = TuiDay.jsonParse(filter.value[0]);
+				this.value = [TuiDay.jsonParse(filter.value[0]), new TuiTime(filter.value[1].hours, filter.value[1].minutes, filter.value[1].seconds, 0)];
 				forceReapply = true;
 			}
 			else {

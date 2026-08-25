@@ -63,9 +63,9 @@ export class EzUITableFilterService {
 			filter: (values : any[], column : string, value : any) => EzUIFilterHelpers.genericFilter<string>(values, (i : string) => !value.includes(i), column)
 		},
 
-		// Date filters
+		// Date Time filters
 		{
-			key: 'dat',
+			key: 'datt',
 			action: 'bef',
 			filter: (values : any[], column : string, value : any) =>
 				EzUIFilterHelpers.dateFilter(
@@ -78,7 +78,7 @@ export class EzUITableFilterService {
 					column)
 		},
 		{
-			key: 'dat',
+			key: 'datt',
 			action: 'aft',
 			filter: (values : any[], column : string, value : any) =>
 				EzUIFilterHelpers.dateFilter(
@@ -86,6 +86,32 @@ export class EzUITableFilterService {
 					(i : Date) => {
 						var normal = value[0].toLocalNativeDate()
 						normal.setMilliseconds(value[1].toAbsoluteMilliseconds());
+						return i.getTime() > normal.getTime()
+					},
+					column)
+		},
+
+		// Date filters
+		{
+			key: 'dat',
+			action: 'bef',
+			filter: (values : any[], column : string, value : any) =>
+				EzUIFilterHelpers.dateFilter(
+					values,
+					(i : Date) => {
+						var normal = value.toLocalNativeDate()
+						return i.getTime() < normal.getTime()
+					},
+					column)
+		},
+		{
+			key: 'dat',
+			action: 'aft',
+			filter: (values : any[], column : string, value : any) =>
+				EzUIFilterHelpers.dateFilter(
+					values,
+					(i : Date) => {
+						var normal = value.toLocalNativeDate()
 						return i.getTime() > normal.getTime()
 					},
 					column)
