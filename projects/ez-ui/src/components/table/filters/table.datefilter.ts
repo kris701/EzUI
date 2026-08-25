@@ -34,6 +34,7 @@ import { EzUITable } from "../table";
 
 			<ng-template #filterPop>
 				<div class="filterPopContainer">
+					@let filter = filterType();
 					<button
 						appearance="outline-grayscale"
 						size="s"
@@ -41,7 +42,7 @@ import { EzUITable } from "../table";
 						tuiButtonSelect
 						[(ngModel)]="filterType"
 					>
-						{{ filterType.label }}
+						{{ filter.label }}
 						<tui-data-list-wrapper
 							*tuiDropdown
 							[itemContent]="stringify | tuiStringifyContent"
@@ -49,7 +50,7 @@ import { EzUITable } from "../table";
 						/>
 					</button>
 
-					<tui-textfield (keydown.enter)="applyFilter(filterType.expression)">
+					<tui-textfield (keydown.enter)="applyFilter(filter.expression)">
 						<label tuiLabel>Choose a date</label>
 						<input
 							tuiInputDateTime
@@ -61,7 +62,7 @@ import { EzUITable } from "../table";
 						tuiButton size="s"
 						iconStart="funnel"
 						tuiButton
-						(click)="applyFilter(filterType.expression)"
+						(click)="applyFilter(filter.expression)"
 					>
 						Apply
 					</button>
@@ -100,7 +101,7 @@ export class EzUITableDateFilter {
 	table : EzUITable;
 
 	value : [TuiDay, TuiTime] = [TuiDay.currentLocal(), TuiTime.currentLocal()];
-	filterType : any;
+	filterType = signal<any>({});
 	filterTypes : any[];
 
 	protected readonly stringify = (item: any): string => `${item.label}`;
@@ -118,12 +119,12 @@ export class EzUITableDateFilter {
 				expression: 'dat;bef'
 			}
 		];
-		this.filterType = this.filterTypes[0];
+		this.filterType.set(this.filterTypes[0]);
 
 		this.table.onPresetChange.subscribe(x => {
 			if (!x)
 			{
-				this.filterType = this.filterTypes[0];
+				this.filterType.set(this.filterTypes[0]);
 				this.value = [TuiDay.currentLocal(), TuiTime.currentLocal()];
 				this.filterApplied.set(false);
 				return;
@@ -131,7 +132,7 @@ export class EzUITableDateFilter {
 			const filter = x.filters.find(x => x.column == this.column);
 			if (!filter)
 			{
-				this.filterType = this.filterTypes[0];
+				this.filterType.set(this.filterTypes[0]);
 				this.value = [TuiDay.currentLocal(), TuiTime.currentLocal()];
 				this.filterApplied.set(false);
 				return;
@@ -139,15 +140,27 @@ export class EzUITableDateFilter {
 			const type = this.filterTypes.find(x => x.expression == filter!.expression);
 			if (!type)
 			{
-				this.filterType = this.filterTypes[0];
+				this.filterType.set(this.filterTypes[0]);
 				this.value = [TuiDay.currentLocal(), TuiTime.currentLocal()];
 				this.filterApplied.set(false);
 				return;
 			}
 
-			this.filterType = type;
-			this.value = filter.value;
+			this.filterType.set(type);
+			let forceReapply = false;
+			if (typeof filter.value[0] == 'string'){
+				this.value = [TuiDay.jsonParse(filter.value[0]), new TuiTime(filter.value[1].hours, filter.value[1].minutes, filter.value[1].seconds, 0)];
+				forceReapply = true;
+			}
+			else {
+				this.value = filter.value;
+			}
 			this.filterApplied.set(true);
+
+			if (forceReapply){
+				// Force reapply filter, to fix local storage parsing issue
+				this.applyFilter(type.expression);
+			}
 		})
 	}
 
