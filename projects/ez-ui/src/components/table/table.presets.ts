@@ -159,18 +159,19 @@ export class EzUITablePresets implements OnChanges {
 		if (current?.id == id){
 			if (presets.length > 0)
 			{
-				this.currentPreset.set(presets[0]);
-				this.onPresetChange.emit(presets[0]);
+				this.selectPreset(presets[0].id);
 			}
 			else
 			{
 				this.currentPreset.set(null);
 				this.onPresetChange.emit(null);
 			}
-
 		}
 
 		this.savePresets();
+
+		if (presets.length == 0)
+			this.table.clearFilters();
 	}
 
 	savePresets(){

@@ -148,8 +148,8 @@ export class EzUITableDateFilter {
 
 			this.filterType.set(type);
 			let forceReapply = false;
-			if (typeof filter.value[0] == 'string'){
-				this.value = TuiDay.jsonParse(filter.value[0]);
+			if (typeof filter.value == 'string'){
+				this.value = TuiDay.jsonParse(filter.value);
 				forceReapply = true;
 			}
 			else {
