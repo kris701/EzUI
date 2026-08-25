@@ -116,6 +116,19 @@ export class EzUITableFilterService {
 					},
 					column)
 		},
+		{
+			key: 'dat',
+			action: 'wit',
+			filter: (values : any[], column : string, value : any) =>
+				EzUIFilterHelpers.dateFilter(
+					values,
+					(i : Date) => {
+						let from = value.from.toLocalNativeDate()
+						let to = value.to.toLocalNativeDate()
+						return i.getTime() >= from.getTime() && i.getTime() < to.getTime()
+					},
+					column)
+		},
 
 		// Boolean filters
 		{

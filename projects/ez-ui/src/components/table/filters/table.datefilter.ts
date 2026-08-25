@@ -1,15 +1,15 @@
 import { CommonModule } from "@angular/common";
 import { Component, Input, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { TuiDay, TuiTime } from "@taiga-ui/cdk/date-time";
+import { TuiDay, TuiDayRange, TuiTime } from "@taiga-ui/cdk/date-time";
 import { TuiButton, TuiDropdown, TuiInput } from "@taiga-ui/core";
-import { TuiBadgeNotification, TuiBadgedContent, TuiButtonSelect, TuiDataListWrapper, TuiInputDateTime, TuiStringifyContentPipe, TuiInputDateDirective } from "@taiga-ui/kit";
+import { TuiBadgeNotification, TuiBadgedContent, TuiButtonSelect, TuiDataListWrapper, TuiInputDateTime, TuiStringifyContentPipe, TuiInputDateDirective, tuiCreateDefaultDayRangePeriods, TuiCalendarRange } from "@taiga-ui/kit";
 import { EzUITableFilter } from "../models/table.filter";
 import { EzUITable } from "../table";
 
 @Component({
     selector: 'ezui-table-datefilter',
-    imports: [CommonModule, FormsModule, TuiDropdown, TuiDataListWrapper, TuiButton, TuiButtonSelect, TuiStringifyContentPipe, TuiBadgeNotification, TuiBadgedContent, TuiInput, TuiInputDateTime, TuiInputDateDirective],
+    imports: [CommonModule, FormsModule, TuiDropdown, TuiDataListWrapper, TuiButton, TuiButtonSelect, TuiStringifyContentPipe, TuiBadgeNotification, TuiBadgedContent, TuiInput, TuiInputDateTime, TuiInputDateDirective, TuiCalendarRange],
     template: `
 		@if(column){
 			<tui-badged-content>
@@ -28,6 +28,7 @@ import { EzUITable } from "../table";
 					style="opacity:0.72"
 					[tuiDropdown]="filterPop"
 					[(tuiDropdownOpen)]="filterVisible"
+					[tuiDropdownMaxHeight]="500"
 					(click)="filterVisible.set(true)"
 				></button>
 			</tui-badged-content>
@@ -50,14 +51,20 @@ import { EzUITable } from "../table";
 						/>
 					</button>
 
-					<tui-textfield (keydown.enter)="applyFilter(filter.expression)">
-						<label tuiLabel>Choose a date</label>
-						<input
-							tuiInputDate
-							[(ngModel)]="value"
-						/>
-						<tui-calendar *tuiDropdown />
-					</tui-textfield>
+					@if(filter.expression == 'dat;wit'){
+						<tui-calendar-range [items]="rangeItems" [(value)]="value" />
+					}
+					@else {
+						<tui-textfield (keydown.enter)="applyFilter(filter.expression)">
+							<label tuiLabel>Choose a date</label>
+							<input
+								tuiInputDate
+								[(ngModel)]="value"
+							/>
+							<tui-calendar *tuiDropdown />
+						</tui-textfield>
+					}
+
 					<button
 						tuiButton size="s"
 						iconStart="funnel"
@@ -100,9 +107,11 @@ export class EzUITableDateFilter {
 
 	table : EzUITable;
 
-	value : TuiDay = TuiDay.currentLocal();
+	value : any = TuiDay.currentLocal();
 	filterType = signal<any>({});
 	filterTypes : any[];
+
+	rangeItems = tuiCreateDefaultDayRangePeriods();
 
 	protected readonly stringify = (item: any): string => `${item.label}`;
 
@@ -117,6 +126,10 @@ export class EzUITableDateFilter {
 			{
 				label: 'Before',
 				expression: 'dat;bef'
+			},
+			{
+				label: 'Within',
+				expression: 'dat;wit'
 			}
 		];
 		this.filterType.set(this.filterTypes[0]);
@@ -148,12 +161,21 @@ export class EzUITableDateFilter {
 
 			this.filterType.set(type);
 			let forceReapply = false;
-			if (typeof filter.value == 'string'){
-				this.value = TuiDay.jsonParse(filter.value);
-				forceReapply = true;
+			if (type.expression == "dat;wit"){
+				if(typeof filter.value.from == 'string'){
+					this.value = new TuiDayRange(TuiDay.jsonParse(filter.value.from), TuiDay.jsonParse(filter.value.to));
+					forceReapply = true;
+				}
+				else
+					this.value = filter.value;
 			}
 			else {
-				this.value = filter.value;
+				if (typeof filter.value == 'string'){
+					this.value = TuiDay.jsonParse(filter.value);
+					forceReapply = true;
+				}
+				else
+					this.value = filter.value;
 			}
 			this.filterApplied.set(true);
 
