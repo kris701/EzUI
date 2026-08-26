@@ -62,6 +62,18 @@ selected4 = signal<string[]>([]);'>
 	</app-samplecontainer>
 
 	<app-samplecontainer
+		label="Search"
+		html='<ezui-multiselect [options]="options4" [(selected)]="selected4" [enableSearch]="true"/>'
+		[enableTypescript]="true"
+		ts='options4: string[] = ["value1","value2","value3","value4",];
+selected4 = signal<string[]>([]);'>
+		<ng-template #preview>
+			<ezui-multiselect [options]="options4" [(selected)]="selected4" [enableSearch]="true"/>
+			Selected: {{selected4()}}
+		</ng-template>
+	</app-samplecontainer>
+
+	<app-samplecontainer
 		label="Sizes"
 		html='<ezui-multiselect label="Small" [options]="options5" [(selected)]="selected5" size="s"/>
 <ezui-multiselect label="Medium" [options]="options5" [(selected)]="selected5" size="m"/>

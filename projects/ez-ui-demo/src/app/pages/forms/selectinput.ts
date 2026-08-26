@@ -62,6 +62,18 @@ selected4 = signal<string>("");'>
 	</app-samplecontainer>
 
 	<app-samplecontainer
+		label="Search"
+		html='<ezui-select [options]="options" [(selected)]="selected" [enableSearch]="true"/>'
+		[enableTypescript]="true"
+		ts='options: string[] = ["value1","value2","value3","value4",];
+selected = signal<string>("");'>
+		<ng-template #preview>
+			<ezui-select [options]="options" [(selected)]="selected" [enableSearch]="true"/>
+			Selected: {{selected()}}
+		</ng-template>
+	</app-samplecontainer>
+
+	<app-samplecontainer
 		label="Sizes"
 		html='<ezui-select label="Small" [options]="options5" [(selected)]="selected5" size="s"/>
 <ezui-select label="Medium" [options]="options5" [(selected)]="selected5" size="m"/>

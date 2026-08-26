@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TuiDataList, TuiDropdown, TuiSelectLike, TuiTextfield } from '@taiga-ui/core';
+import { TuiDataList, TuiDropdown, TuiInput, TuiSelectLike, TuiTextfield } from '@taiga-ui/core';
 import { TuiChevron, TuiChip, TuiInputChip, TuiInputNumber, TuiMultiSelect } from '@taiga-ui/kit';
+import {TuiAutoFocus} from '@taiga-ui/cdk';
 
 @Component({
     selector: 'ezui-multiselect',
@@ -18,24 +19,33 @@ import { TuiChevron, TuiChip, TuiInputChip, TuiInputNumber, TuiMultiSelect } fro
 		TuiMultiSelect,
 		TuiDropdown,
 		TuiChevron,
-		TuiChip
+		TuiChip,
+		TuiAutoFocus,
+		TuiInput
 	],
     template: `
 		<tui-textfield multi tuiChevron [stringify]="stringify" [tuiTextfieldSize]="size" [iconStart]="icon">
-			@if(label != ''){
+			@if(label != '' && size != 's'){
 				<label tuiLabel>{{label}}</label>
 			}
-			<input tuiInputChip tuiSelectLike [(ngModel)]="selected" (ngModelChange)="selectedChange.emit(this.selected)" [disabled]="disabled"/>
+			<input tuiInputChip tuiSelectLike [(ngModel)]="selected" [placeholder]="size == 's' ? label : ''" (ngModelChange)="selectedChange.emit(this.selected)" [disabled]="disabled"/>
 			<tui-input-chip
 				*tuiItem="let context"
 				[appearance]="appearanceMap[context.item] ? appearanceMap[context.item] : 'neutral'"/>
 			<tui-data-list *tuiDropdown tuiMultiSelectGroup >
+				@if(enableSearch){
+					<tui-textfield tuiTextfieldSize="s" iconStart="search" (click)="field.focus()">
+						<input tuiInput tuiAutoFocus #field [(ngModel)]="searchValue"/>
+					</tui-textfield>
+				}
 				@for (item of options; track getOptionValue(item)) {
-					@let value = getOptionValue(item);
 					@let label = getOptionLabel(item);
-					<button tuiOption [value]="value" >
-						<span tuiChip size="xs" [appearance]="appearanceMap[value] ? appearanceMap[value] : 'neutral'">{{label}}</span>
-					</button>
+					@if(!enableSearch || (searchValue == '' || label.includes(searchValue))){
+						@let value = getOptionValue(item);
+						<button tuiOption [value]="value" >
+							<span tuiChip size="xs" [appearance]="appearanceMap[value] ? appearanceMap[value] : 'neutral'">{{label}}</span>
+						</button>
+					}
 				}
 			</tui-data-list>
 		</tui-textfield>
@@ -58,9 +68,10 @@ export class EzUIMultiSelect implements OnChanges {
     @Input() selected: any[] | null | undefined = undefined;
     @Output() selectedChange = new EventEmitter<any[] | null | undefined>();
 
-	@Input() appearanceMap : {[value:string | number]:string} = {
-		"b":"negative"
-	}
+	@Input() appearanceMap : {[value:string | number]:string} = {}
+
+	@Input() enableSearch: boolean = false;
+	searchValue : string = "";
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['selected'] && changes['selected'].currentValue != changes['selected'].previousValue) {

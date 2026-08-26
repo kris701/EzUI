@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TuiDataList, TuiDropdown, TuiInput, TuiTextfield } from '@taiga-ui/core';
+import { TuiDataList, TuiDropdown, TuiInput, TuiLabel, TuiTextfield } from '@taiga-ui/core';
 import { TuiChevron, TuiChip, TuiSelect } from '@taiga-ui/kit';
+import {TuiAutoFocus} from '@taiga-ui/cdk';
 
 @Component({
     selector: 'ezui-select',
@@ -15,21 +16,29 @@ import { TuiChevron, TuiChip, TuiSelect } from '@taiga-ui/kit';
     TuiDropdown,
     TuiChevron,
     TuiInput,
-    TuiChip
+    TuiChip,
+	TuiAutoFocus
 ],
     template: `
 		<tui-textfield tuiChevron [content]="content" [tuiTextfieldSize]="size" [iconStart]="icon">
-			@if(label != ''){
+			@if(label != '' && size != 's'){
 				<label tuiLabel>{{label}}</label>
 			}
-			<input tuiSelect [(ngModel)]="selected" (ngModelChange)="selectedChange.emit(this.selected)" [disabled]="disabled"/>
+			<input tuiSelect [(ngModel)]="selected" [placeholder]="size == 's' ? label : ''" (ngModelChange)="selectedChange.emit(this.selected)" [disabled]="disabled"/>
 			<tui-data-list *tuiDropdown >
+				@if(enableSearch){
+					<tui-textfield tuiTextfieldSize="s" iconStart="search">
+						<input tuiInput tuiAutoFocus #field [(ngModel)]="searchValue" (click)="field.focus()"/>
+					</tui-textfield>
+				}
 				@for (item of options; track getOptionValue(item)) {
-					@let value = getOptionValue(item);
 					@let label = getOptionLabel(item);
-					<button tuiOption [value]="value" >
-						<span tuiChip size="xs" [appearance]="appearanceMap[value]">{{label}}</span>
-					</button>
+					@if(!enableSearch || (searchValue == '' || label.includes(searchValue))){
+						@let value = getOptionValue(item);
+						<button tuiOption [value]="value" >
+							<span tuiChip size="xs" [appearance]="appearanceMap[value]">{{label}}</span>
+						</button>
+					}
 				}
 			</tui-data-list>
 		</tui-textfield>
@@ -56,8 +65,10 @@ export class EzUISelect implements OnChanges {
     @Input() selected: any | null | undefined = undefined;
     @Output() selectedChange = new EventEmitter<any | null | undefined>();
 
-	@Input() appearanceMap : {[value:string | number]:string} = {
-	}
+	@Input() appearanceMap : {[value:string | number]:string} = {}
+
+	@Input() enableSearch: boolean = false;
+	searchValue : string = "";
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['selected'] && changes['selected'].currentValue != changes['selected'].previousValue) {
