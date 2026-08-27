@@ -37,12 +37,24 @@ import { EzUIMenuBar, MenuBarItem } from "./menubar";
 			</div>
 		}
 		@else {
-			<div class="preview-readonly-container">
+			<div
+				class="preview-readonly-container"
+				[style.border-radius]="slim ? '0px' : ''"
+				[style.background-color]="slim ? 'transparent' : 'var(--tui-background-base)'"
+				[style.outline]="slim ? '0' : ''"
+			>
 				@if(!disabled){
 					<button tuiButton class="edit-button" iconStart="edit" appearance="flat" size="s"(click)="toggleEdit(false)"></button>
 				}
 				<tui-scrollbar>
-					<div class="preview" #preview>Rendering...</div>
+					<div
+						class="preview"
+						#preview
+						[style.margin-left]="disabled ? (slim ? '0px' : '10px') : '20px'"
+						[style.padding]="slim ? '0px' : ''"
+					>
+						Rendering...
+					</div>
 				</tui-scrollbar>
 			</div>
 		}
@@ -95,7 +107,11 @@ import { EzUIMenuBar, MenuBarItem } from "./menubar";
 			}
 
 			.preview {
-				padding:10px;
+				padding: 10px;
+
+				::ng-deep p {
+					margin: 0px;
+				}
 			}
 		}
 
@@ -129,7 +145,11 @@ import { EzUIMenuBar, MenuBarItem } from "./menubar";
 			}
 
 			.preview {
-				padding:10px;
+				padding: 10px;
+
+				::ng-deep p {
+					margin: 0px;
+				}
 			}
 		}
     `
@@ -140,6 +160,8 @@ export class EzUIMarkdownEditor implements OnChanges {
     @ViewChild('fileUpload') fileUpload: ElementRef<HTMLInputElement> | undefined;
 
     @Input() disabled: boolean = false;
+
+	@Input() slim: boolean = false;
 
     @Input() value: string | null = null;
     @Output() valueChange = new EventEmitter<string | null>();

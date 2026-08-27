@@ -33,6 +33,17 @@ import { SampleContainer } from "../../common/samplecontainer";
 			<ezui-markdowneditor [value]="binding()" [disabled]="true" />
 		</ng-template>
 	</app-samplecontainer>
+
+	<app-samplecontainer
+		label="Slim"
+		html='<ezui-markdowneditor [value]="binding()" [disabled]="true" [slim]="true" />'
+		[enableTypescript]="true"
+		ts='binding = signal<string>("Text");'>
+		>
+		<ng-template #preview>
+			<ezui-markdowneditor [value]="binding()" [disabled]="true" [slim]="true" />
+		</ng-template>
+	</app-samplecontainer>
     `,
     host: {
         class: 'base-view'
