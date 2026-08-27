@@ -33,7 +33,7 @@ import {TuiAutoFocus} from '@taiga-ui/cdk';
 				}
 				@for (item of options; track getOptionValue(item)) {
 					@let label = getOptionLabel(item);
-					@if(!enableSearch || (searchValue == '' || label.includes(searchValue))){
+					@if(!enableSearch || (searchValue == '' || label.includes(searchValue))) {
 
 						@let value = getOptionValue(item);
 						<button tuiOption [value]="value" >

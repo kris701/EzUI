@@ -11,6 +11,7 @@ export * from './src/components/multiselect';
 export * from './src/components/numberinput';
 export * from './src/components/passwordinput';
 export * from './src/components/select';
+export * from './src/components/treeselect';
 export * from './src/components/showmoretext';
 export * from './src/components/table/filters/table.booleanfilter';
 export * from './src/components/table/filters/table.datefilter';

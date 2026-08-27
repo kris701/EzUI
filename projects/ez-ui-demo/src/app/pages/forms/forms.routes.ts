@@ -8,6 +8,7 @@ import { NumberInput } from './numberinput';
 import { PasswordInput } from './passwordinput';
 import { Select } from './selectinput';
 import { TextInput } from './textInput';
+import { TreeSelect } from './treeselectinput';
 
 export default [
     { path: 'text', component: TextInput },
@@ -17,6 +18,7 @@ export default [
     { path: 'datetime', component: DateTimeInput },
     { path: 'multiselect', component: MultiSelect },
     { path: 'select', component: Select },
+    { path: 'treeselect', component: TreeSelect },
     { path: 'files', component: FileInput },
     { path: 'boolean', component: BooleanInput },
 ] as Routes;
