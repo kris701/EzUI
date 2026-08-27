@@ -17,7 +17,7 @@ import { TuiInputNumber } from '@taiga-ui/kit';
 			@if(label){
 				<label tuiLabel>{{label}}</label>
 			}
-			<input tuiInputNumber [(ngModel)]="value" (ngModelChange)="valueChange.emit(value)" [disabled]="disabled" [min]="min" [max]="max"/>
+			<input tuiInputNumber [(ngModel)]="value" (ngModelChange)="valueChange.emit(value)" [disabled]="disabled" [min]="min" [max]="max" [step]="step"/>
 		</tui-textfield>
     `,
     styles: `
@@ -33,6 +33,7 @@ export class EzUINumberInput implements OnChanges {
 
 	@Input() min : number | null = null;
 	@Input() max : number | null = null;
+	@Input() step : number = 0;
 
     @Input() value: number | string = "";
     @Output() valueChange = new EventEmitter<number | string>();
