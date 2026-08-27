@@ -42,6 +42,7 @@ import { EzUIMenuBar, MenuBarItem } from "./menubar";
 				[style.border-radius]="slim ? '0px' : ''"
 				[style.background-color]="slim ? 'transparent' : 'var(--tui-background-base)'"
 				[style.outline]="slim ? '0' : ''"
+				[style.box-shadow]="slim ? 'none' : ''"
 			>
 				@if(!disabled){
 					<button tuiButton class="edit-button" iconStart="edit" appearance="flat" size="s"(click)="toggleEdit(false)"></button>
@@ -60,7 +61,7 @@ import { EzUIMenuBar, MenuBarItem } from "./menubar";
 		}
     `,
     host: {
-        class: 'flex h-full w-full'
+        class: 'flex w-full'
     },
     styles: `
 		.editor-container {
