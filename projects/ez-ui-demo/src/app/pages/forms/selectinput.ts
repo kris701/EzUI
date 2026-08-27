@@ -3,6 +3,7 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EzUISelect } from 'EzUI';
 import { SampleContainer } from "../../common/samplecontainer";
+import { TuiChip } from "@taiga-ui/kit";
 
 @Component({
     selector: 'app-select',
@@ -10,7 +11,8 @@ import { SampleContainer } from "../../common/samplecontainer";
     FormsModule,
     CommonModule,
     SampleContainer,
-	EzUISelect
+    EzUISelect,
+    TuiChip
 ],
     template: `
 	<app-samplecontainer
@@ -63,13 +65,39 @@ selected4 = signal<string>("");'>
 
 	<app-samplecontainer
 		label="Search"
-		html='<ezui-select [options]="options" [(selected)]="selected" [enableSearch]="true"/>'
+		html='<ezui-select [options]="options6" [(selected)]="selected6" [enableSearch]="true"/>'
 		[enableTypescript]="true"
 		ts='options: string[] = ["value1","value2","value3","value4",];
 selected = signal<string>("");'>
 		<ng-template #preview>
-			<ezui-select [options]="options" [(selected)]="selected" [enableSearch]="true"/>
-			Selected: {{selected()}}
+			<ezui-select [options]="options6" [(selected)]="selected6" [enableSearch]="true"/>
+			Selected: {{selected6()}}
+		</ng-template>
+	</app-samplecontainer>
+
+	<app-samplecontainer
+		label="Item Template"
+		html='<ezui-select [options]="options7" [(selected)]="selected7">
+	<ng-template #itemTemplate let-item>
+		<span tuiChip appearance="info">Lists: \{\{item\} \}</span>
+	</ng-template>
+	<ng-template #selectedTemplate let-item>
+		<span tuiChip appearance="warning">Selected: \{\{item\} \}</span>
+	</ng-template>
+</ezui-select>'
+		[enableTypescript]="true"
+		ts='options: string[] = ["value1","value2","value3","value4",];
+selected = signal<string>("");'>
+		<ng-template #preview>
+			<ezui-select [options]="options7" [(selected)]="selected7">
+				<ng-template #itemTemplate let-item>
+					<span tuiChip appearance="info">Lists: {{item}}</span>
+				</ng-template>
+				<ng-template #selectedTemplate let-item>
+					<span tuiChip appearance="warning">Selected: {{item}}</span>
+				</ng-template>
+			</ezui-select>
+			Selected: {{selected7()}}
 		</ng-template>
 	</app-samplecontainer>
 
@@ -108,4 +136,10 @@ export class Select {
 
 	options5: string[] = ["value1","value2","value3","value4",];
 	selected5 = signal<string>("");
+
+	options6: string[] = ["value1","value2","value3","value4",];
+	selected6 = signal<string>("");
+
+	options7: string[] = ["value1","value2","value3","value4",];
+	selected7 = signal<string>("");
 }

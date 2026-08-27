@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, ContentChild, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiDataList, TuiDropdown, TuiInput, TuiSelectLike, TuiTextfield } from '@taiga-ui/core';
 import { TuiChevron, TuiChip, TuiInputChip, TuiInputNumber, TuiMultiSelect } from '@taiga-ui/kit';
@@ -43,7 +43,12 @@ import {TuiAutoFocus} from '@taiga-ui/cdk';
 					@if(!enableSearch || (searchValue == '' || label.includes(searchValue))){
 						@let value = getOptionValue(item);
 						<button tuiOption [value]="value" >
-							<span tuiChip size="xs" [appearance]="appearanceMap[value] ? appearanceMap[value] : 'neutral'">{{label}}</span>
+							@if(itemTemplate){
+								<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
+							}
+							@else {
+								<span tuiChip size="xs" [appearance]="appearanceMap[value] ? appearanceMap[value] : 'neutral'">{{label}}</span>
+							}
 						</button>
 					}
 				}
@@ -54,6 +59,8 @@ import {TuiAutoFocus} from '@taiga-ui/cdk';
     `
 })
 export class EzUIMultiSelect implements OnChanges {
+	@ContentChild('itemTemplate', { static: false }) itemTemplate: TemplateRef<any> | undefined;
+
     @Input() icon: string = '';
     @Input() label: string = '';
 

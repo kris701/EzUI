@@ -3,6 +3,7 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EzUIMultiSelect } from 'EzUI';
 import { SampleContainer } from "../../common/samplecontainer";
+import { TuiChip } from '@taiga-ui/kit';
 
 @Component({
     selector: 'app-multiselect',
@@ -10,7 +11,8 @@ import { SampleContainer } from "../../common/samplecontainer";
     FormsModule,
     CommonModule,
     SampleContainer,
-	EzUIMultiSelect
+	EzUIMultiSelect,
+	TuiChip
 ],
     template: `
 	<app-samplecontainer
@@ -63,13 +65,33 @@ selected4 = signal<string[]>([]);'>
 
 	<app-samplecontainer
 		label="Search"
-		html='<ezui-multiselect [options]="options4" [(selected)]="selected4" [enableSearch]="true"/>'
+		html='<ezui-multiselect [options]="options6" [(selected)]="selected6" [enableSearch]="true"/>'
 		[enableTypescript]="true"
 		ts='options4: string[] = ["value1","value2","value3","value4",];
 selected4 = signal<string[]>([]);'>
 		<ng-template #preview>
 			<ezui-multiselect [options]="options4" [(selected)]="selected4" [enableSearch]="true"/>
-			Selected: {{selected4()}}
+			Selected: {{selected6()}}
+		</ng-template>
+	</app-samplecontainer>
+
+	<app-samplecontainer
+		label="Item Template"
+		html='<ezui-multiselect [options]="options7" [(selected)]="selected7" [enableSearch]="true">
+	<ng-template #itemTemplate let-item>
+		<span tuiChip appearance="info">Custom: \{\{item\} \}</span>
+	</ng-template>
+</ezui-multiselect>'
+		[enableTypescript]="true"
+		ts='options7: string[] = ["value1","value2","value3","value4",];
+selected7 = signal<string[]>([]);'>
+		<ng-template #preview>
+			<ezui-multiselect [options]="options7" [(selected)]="selected7" [enableSearch]="true">
+				<ng-template #itemTemplate let-item>
+					<span tuiChip appearance="info">Custom: {{item}}</span>
+				</ng-template>
+			</ezui-multiselect>
+			Selected: {{selected7()}}
 		</ng-template>
 	</app-samplecontainer>
 
@@ -108,4 +130,10 @@ export class MultiSelect {
 
 	options5: string[] = ["value1","value2","value3","value4",];
 	selected5 = signal<string[]>([]);
+
+	options6: string[] = ["value1","value2","value3","value4",];
+	selected6 = signal<string[]>([]);
+
+	options7: string[] = ["value1","value2","value3","value4",];
+	selected7 = signal<string[]>([]);
 }

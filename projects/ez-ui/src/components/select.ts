@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, ContentChild, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiDataList, TuiDropdown, TuiInput, TuiLabel, TuiTextfield } from '@taiga-ui/core';
 import { TuiChevron, TuiChip, TuiSelect } from '@taiga-ui/kit';
@@ -34,9 +34,15 @@ import {TuiAutoFocus} from '@taiga-ui/cdk';
 				@for (item of options; track getOptionValue(item)) {
 					@let label = getOptionLabel(item);
 					@if(!enableSearch || (searchValue == '' || label.includes(searchValue))){
+
 						@let value = getOptionValue(item);
 						<button tuiOption [value]="value" >
+						@if(itemTemplate){
+							<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
+						}
+						@else {
 							<span tuiChip size="xs" [appearance]="appearanceMap[value]">{{label}}</span>
+						}
 						</button>
 					}
 				}
@@ -44,13 +50,21 @@ import {TuiAutoFocus} from '@taiga-ui/cdk';
 		</tui-textfield>
 
 		<ng-template #content>
-			<span tuiChip [size]="label != '' ? 'xxs' : 'xs'" [appearance]="appearanceMap[selected]">{{stringify(selected)}}</span>
+			@if(selectedTemplate){
+				<ng-container [ngTemplateOutlet]="selectedTemplate" [ngTemplateOutletContext]="{ $implicit: getSelectedItem(selected)  }"></ng-container>
+			}
+			@else {
+				<span tuiChip [size]="label != '' ? 'xxs' : 'xs'" [appearance]="appearanceMap[selected]">{{stringify(selected)}}</span>
+			}
 		</ng-template>
     `,
     styles: `
     `
 })
 export class EzUISelect implements OnChanges {
+	@ContentChild('selectedTemplate', { static: false }) selectedTemplate: TemplateRef<any> | undefined;
+	@ContentChild('itemTemplate', { static: false }) itemTemplate: TemplateRef<any> | undefined;
+
     @Input() icon: string = '';
     @Input() label: string = '';
 
@@ -75,6 +89,10 @@ export class EzUISelect implements OnChanges {
             this.selected = changes['selected'].currentValue;
         }
     }
+
+	getSelectedItem(value : string){
+		return this.options.find((item) => this.getOptionValue(item) === value);
+	}
 
 	stringify = (value: string): string => this.getOptionLabel(this.options.find((item) => this.getOptionValue(item) === value));
 
