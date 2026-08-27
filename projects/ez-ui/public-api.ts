@@ -8,6 +8,7 @@ export * from './src/components/iconselector';
 export * from './src/components/markdowneditor';
 export * from './src/components/menubar';
 export * from './src/components/multiselect';
+export * from './src/components/treemultiselect';
 export * from './src/components/numberinput';
 export * from './src/components/passwordinput';
 export * from './src/components/select';

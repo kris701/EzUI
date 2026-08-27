@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ContentChild, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiDataList, TuiDropdown, TuiInput, TuiSelectLike, TuiTextfield } from '@taiga-ui/core';
-import { TuiChevron, TuiChip, TuiInputChip, TuiInputNumber, TuiMultiSelect } from '@taiga-ui/kit';
+import { TuiChevron, TuiChip, TuiInputChip, TuiMultiSelect } from '@taiga-ui/kit';
 import {TuiAutoFocus} from '@taiga-ui/cdk';
 
 @Component({
@@ -11,7 +11,6 @@ import {TuiAutoFocus} from '@taiga-ui/cdk';
 		FormsModule,
 		CommonModule,
 		TuiMultiSelect,
-		TuiInputNumber,
 		TuiDataList,
 		TuiTextfield,
 		TuiInputChip,
@@ -34,8 +33,8 @@ import {TuiAutoFocus} from '@taiga-ui/cdk';
 				[appearance]="appearanceMap[context.item] ? appearanceMap[context.item] : 'neutral'"/>
 			<tui-data-list *tuiDropdown tuiMultiSelectGroup >
 				@if(enableSearch){
-					<tui-textfield tuiTextfieldSize="s" iconStart="search" (click)="field.focus()">
-						<input tuiInput tuiAutoFocus #field [(ngModel)]="searchValue"/>
+					<tui-textfield tuiTextfieldSize="s" iconStart="search">
+						<input tuiInput tuiAutoFocus #field [(ngModel)]="searchValue" (click)="field.focus()"/>
 					</tui-textfield>
 				}
 				@for (item of options; track getOptionValue(item)) {

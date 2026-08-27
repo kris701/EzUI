@@ -87,6 +87,12 @@ export class AppComponent {
 						visible: true
 					} as MenuItem,
 					{
+						label: 'Tree Multi Select',
+						icon: 'list-tree',
+						routerLink: '/forms/treemultiselect',
+						visible: true
+					} as MenuItem,
+					{
 						label: 'Files',
 						icon: 'file',
 						routerLink: '/forms/files',
