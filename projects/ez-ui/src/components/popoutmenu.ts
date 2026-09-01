@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ContentChild, Input, OnChanges, signal, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, ContentChild, EventEmitter, Input, OnChanges, Output, signal, SimpleChanges, TemplateRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiButton, TuiDataList, TuiDropdown, TuiOption } from '@taiga-ui/core';
 import { TuiChevron } from '@taiga-ui/kit';
@@ -118,6 +118,7 @@ export class EzUIPopoutMenuSubDataList {
 			[tuiAppearanceState]="dropdownOpen() ? 'active' : null"
 			[tuiDropdown]="dropdownContent"
 			[(tuiDropdownOpen)]="dropdownOpen"
+			(click)="onMenuOpen.emit(dropdownOpen())"
 		>
 			{{label}}
 			<ng-template #dropdownContent>
@@ -153,6 +154,8 @@ export class EzUIPopoutMenu implements OnChanges {
     @Input() label: string = '';
 	@Input() size: "l" | "m" | "s" = 'm';
 	@Input() appearance: string = 'flat';
+
+	@Output() onMenuOpen = new EventEmitter<boolean>();
 
 	ngOnChanges(changes: SimpleChanges) {
         if (changes['items'] && changes['items'].currentValue != changes['items'].previousValue) {
