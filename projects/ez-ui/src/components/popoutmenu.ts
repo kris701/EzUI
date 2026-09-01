@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, signal, SimpleChanges } from '@angular/core';
+import { Component, ContentChild, Input, OnChanges, signal, SimpleChanges, TemplateRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiButton, TuiDataList, TuiDropdown, TuiOption } from '@taiga-ui/core';
 import { TuiChevron } from '@taiga-ui/kit';
@@ -18,6 +18,7 @@ export interface PopoutMenuItem {
     selector: 'tui-data-list[popsubdatalist]',
     standalone: true,
     imports: [
+		CommonModule,
         TuiDropdown,
 		TuiOption,
         TuiChevron
@@ -37,14 +38,20 @@ export interface PopoutMenuItem {
 					tuiDropdownSided="true"
 					[style]="item.style"
 				>
-				{{item.label}}
+					@if(itemTemplate){
+						<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
+					}
+					@else {
+						{{item.label}}
+					}
 				</button>
 
 				<ng-template #dropdownContent>
 					<div class="popdropdown">
 						<tui-data-list
 							class="popsubdatalist"
-							[popsubdatalist]="item.items">
+							[popsubdatalist]="item.items"
+							[itemTemplate]="itemTemplate">
 						</tui-data-list>
 					</div>
 				</ng-template>
@@ -58,7 +65,12 @@ export interface PopoutMenuItem {
 					(click)="item.command()"
 					[style]="item.style"
 				>
-					{{item.label}}
+					@if(itemTemplate){
+						<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
+					}
+					@else {
+						{{item.label}}
+					}
 				</button>
 			}
 		}
@@ -79,6 +91,8 @@ export interface PopoutMenuItem {
 	`
 })
 export class EzUIPopoutMenuSubDataList {
+	@Input() itemTemplate: TemplateRef<any> | undefined;
+
     @Input() popsubdatalist: PopoutMenuItem[] = [];
 }
 
@@ -108,7 +122,8 @@ export class EzUIPopoutMenuSubDataList {
 				<div class="popdropdown">
 					<tui-data-list
 						class="popsubdatalist"
-						[popsubdatalist]="items">
+						[popsubdatalist]="items"
+						[itemTemplate]="itemTemplate">
 					</tui-data-list>
 				</div>
 			</ng-template>
@@ -126,6 +141,8 @@ export class EzUIPopoutMenuSubDataList {
     `
 })
 export class EzUIPopoutMenu implements OnChanges {
+	@ContentChild('itemTemplate', { static: false }) itemTemplate: TemplateRef<any> | undefined;
+
     @Input() items: PopoutMenuItem[] = [];
 
 	dropdownOpen = signal<boolean>(false);

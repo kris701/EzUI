@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EzUIPopoutMenu, PopoutMenuItem } from 'EzUI';
 import { SampleContainer } from "../../common/samplecontainer";
+import { TuiChip } from '@taiga-ui/kit';
 
 @Component({
     selector: 'app-menubar',
@@ -10,7 +11,8 @@ import { SampleContainer } from "../../common/samplecontainer";
     FormsModule,
     CommonModule,
     SampleContainer,
-    EzUIPopoutMenu
+    EzUIPopoutMenu,
+	TuiChip
 ],
     template: `
 	<app-samplecontainer
@@ -80,6 +82,34 @@ import { SampleContainer } from "../../common/samplecontainer";
 	>
 		<ng-template #preview>
 			<ezui-popoutmenu [items]="items2" label="Click Me"/>
+		</ng-template>
+	</app-samplecontainer>
+
+	<app-samplecontainer
+		label="Templating"
+		html='<ezui-popoutmenu [items]="items" label="Click Me"/>'
+		[enableTypescript]="true"
+		ts="items : PopoutMenuItem[] = [
+	{
+		label: 'Button 1',
+		icon: 'check'
+	} as PopoutMenuItem,
+	{
+		label: 'Some longer value name here',
+		icon: 'x'
+	} as PopoutMenuItem,
+	{
+		label: 'Button 3',
+		icon: 'plus'
+	} as PopoutMenuItem,
+]"
+	>
+		<ng-template #preview>
+			<ezui-popoutmenu [items]="items" label="Click Me">
+				<ng-template #itemTemplate let-item>
+					<span tuiChip appearance="info">Special text: {{item.label}}</span>
+				</ng-template>
+			</ezui-popoutmenu>
 		</ng-template>
 	</app-samplecontainer>
     `,

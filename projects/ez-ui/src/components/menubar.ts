@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ContentChild, Input, OnChanges, SimpleChanges, TemplateRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiButton, TuiDropdown, TuiGroup, TuiOption } from '@taiga-ui/core';
 import { TuiChevron } from '@taiga-ui/kit';
@@ -18,6 +18,7 @@ export interface MenuBarItem {
     selector: 'tui-data-list[subdatalist]',
     standalone: true,
     imports: [
+		CommonModule,
         TuiDropdown,
 		TuiOption,
         TuiChevron
@@ -37,7 +38,12 @@ export interface MenuBarItem {
 					tuiDropdownSided="true"
 					[style]="item.style"
 				>
-				{{item.label}}
+					@if(menuItemTemplate){
+						<ng-container [ngTemplateOutlet]="menuItemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
+					}
+					@else {
+						{{item.label}}
+					}
 				</button>
 
 				<ng-template #dropdownContent>
@@ -56,7 +62,12 @@ export interface MenuBarItem {
 					(click)="item.command()"
 					[style]="item.style"
 				>
-					{{item.label}}
+					@if(menuItemTemplate){
+						<ng-container [ngTemplateOutlet]="menuItemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
+					}
+					@else {
+						{{item.label}}
+					}
 				</button>
 			}
 		}
@@ -73,6 +84,8 @@ export interface MenuBarItem {
 	`
 })
 export class EzUIMenuBarSubDataList {
+	@Input() menuItemTemplate: TemplateRef<any> | undefined;
+
     @Input() subdatalist: MenuBarItem[] = [];
 }
 
@@ -105,13 +118,19 @@ export class EzUIMenuBarSubDataList {
 						tuiDropdownLimitWidth="fixed"
 						[style]="item.style"
 					>
-						{{item.label}}
+						@if(itemTemplate){
+							<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
+						}
+						@else {
+							{{item.label}}
+						}
 					</button>
 
 					<ng-template #dropdownContent>
 						<tui-data-list
 							class="subdatalist"
-							[subdatalist]="item.items">
+							[subdatalist]="item.items"
+							[menuItemTemplate]="menuItemTemplate">
 						</tui-data-list>
 					</ng-template>
 				}
@@ -126,7 +145,12 @@ export class EzUIMenuBarSubDataList {
 						(click)="item.command()"
 						[style]="item.style"
 					>
-						{{item.label}}
+						@if(itemTemplate){
+							<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
+						}
+						@else {
+							{{item.label}}
+						}
 					</button>
 				}
 			}
@@ -145,6 +169,9 @@ export class EzUIMenuBarSubDataList {
     `
 })
 export class EzUIMenuBar implements OnChanges {
+	@ContentChild('itemTemplate', { static: false }) itemTemplate: TemplateRef<any> | undefined;
+	@ContentChild('menuItemTemplate', { static: false }) menuItemTemplate: TemplateRef<any> | undefined;
+
     @Input() items: MenuBarItem[] = [];
 
 	ngOnChanges(changes: SimpleChanges) {
