@@ -12,6 +12,8 @@ export interface PopoutMenuItem {
 	expanded: boolean;
 	command() : Promise<any>;
 	style : string;
+
+	data : any;
 }
 
 @Component({
