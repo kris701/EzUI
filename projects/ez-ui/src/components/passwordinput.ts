@@ -14,7 +14,7 @@ import { TuiPassword } from '@taiga-ui/kit';
 		TuiPassword
 	],
     template: `
-		<tui-textfield [tuiTextfieldSize]="size" [iconStart]="icon">
+		<tui-textfield [tuiTextfieldSize]="size" [iconStart]="icon" [tuiTextfieldCleaner]="showClear">
 			@if(label){
 				<label tuiLabel>{{label}}</label>
 			}
@@ -35,6 +35,8 @@ export class EzUIPasswordInput implements OnChanges {
 
     @Input() value: string = "";
     @Output() valueChange = new EventEmitter<string>();
+
+	@Input() showClear: boolean = true;
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['value'] && changes['value'].currentValue != changes['value'].previousValue) {

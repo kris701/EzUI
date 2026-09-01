@@ -20,7 +20,7 @@ import {TuiAutoFocus} from '@taiga-ui/cdk';
 	TuiAutoFocus
 ],
     template: `
-		<tui-textfield tuiChevron [content]="content" [tuiTextfieldSize]="size" [iconStart]="icon">
+		<tui-textfield tuiChevron [content]="content" [tuiTextfieldSize]="size" [iconStart]="icon" [tuiTextfieldCleaner]="showClear">
 			@if(label != '' && size != 's'){
 				<label tuiLabel>{{label}}</label>
 			}
@@ -83,6 +83,8 @@ export class EzUISelect implements OnChanges {
 
 	@Input() enableSearch: boolean = false;
 	searchValue : string = "";
+
+	@Input() showClear: boolean = true;
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['selected'] && changes['selected'].currentValue != changes['selected'].previousValue) {

@@ -15,7 +15,7 @@ import { TuiInputDateTime } from '@taiga-ui/kit';
 		TuiDropdownSheet
 	],
     template: `
-		<tui-textfield [tuiTextfieldSize]="size" [iconStart]="icon" tuiDropdownSheet>>
+		<tui-textfield [tuiTextfieldSize]="size" [iconStart]="icon" tuiDropdownSheet [tuiTextfieldCleaner]="showClear">
 			@if(label){
 				<label tuiLabel>{{label}}</label>
 			}
@@ -98,6 +98,8 @@ export class EzUIDateTimeInput implements OnChanges {
     @Output() valueChange = new EventEmitter<Date | string | null>();
 
 	internalValue = signal<[TuiDay, TuiTime] | null>(null);
+
+	@Input() showClear: boolean = true;
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['value'] && changes['value'].currentValue != changes['value'].previousValue) {

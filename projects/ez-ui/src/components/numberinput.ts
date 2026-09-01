@@ -13,7 +13,7 @@ import { TuiInputNumber } from '@taiga-ui/kit';
 		TuiInputNumber
 	],
     template: `
-		<tui-textfield [tuiTextfieldSize]="size" [iconStart]="icon">
+		<tui-textfield [tuiTextfieldSize]="size" [iconStart]="icon" [tuiTextfieldCleaner]="showClear">
 			@if(label){
 				<label tuiLabel>{{label}}</label>
 			}
@@ -37,6 +37,8 @@ export class EzUINumberInput implements OnChanges {
 
     @Input() value: number | string = "";
     @Output() valueChange = new EventEmitter<number | string>();
+
+	@Input() showClear: boolean = true;
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['value'] && changes['value'].currentValue != changes['value'].previousValue) {

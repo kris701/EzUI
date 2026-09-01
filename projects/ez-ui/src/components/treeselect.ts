@@ -23,7 +23,7 @@ import {TuiAutoFocus, TuiHandler} from '@taiga-ui/cdk';
 	TuiButton
 ],
     template: `
-		<tui-textfield tuiChevron [content]="content" [tuiTextfieldSize]="size" [iconStart]="icon">
+		<tui-textfield tuiChevron [content]="content" [tuiTextfieldSize]="size" [iconStart]="icon" [tuiTextfieldCleaner]="showClear">
 			@if(label != '' && size != 's'){
 				<label tuiLabel>{{label}}</label>
 			}
@@ -123,6 +123,8 @@ export class EzUITreeSelect implements OnChanges {
 
 	@Input() enableSearch: boolean = false;
 	searchValue = signal<string>("");
+
+	@Input() showClear: boolean = true;
 
 	protected map = new Map<TreeSelectNode, boolean>();
 
