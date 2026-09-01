@@ -112,6 +112,12 @@ export class AppComponent {
 						visible : true
 					} as MenuItem,
 					{
+						label: 'Popout Menu',
+						icon: 'picture-in-picture',
+						routerLink: '/layout/popoutmenu',
+						visible : true
+					} as MenuItem,
+					{
 						label: 'Dialog',
 						icon: 'captions',
 						routerLink: '/layout/dialog',
