@@ -12,6 +12,7 @@ export * from './src/components/treemultiselect';
 export * from './src/components/numberinput';
 export * from './src/components/popoutmenu';
 export * from './src/components/passwordinput';
+export * from './src/components/orderlist';
 export * from './src/components/select';
 export * from './src/components/treeselect';
 export * from './src/components/showmoretext';
