@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiFiles } from '@taiga-ui/kit';
 
@@ -31,6 +31,8 @@ import { TuiFiles } from '@taiga-ui/kit';
 export class EzUIFileInput {
 	public files = signal<File[]>([]);
 
+	@Output() filesChange = new EventEmitter<File[]>();
+
 	@Input() disabled: boolean = false;
 	@Input() accept: string = "*/*";
 
@@ -43,6 +45,8 @@ export class EzUIFileInput {
 			this.files.set([files]);
 		else
 			this.files.set(files);
+
+		this.filesChange.emit(this.files());
 	}
 
 	removeFile(file : File){
