@@ -9,7 +9,7 @@ import { TuiFiles } from '@taiga-ui/kit';
 		<label tuiInputFiles>
 			<input
 				#validator="tuiInputFilesValidator"
-				accept="*/*"
+				[accept]="accept"
 				tuiInputFiles
 				[ngModel]="files()"
 				(ngModelChange)="onChange($event)"
@@ -32,6 +32,7 @@ export class EzUIFileInput {
 	public files = signal<File[]>([]);
 
 	@Input() disabled: boolean = false;
+	@Input() accept: string = "*/*";
 
 	public clear(){
 		this.files.set([]);
