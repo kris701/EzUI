@@ -18,6 +18,12 @@ import { SampleContainer } from "../../common/samplecontainer";
 			<ezui-fileinput />
 		</ng-template>
 	</app-samplecontainer>
+
+	<app-samplecontainer label="Disabled" html='<ezui-fileinput [disabled]="true"/>'>
+		<ng-template #preview>
+			<ezui-fileinput [disabled]="true"/>
+		</ng-template>
+	</app-samplecontainer>
     `,
     host: {
         class: 'base-view'

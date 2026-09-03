@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiFiles } from '@taiga-ui/kit';
 
@@ -13,6 +13,7 @@ import { TuiFiles } from '@taiga-ui/kit';
 				tuiInputFiles
 				[ngModel]="files()"
 				(ngModelChange)="onChange($event)"
+				[disabled]="disabled"
 			/>
 		</label>
 
@@ -29,6 +30,8 @@ import { TuiFiles } from '@taiga-ui/kit';
 })
 export class EzUIFileInput {
 	public files = signal<File[]>([]);
+
+	@Input() disabled: boolean = false;
 
 	public clear(){
 		this.files.set([]);
