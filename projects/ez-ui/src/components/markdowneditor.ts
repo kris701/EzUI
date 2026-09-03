@@ -356,8 +356,6 @@ export class EzUIMarkdownEditor implements OnChanges {
 				this.additionalMenuBarItemsRoot.hidden =
 					this.additionalMenuBarItems.length == 0 ||
 					this.additionalMenuBarItems.filter(x => !x.hidden).length == 0
-
-				console.log(this.items())
 			}
 		}
     }
