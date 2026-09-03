@@ -10,7 +10,7 @@ export interface PopoutMenuItem {
 	items : PopoutMenuItem[];
 	disabled: boolean;
 	expanded: boolean;
-	command() : Promise<any>;
+	command(sender : PopoutMenuItem) : Promise<any>;
 	style : string;
 
 	data : any;
@@ -64,7 +64,7 @@ export interface PopoutMenuItem {
 					tuiOption
 					[iconStart]="item.icon"
 					[disabled]="item.disabled"
-					(click)="item.command()"
+					(click)="item.command(item)"
 					[style]="item.style"
 				>
 					@if(itemTemplate){

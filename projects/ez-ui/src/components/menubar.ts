@@ -10,7 +10,7 @@ export interface MenuBarItem {
 	items : MenuBarItem[];
 	disabled: boolean;
 	expanded: boolean;
-	command() : Promise<any>;
+	command(sender : MenuBarItem) : Promise<any>;
 	style : string;
 
 	data : any;
@@ -61,7 +61,7 @@ export interface MenuBarItem {
 					tuiOption
 					[iconStart]="item.icon"
 					[disabled]="item.disabled"
-					(click)="item.command()"
+					(click)="item.command(item)"
 					[style]="item.style"
 				>
 					@if(menuItemTemplate){
@@ -144,7 +144,7 @@ export class EzUIMenuBarSubDataList {
 						type="button"
 						[iconStart]="item.icon"
 						[disabled]="item.disabled"
-						(click)="item.command()"
+						(click)="item.command(item)"
 						[style]="item.style"
 					>
 						@if(itemTemplate){

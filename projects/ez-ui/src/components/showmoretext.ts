@@ -15,13 +15,15 @@ import { TuiElasticContainer } from '@taiga-ui/layout';
     template: `
 		<tui-elastic-container>
 			<div [innerHTML]="current()"></div>
-			<button
-				tuiLink
-				type="button"
-				(click)="toggle()"
-			>
-				Show {{ current() === value ? 'less' : 'more' }}
-			</button>
+			@if(value.length > maxCharacters){
+				<button
+					tuiLink
+					type="button"
+					(click)="toggle()"
+				>
+					Show {{ current() === value ? 'less' : 'more' }}
+				</button>
+			}
 		</tui-elastic-container>
     `,
     styles: `
