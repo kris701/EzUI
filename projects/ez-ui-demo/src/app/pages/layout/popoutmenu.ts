@@ -50,11 +50,11 @@ import { TuiChip } from '@taiga-ui/kit';
 		items: [
 			{
 				label: 'Opt 1',
-				command: () => alert('opt 1 click')
+				command: (e) => alert('opt 1 click')
 			} as PopoutMenuItem,
 			{
 				label: 'Opt 2',
-				command: () => alert('opt 2 click')
+				command: (e) => alert('opt 2 click')
 			} as PopoutMenuItem
 		] as PopoutMenuItem[]
 	} as PopoutMenuItem,
@@ -64,15 +64,15 @@ import { TuiChip } from '@taiga-ui/kit';
 		items: [
 			{
 				label: 'Opt 1',
-				command: () => alert('opt 1 click')
+				command: (e) => alert('opt 1 click')
 			} as PopoutMenuItem,
 			{
 				label: 'Opt 2',
-				command: () => alert('opt 2 click'),
+				command: (e) => alert('opt 2 click'),
 				items: [
 					{
 						label: 'Opt 3',
-						command: () => alert('opt 3 click')
+						command: (e) => alert('opt 3 click')
 					} as PopoutMenuItem
 				] as PopoutMenuItem[]
 			} as PopoutMenuItem,
@@ -122,17 +122,17 @@ export class PopoutMenu {
 		{
 			label: 'Button 1',
 			icon: 'check',
-			command: () => alert('button 1 click')
+			command: (e) => alert('button 1 click')
 		} as PopoutMenuItem,
 		{
 			label: 'Some longer value name here',
 			icon: 'x',
-			command: () => alert('button 2 click')
+			command: (e) => alert('button 2 click')
 		} as PopoutMenuItem,
 		{
 			label: 'Button 3',
 			icon: 'plus',
-			command: () => alert('button 3 click')
+			command: (e) => alert('button 3 click')
 		} as PopoutMenuItem,
 	]
 
@@ -143,11 +143,11 @@ export class PopoutMenu {
 			items: [
 				{
 					label: 'Opt 1',
-					command: () => alert('opt 1 click')
+					command: (e) => alert('opt 1 click')
 				} as PopoutMenuItem,
 				{
 					label: 'Opt 2',
-					command: () => alert('opt 2 click')
+					command: (e) => alert('opt 2 click')
 				} as PopoutMenuItem
 			] as PopoutMenuItem[]
 		} as PopoutMenuItem,
@@ -157,15 +157,15 @@ export class PopoutMenu {
 			items: [
 				{
 					label: 'Opt 1',
-					command: () => alert('opt 1 click')
+					command: (e) => alert('opt 1 click')
 				} as PopoutMenuItem,
 				{
 					label: 'Opt 2',
-					command: () => alert('opt 2 click'),
+					command: (e) => alert('opt 2 click'),
 					items: [
 						{
 							label: 'Opt 3',
-							command: () => alert('opt 3 click')
+							command: (e) => alert('opt 3 click')
 						} as PopoutMenuItem
 					] as PopoutMenuItem[]
 				} as PopoutMenuItem,

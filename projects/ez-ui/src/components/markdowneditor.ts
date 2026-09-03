@@ -172,19 +172,27 @@ export class EzUIMarkdownEditor implements OnChanges {
     isFirst : boolean = true;
     isEditing = signal<boolean>(false);
 
+	additionalMenuBarItemsRoot : MenuBarItem = {
+		icon: 'plus',
+		items: [] as MenuBarItem[],
+		hidden: true,
+		style: 'border-bottom-right-radius: 0px !important;border-top-right-radius: 0px !important;'
+	} as MenuBarItem
+	@Input() additionalMenuBarItems: MenuBarItem[] = [];
+
     items = signal<MenuBarItem[]>([
 		{
 			icon: 'save',
-			command: async () => await this.toggleEdit(true),
+			command: async (e) => await this.toggleEdit(true),
 			style: 'border-bottom-left-radius: 0px !important;'
 		} as MenuBarItem,
 		{
 			icon: 'x',
-			command: async () => await this.toggleEdit(false)
+			command: async (e) => await this.toggleEdit(false)
 		} as MenuBarItem,
         {
             label: 'B',
-            command: async () => {
+            command: async (e) => {
                 if (this.editor){
                     const editor = this.editor.nativeElement;
                     const start = editor.selectionStart;
@@ -197,7 +205,7 @@ export class EzUIMarkdownEditor implements OnChanges {
         } as MenuBarItem,
         {
             label: 'I',
-            command: async () => {
+            command: async (e) => {
                 if (this.editor){
                     const editor = this.editor.nativeElement;
                     const start = editor.selectionStart;
@@ -213,7 +221,7 @@ export class EzUIMarkdownEditor implements OnChanges {
             items: [
                 {
                     label: 'H1',
-                    command: async () => {
+                    command: async (e) => {
                         if (this.editor){
                             const editor = this.editor.nativeElement;
                             const start = editor.selectionStart;
@@ -226,7 +234,7 @@ export class EzUIMarkdownEditor implements OnChanges {
                 } as MenuBarItem,
                 {
                     label: 'H2',
-                    command: async () => {
+                    command: async (e) => {
                         if (this.editor){
                             const editor = this.editor.nativeElement;
                             const start = editor.selectionStart;
@@ -239,7 +247,7 @@ export class EzUIMarkdownEditor implements OnChanges {
                 } as MenuBarItem,
                 {
                     label: 'H3',
-                    command: async () => {
+                    command: async (e) => {
                         if (this.editor){
                             const editor = this.editor.nativeElement;
                             const start = editor.selectionStart;
@@ -255,7 +263,7 @@ export class EzUIMarkdownEditor implements OnChanges {
 
         {
             icon: 'link',
-            command: async () => {
+            command: async (e) => {
                 if (this.editor){
                     const editor = this.editor.nativeElement;
                     const start = editor.selectionStart;
@@ -269,13 +277,15 @@ export class EzUIMarkdownEditor implements OnChanges {
 
         {
             icon: 'image',
-            command: async () => {
+            command: async (e) => {
                 if (this.editor){
                     this.fileUpload?.nativeElement.click();
                 }
             },
 			style: 'border-bottom-right-radius: 0px !important;border-top-right-radius: 0px !important;'
         } as MenuBarItem,
+
+		this.additionalMenuBarItemsRoot,
     ])
 
     async onFileSelected(event: any) {
@@ -340,6 +350,16 @@ export class EzUIMarkdownEditor implements OnChanges {
                 }
             }
         }
+		if (changes['additionalMenuBarItems']){
+			if (changes['additionalMenuBarItems'].currentValue != changes['additionalMenuBarItems'].previousValue){
+				this.additionalMenuBarItemsRoot.items = this.additionalMenuBarItems;
+				this.additionalMenuBarItemsRoot.hidden =
+					this.additionalMenuBarItems.length == 0 ||
+					this.additionalMenuBarItems.filter(x => !x.hidden).length == 0
+
+				console.log(this.items())
+			}
+		}
     }
 
     async formatPreview(){

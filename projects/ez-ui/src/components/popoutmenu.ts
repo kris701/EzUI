@@ -10,6 +10,7 @@ export interface PopoutMenuItem {
 	items : PopoutMenuItem[];
 	disabled: boolean;
 	expanded: boolean;
+	hidden: boolean;
 	command(sender : PopoutMenuItem) : Promise<any>;
 	style : string;
 
@@ -28,52 +29,56 @@ export interface PopoutMenuItem {
     template: `
 		@for(item of popsubdatalist; track $index){
 			@if(item.items){
-				<button
-					class="subdatalistitem"
-					tuiOption
-					tuiChevron
-					[iconStart]="item.icon"
-					[disabled]="item.disabled"
-					[tuiDropdown]="dropdownContent"
-					[(tuiDropdownOpen)]="item.expanded"
-					tuiDropdownLimitWidth="fixed"
-					tuiDropdownSided="true"
-					[style]="item.style"
-				>
-					@if(itemTemplate){
-						<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
-					}
-					@else {
-						{{item.label}}
-					}
-				</button>
+				@if(!item.hidden){
+					<button
+						class="subdatalistitem"
+						tuiOption
+						tuiChevron
+						[iconStart]="item.icon"
+						[disabled]="item.disabled"
+						[tuiDropdown]="dropdownContent"
+						[(tuiDropdownOpen)]="item.expanded"
+						tuiDropdownLimitWidth="auto"
+						tuiDropdownSided="true"
+						[style]="item.style"
+					>
+						@if(itemTemplate){
+							<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
+						}
+						@else {
+							{{item.label}}
+						}
+					</button>
 
-				<ng-template #dropdownContent>
-					<div class="popdropdown">
-						<tui-data-list
-							class="popsubdatalist"
-							[popsubdatalist]="item.items"
-							[itemTemplate]="itemTemplate">
-						</tui-data-list>
-					</div>
-				</ng-template>
+					<ng-template #dropdownContent>
+						<div class="popdropdown">
+							<tui-data-list
+								class="popsubdatalist"
+								[popsubdatalist]="item.items"
+								[itemTemplate]="itemTemplate">
+							</tui-data-list>
+						</div>
+					</ng-template>
+				}
 			}
 			@else {
-				<button
-					class="subdatalistitem"
-					tuiOption
-					[iconStart]="item.icon"
-					[disabled]="item.disabled"
-					(click)="item.command(item)"
-					[style]="item.style"
-				>
-					@if(itemTemplate){
-						<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
-					}
-					@else {
-						{{item.label}}
-					}
-				</button>
+				@if(!item.hidden){
+					<button
+						class="subdatalistitem"
+						tuiOption
+						[iconStart]="item.icon"
+						[disabled]="item.disabled"
+						(click)="item.command(item)"
+						[style]="item.style"
+					>
+						@if(itemTemplate){
+							<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
+						}
+						@else {
+							{{item.label}}
+						}
+					</button>
+				}
 			}
 		}
     `,
@@ -117,6 +122,7 @@ export class EzUIPopoutMenuSubDataList {
 			[appearance]="appearance"
 			[tuiAppearanceState]="dropdownOpen() ? 'active' : null"
 			[tuiDropdown]="dropdownContent"
+			tuiDropdownLimitWidth="auto"
 			[(tuiDropdownOpen)]="dropdownOpen"
 			(click)="onMenuOpen.emit(dropdownOpen())"
 		>

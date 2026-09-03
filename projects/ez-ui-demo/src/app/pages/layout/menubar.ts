@@ -48,11 +48,11 @@ import { SampleContainer } from "../../common/samplecontainer";
 		items: [
 			{
 				label: 'Opt 1',
-				command: () => alert('opt 1 click')
+				command: (e) => alert('opt 1 click')
 			} as MenuBarItem,
 			{
 				label: 'Opt 2',
-				command: () => alert('opt 2 click')
+				command: (e) => alert('opt 2 click')
 			} as MenuBarItem
 		] as MenuBarItem[]
 	} as MenuBarItem,
@@ -62,15 +62,15 @@ import { SampleContainer } from "../../common/samplecontainer";
 		items: [
 			{
 				label: 'Opt 1',
-				command: () => alert('opt 1 click')
+				command: (e) => alert('opt 1 click')
 			} as MenuBarItem,
 			{
 				label: 'Opt 2',
-				command: () => alert('opt 2 click'),
+				command: (e) => alert('opt 2 click'),
 				items: [
 					{
 						label: 'Opt 3',
-						command: () => alert('opt 3 click')
+						command: (e) => alert('opt 3 click')
 					} as MenuBarItem
 				] as MenuBarItem[]
 			} as MenuBarItem,
@@ -92,17 +92,17 @@ export class MenuBar {
 		{
 			label: 'Button 1',
 			icon: 'check',
-			command: () => alert('button 1 click')
+			command: (e) => alert('button 1 click')
 		} as MenuBarItem,
 		{
 			label: 'Some longer value name here',
 			icon: 'x',
-			command: () => alert('button 2 click')
+			command: (e) => alert('button 2 click')
 		} as MenuBarItem,
 		{
 			label: 'Button 3',
 			icon: 'plus',
-			command: () => alert('button 3 click')
+			command: (e) => alert('button 3 click')
 		} as MenuBarItem,
 	]
 
@@ -113,11 +113,11 @@ export class MenuBar {
 			items: [
 				{
 					label: 'Opt 1',
-					command: () => alert('opt 1 click')
+					command: (e) => alert('opt 1 click')
 				} as MenuBarItem,
 				{
 					label: 'Opt 2',
-					command: () => alert('opt 2 click')
+					command: (e) => alert('opt 2 click')
 				} as MenuBarItem
 			] as MenuBarItem[]
 		} as MenuBarItem,
@@ -127,15 +127,15 @@ export class MenuBar {
 			items: [
 				{
 					label: 'Opt 1',
-					command: () => alert('opt 1 click')
+					command: (e) => alert('opt 1 click')
 				} as MenuBarItem,
 				{
 					label: 'Opt 2',
-					command: () => alert('opt 2 click'),
+					command: (e) => alert('opt 2 click'),
 					items: [
 						{
 							label: 'Opt 3',
-							command: () => alert('opt 3 click')
+							command: (e) => alert('opt 3 click')
 						} as MenuBarItem
 					] as MenuBarItem[]
 				} as MenuBarItem,

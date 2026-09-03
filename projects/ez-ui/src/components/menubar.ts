@@ -10,6 +10,7 @@ export interface MenuBarItem {
 	items : MenuBarItem[];
 	disabled: boolean;
 	expanded: boolean;
+	hidden: boolean;
 	command(sender : MenuBarItem) : Promise<any>;
 	style : string;
 
@@ -28,49 +29,53 @@ export interface MenuBarItem {
     template: `
 		@for(item of subdatalist; track $index){
 			@if(item.items){
-				<button
-					class="subdatalistitem"
-					tuiOption
-					tuiChevron
-					[iconStart]="item.icon"
-					[disabled]="item.disabled"
-					[tuiDropdown]="dropdownContent"
-					[(tuiDropdownOpen)]="item.expanded"
-					tuiDropdownLimitWidth="fixed"
-					tuiDropdownSided="true"
-					[style]="item.style"
-				>
-					@if(menuItemTemplate){
-						<ng-container [ngTemplateOutlet]="menuItemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
-					}
-					@else {
-						{{item.label}}
-					}
-				</button>
+				@if(!item.hidden){
+					<button
+						class="subdatalistitem"
+						tuiOption
+						tuiChevron
+						[iconStart]="item.icon"
+						[disabled]="item.disabled"
+						[tuiDropdown]="dropdownContent"
+						[(tuiDropdownOpen)]="item.expanded"
+						tuiDropdownLimitWidth="auto"
+						tuiDropdownSided="true"
+						[style]="item.style"
+					>
+						@if(menuItemTemplate){
+							<ng-container [ngTemplateOutlet]="menuItemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
+						}
+						@else {
+							{{item.label}}
+						}
+					</button>
 
-				<ng-template #dropdownContent>
-					<tui-data-list
-						class="subdatalist"
-						[subdatalist]="item.items">
-					</tui-data-list>
-				</ng-template>
+					<ng-template #dropdownContent>
+						<tui-data-list
+							class="subdatalist"
+							[subdatalist]="item.items">
+						</tui-data-list>
+					</ng-template>
+				}
 			}
 			@else {
-				<button
-					class="subdatalistitem"
-					tuiOption
-					[iconStart]="item.icon"
-					[disabled]="item.disabled"
-					(click)="item.command(item)"
-					[style]="item.style"
-				>
-					@if(menuItemTemplate){
-						<ng-container [ngTemplateOutlet]="menuItemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
-					}
-					@else {
-						{{item.label}}
-					}
-				</button>
+				@if(!item.hidden){
+					<button
+						class="subdatalistitem"
+						tuiOption
+						[iconStart]="item.icon"
+						[disabled]="item.disabled"
+						(click)="item.command(item)"
+						[style]="item.style"
+					>
+						@if(menuItemTemplate){
+							<ng-container [ngTemplateOutlet]="menuItemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
+						}
+						@else {
+							{{item.label}}
+						}
+					</button>
+				}
 			}
 		}
     `,
@@ -78,6 +83,7 @@ export interface MenuBarItem {
 		.subdatalist {
 			display:flex;
 			flex-direction: column;
+			padding:10px;
 		}
 
 		.subdatalistitem {
@@ -107,53 +113,57 @@ export class EzUIMenuBarSubDataList {
 		<div tuiGroup class="group" [collapsed]="true">
 			@for(item of items; track $index){
 				@if(item.items){
-					<button
-						tuiButton
-						tuiChevron
-						size="s"
-						appearance="outline"
-						type="button"
-						[iconStart]="item.icon"
-						[disabled]="item.disabled"
-						[tuiDropdown]="dropdownContent"
-						[(tuiDropdownOpen)]="item.expanded"
-						tuiDropdownLimitWidth="fixed"
-						[style]="item.style"
-					>
-						@if(itemTemplate){
-							<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
-						}
-						@else {
-							{{item.label}}
-						}
-					</button>
+					@if(!item.hidden){
+						<button
+							tuiButton
+							tuiChevron
+							size="s"
+							appearance="outline"
+							type="button"
+							[iconStart]="item.icon"
+							[disabled]="item.disabled"
+							[tuiDropdown]="dropdownContent"
+							[(tuiDropdownOpen)]="item.expanded"
+							tuiDropdownLimitWidth="auto"
+							[style]="item.style"
+						>
+							@if(itemTemplate){
+								<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
+							}
+							@else {
+								{{item.label}}
+							}
+						</button>
 
-					<ng-template #dropdownContent>
-						<tui-data-list
-							class="subdatalist"
-							[subdatalist]="item.items"
-							[menuItemTemplate]="menuItemTemplate">
-						</tui-data-list>
-					</ng-template>
+						<ng-template #dropdownContent>
+							<tui-data-list
+								class="subdatalist"
+								[subdatalist]="item.items"
+								[menuItemTemplate]="menuItemTemplate">
+							</tui-data-list>
+						</ng-template>
+					}
 				}
 				@else {
-					<button
-						appearance="outline"
-						size="s"
-						tuiButton
-						type="button"
-						[iconStart]="item.icon"
-						[disabled]="item.disabled"
-						(click)="item.command(item)"
-						[style]="item.style"
-					>
-						@if(itemTemplate){
-							<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
-						}
-						@else {
-							{{item.label}}
-						}
-					</button>
+					@if(!item.hidden){
+						<button
+							appearance="outline"
+							size="s"
+							tuiButton
+							type="button"
+							[iconStart]="item.icon"
+							[disabled]="item.disabled"
+							(click)="item.command(item)"
+							[style]="item.style"
+						>
+							@if(itemTemplate){
+								<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
+							}
+							@else {
+								{{item.label}}
+							}
+						</button>
+					}
 				}
 			}
 		</div>
@@ -167,6 +177,7 @@ export class EzUIMenuBarSubDataList {
 		.subdatalist {
 			display:flex;
 			flex-direction: column;
+			padding:10px;
 		}
     `
 })

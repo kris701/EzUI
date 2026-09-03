@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { EzUIMarkdownEditor } from 'EzUI';
+import { EzUIMarkdownEditor, MenuBarItem } from 'EzUI';
 import { SampleContainer } from "../../common/samplecontainer";
 
 @Component({
@@ -44,6 +44,17 @@ import { SampleContainer } from "../../common/samplecontainer";
 			<ezui-markdowneditor [value]="binding()" [disabled]="true" [slim]="true" />
 		</ng-template>
 	</app-samplecontainer>
+
+	<app-samplecontainer
+		label="Additional Menu Items"
+		html='<ezui-markdowneditor [value]="binding()" [disabled]="true" [slim]="true" />'
+		[enableTypescript]="true"
+		ts='binding = signal<string>("Text");'>
+		>
+		<ng-template #preview>
+			<ezui-markdowneditor [value]="binding()" [additionalMenuBarItems]="additionals"/>
+		</ng-template>
+	</app-samplecontainer>
     `,
     host: {
         class: 'base-view'
@@ -51,4 +62,15 @@ import { SampleContainer } from "../../common/samplecontainer";
 })
 export class MarkdownEditor {
 	binding = signal<string>("Text");
+
+	additionals : MenuBarItem[] = [
+		{
+			label: 'Stuff a',
+			command: (e) => {alert("stuff a")}
+		} as MenuBarItem,
+		{
+			label: 'Stuff b',
+			command: (e) => {alert("stuff b")}
+		} as MenuBarItem
+	]
 }
