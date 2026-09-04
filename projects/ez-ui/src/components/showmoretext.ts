@@ -14,8 +14,8 @@ import { TuiElasticContainer } from '@taiga-ui/layout';
 	],
     template: `
 		<tui-elastic-container>
-			<div [innerHTML]="current()"></div>
 			@if(value.length > maxCharacters){
+				<div [innerHTML]="current()"></div>
 				<button
 					tuiLink
 					type="button"
@@ -23,6 +23,9 @@ import { TuiElasticContainer } from '@taiga-ui/layout';
 				>
 					Show {{ current() === value ? 'less' : 'more' }}
 				</button>
+			}
+			@else {
+				<div [innerHTML]="value"></div>
 			}
 		</tui-elastic-container>
     `,
