@@ -2,13 +2,13 @@ import { CommonModule } from "@angular/common";
 import { Component, Input, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { TuiButton, TuiDataList, TuiDropdown, TuiInput } from "@taiga-ui/core";
-import { TuiBadgeNotification, TuiBadgedContent, TuiButtonSelect, TuiDataListWrapper, TuiMultiSelect, TuiStringifyContentPipe } from "@taiga-ui/kit";
+import { TuiBadgeNotification, TuiBadgedContent, TuiButtonSelect, TuiChip, TuiDataListWrapper, TuiMultiSelect, TuiStringifyContentPipe } from "@taiga-ui/kit";
 import { EzUITableFilter } from "../models/table.filter";
 import { EzUITable } from "../table";
 
 @Component({
     selector: 'ezui-table-selectfilter',
-    imports: [CommonModule, FormsModule, TuiDropdown, TuiDataListWrapper, TuiButton, TuiButtonSelect, TuiStringifyContentPipe, TuiBadgeNotification, TuiBadgedContent, TuiInput, TuiMultiSelect, TuiDataList],
+    imports: [CommonModule, FormsModule, TuiDropdown, TuiDataListWrapper, TuiButton, TuiButtonSelect, TuiStringifyContentPipe, TuiBadgeNotification, TuiBadgedContent, TuiInput, TuiMultiSelect, TuiDataList, TuiChip],
     template: `
 		@if(column){
 			<tui-badged-content>
@@ -55,20 +55,31 @@ import { EzUITable } from "../table";
 						tuiButtonSelect
 						[(ngModel)]="selected"
 					>
-						{{selected.length === 1 ? stringifyValue(selected[0]) : 'Selected ' + selected.length}}
+						@if(selected.length == 0){
+							<span style="opacity:0.7">No items selected</span>
+						}
+						@else {
+							@for(select of selected; track select){
+								@let appearance = appearanceMap.get(select);
+								<span tuiChip size="xs" [appearance]="appearance ? appearance : ''">{{ stringifyValue(select) }}</span>
+							}
+						}
 
-						<tui-data-list *tuiDropdown>
+						<tui-data-list *tuiDropdown style="min-width:20vw">
 							<tui-opt-group
 								label="Options"
 								tuiMultiSelectGroup
 							>
 								@for (option of options; track getOptionValue(option)) {
+									@let value = getOptionValue(option);
+									@let label = getOptionLabel(option);
+									@let appearance = appearanceMap.get(value);
 									<button
 										tuiOption
 										type="button"
-										[value]="getOptionValue(option)"
+										[value]="value"
 									>
-										{{ getOptionLabel(option) }}
+										<span tuiChip size="xs" [appearance]="appearance ? appearance : ''">{{ label }}</span>
 									</button>
 								}
 							</tui-opt-group>
@@ -124,6 +135,8 @@ export class EzUITableSelectFilter {
 	selected : string[] = [];
 	filterType : any;
 	filterTypes : any[];
+
+	@Input() appearanceMap : Map<any,string> = new Map<any,string>();
 
 	protected readonly stringifyOption = (item: any): string => `${item.label}`;
 	stringifyValue = (value: string): string => this.getOptionLabel(this.options.find((item) => this.getOptionValue(item) === value));

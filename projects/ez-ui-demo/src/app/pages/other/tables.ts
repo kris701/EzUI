@@ -363,6 +363,84 @@ filterData : any = [
 	</app-samplecontainer>
 
 	<app-samplecontainer
+		label="Filtering (Appearance Map)"
+		html='<ezui-table [values]="filterData" [showClearFilters]="true">
+	<ng-template #tableHeader>
+		<th tuiTh>
+			ID
+			<ezui-table-textfilter column="id"></ezui-table-textfilter>
+		</th>
+		<th tuiTh>
+			Type
+			<ezui-table-selectfilter column="type" [options]="filterOptions"></ezui-table-selectfilter>
+		</th>
+		<th tuiTh>
+			Timestamp
+			<ezui-table-datetimefilter column="timestamp"></ezui-table-datetimefilter>
+		</th>
+		<th tuiTh>
+			Is Active
+			<ezui-table-booleanfilter column="active"></ezui-table-booleanfilter>
+		</th>
+	</ng-template>
+	<ng-template #tableRows let-item>
+		<td tuiTd>\{\{ item.id \} \}</td>
+		<td tuiTd>
+			<span size="xs" tuiChip>
+				\{\{item.type\} \}
+			</span>
+		</td>
+		<td tuiTd>\{\{ item.timestamp | date: "dd/MM/yyyy HH:mm:ss" \} \}</td>
+		<td tuiTd>\{\{ item.active \} \}</td>
+	</ng-template>
+</ezui-table>'
+		[enableTypescript]="true"
+		ts='filterOptions : string[] = ["Type 1", "Type 2", "Type 3"];
+filterData : any = [
+	{ id:"abc", type: "Type 1", timestamp: new Date(), active:true },
+	{ id:"123", type: "Type 1", timestamp: new Date(), active:false },
+	{ id:"55g", type: "Type 2", timestamp: new Date(), active:true },
+	{ id:"dfg", type: "Type 3", timestamp: new Date(), active:false },
+]'>
+		<ng-template #preview>
+			<span appearance="warning" tuiMessage style="width:100%">
+				Put "EzUITableFilterService" into your app.config proividers for the sorting and filtering to work!
+			</span>
+			<ezui-table [values]="filterData" [showClearFilters]="true">
+				<ng-template #tableHeader>
+					<th tuiTh>
+						ID
+						<ezui-table-textfilter column="id"></ezui-table-textfilter>
+					</th>
+					<th tuiTh>
+						Type
+						<ezui-table-selectfilter column="type" [options]="filterOptions" [appearanceMap]="appearanceMap"></ezui-table-selectfilter>
+					</th>
+					<th tuiTh>
+						Timestamp
+						<ezui-table-datetimefilter column="timestamp"></ezui-table-datetimefilter>
+					</th>
+					<th tuiTh>
+						Is Active
+						<ezui-table-booleanfilter column="active"></ezui-table-booleanfilter>
+					</th>
+				</ng-template>
+				<ng-template #tableRows let-item>
+					<td tuiTd>{{ item.id }}</td>
+					<td tuiTd>
+						@let appearance = appearanceMap.get(item.type);
+						<span size="xs" tuiChip [appearance]="appearance ? appearance : ''">
+							{{item.type}}
+						</span>
+					</td>
+					<td tuiTd>{{ item.timestamp| date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+					<td tuiTd>{{ item.active }}</td>
+				</ng-template>
+			</ezui-table>
+		</ng-template>
+	</app-samplecontainer>
+
+	<app-samplecontainer
 		label="Filtering And Sorting"
 		html='<ezui-table [values]="filterData" [showClearFilters]="true">
 	<ng-template #tableHeader>
@@ -602,7 +680,7 @@ interface Example {
 					</th>
 					<th tuiTh>
 						Type
-						<ezui-table-selectfilter column="types" [options]="filterOptions2" optionLabel="value" optionValue="id"></ezui-table-selectfilter>
+						<ezui-table-selectfilter column="types" [options]="filterOptions2" optionLabel="value" optionValue="id" [appearanceMap]="appearanceMap2"></ezui-table-selectfilter>
 					</th>
 					<th tuiTh>
 						Timestamp
@@ -617,8 +695,9 @@ interface Example {
 					<td tuiTd>{{ item.id }}</td>
 					<td tuiTd>
 						@for(type of item.types;track type){
-							<span size="xs" tuiChip style="margin-right:5px">
-								{{type}}
+							@let appearance = appearanceMap2.get(type);
+							<span size="xs" tuiChip style="margin-right:5px" [appearance]="appearance ? appearance : ''">
+								{{ type}}
 							</span>
 						}
 					</td>
@@ -790,6 +869,11 @@ export class Tables {
 		{ id:"55g", types: ["tp1"], timestamp: new Date(), active:true },
 		{ id:"dfg", types: ["tp3", "tp1"], timestamp: new Date(), active:false },
 	]
+	appearanceMap2 = new Map<any,string>([
+		['tp1','positive'],
+		['tp2','negative'],
+		['tp3','info'],
+	])
 
 	scrollData : any = [
 		{ id:"abc", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
@@ -803,6 +887,12 @@ export class Tables {
 		{ id:"a51bc", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works with some very wide value like this one is" },
 		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
 	]
+
+	appearanceMap = new Map<any,string>([
+		['Type 1','positive'],
+		['Type 2','negative'],
+		['Type 3','info'],
+	])
 }
 
 interface Example {
