@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ContentChild, Input, OnChanges, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, ContentChild, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiButton, TuiDropdown, TuiGroup, TuiOption } from '@taiga-ui/core';
 import { TuiChevron } from '@taiga-ui/kit';
@@ -53,7 +53,8 @@ export interface MenuBarItem {
 					<ng-template #dropdownContent>
 						<tui-data-list
 							class="subdatalist"
-							[subdatalist]="item.items">
+							[subdatalist]="item.items"
+							(onItemClick)="onItemClick.emit()">
 						</tui-data-list>
 					</ng-template>
 				}
@@ -65,7 +66,7 @@ export interface MenuBarItem {
 						tuiOption
 						[iconStart]="item.icon"
 						[disabled]="item.disabled"
-						(click)="item.command(item)"
+						(click)="item.command(item);onItemClick.emit()"
 						[style]="item.style"
 					>
 						@if(menuItemTemplate){
@@ -95,6 +96,8 @@ export class EzUIMenuBarSubDataList {
 	@Input() menuItemTemplate: TemplateRef<any> | undefined;
 
     @Input() subdatalist: MenuBarItem[] = [];
+
+	@Output() onItemClick = new EventEmitter();
 }
 
 @Component({
@@ -139,7 +142,8 @@ export class EzUIMenuBarSubDataList {
 							<tui-data-list
 								class="subdatalist"
 								[subdatalist]="item.items"
-								[menuItemTemplate]="menuItemTemplate">
+								[menuItemTemplate]="menuItemTemplate"
+								(onItemClick)="item.expanded = false">
 							</tui-data-list>
 						</ng-template>
 					}

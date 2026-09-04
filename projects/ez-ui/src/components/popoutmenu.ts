@@ -55,7 +55,8 @@ export interface PopoutMenuItem {
 							<tui-data-list
 								class="popsubdatalist"
 								[popsubdatalist]="item.items"
-								[itemTemplate]="itemTemplate">
+								[itemTemplate]="itemTemplate"
+								(onItemClick)="onItemClick.emit()">
 							</tui-data-list>
 						</div>
 					</ng-template>
@@ -68,7 +69,7 @@ export interface PopoutMenuItem {
 						tuiOption
 						[iconStart]="item.icon"
 						[disabled]="item.disabled"
-						(click)="item.command(item)"
+						(click)="item.command(item);onItemClick.emit()"
 						[style]="item.style"
 					>
 						@if(itemTemplate){
@@ -101,6 +102,8 @@ export class EzUIPopoutMenuSubDataList {
 	@Input() itemTemplate: TemplateRef<any> | undefined;
 
     @Input() popsubdatalist: PopoutMenuItem[] = [];
+
+	@Output() onItemClick = new EventEmitter();
 }
 
 @Component({
@@ -132,7 +135,8 @@ export class EzUIPopoutMenuSubDataList {
 					<tui-data-list
 						class="popsubdatalist"
 						[popsubdatalist]="items"
-						[itemTemplate]="itemTemplate">
+						[itemTemplate]="itemTemplate"
+						(onItemClick)="dropdownOpen.set(false)">
 					</tui-data-list>
 				</div>
 			</ng-template>
