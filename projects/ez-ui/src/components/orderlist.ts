@@ -66,6 +66,7 @@ import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray} from 
 		@import '@taiga-ui/styles/utils.less';
 
 		.orderlist-container {
+			height:100%;
 			background-color: var(--tui-background-base-alt);
 			border: 2px solid var(--tui-border-normal);
 			border-radius: var(--tui-radius-l);
