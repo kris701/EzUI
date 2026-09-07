@@ -20,7 +20,12 @@ import { EzUILayoutService } from '../../public-api';
 		<ng-template let-id="id" [tuiDialogOptions]="{size: size, appearance: layoutService.isDesktop() ? 'taiga compact' : 'fullscreen'}" [(tuiDialog)]="showDialog">
 			<header tuiHeader>
 				<hgroup tuiTitle>
+				@if(header){
+					<ng-container [ngTemplateOutlet]="header"></ng-container>
+				}
+				@else {
 					<h2 [id]="id">{{title}}</h2>
+				}
 				</hgroup>
 			</header>
 
@@ -51,6 +56,7 @@ import { EzUILayoutService } from '../../public-api';
     `
 })
 export class EzUIDialog {
+	@ContentChild('header', { static: false }) public header: TemplateRef<any> | undefined;
 	@ContentChild('content', { static: false }) public content: TemplateRef<any> | undefined;
 
 	@Input() size: "l" | "m" | "s" = 'm';
