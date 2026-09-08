@@ -22,6 +22,12 @@ export class BaseListInterface<T,TList extends IIdentifiable> {
     ) {
     }
 
+	public async Init(){
+		if (!this.isLoading && this.canGetAll && this.items().length == 0){
+			await this.Load();
+		}
+	}
+
     public async Load(){
         if (!this.isLoading && this.canGetAll){
             this.isLoaded = false;
