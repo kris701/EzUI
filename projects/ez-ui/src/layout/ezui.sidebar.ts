@@ -14,12 +14,12 @@ import { EzUILayoutService } from './services/ezui.layout.service';
 		@if(layoutService.isDesktop()){
 			<aside style="height:100%" tuitheme="" [tuiNavigationAside]="layoutService.isMenuExpanded()">
 				@for(item of sidebarItems(); track item){
-					<ezui-sidebar-item [item]="item"/>
+					<ezui-sidebar-item [item]="item" (onItemClick)="saveState()"/>
 				}
 
 				<footer>
 					@for(item of sidebarFooterItems(); track item){
-						<ezui-sidebar-item [item]="item"/>
+						<ezui-sidebar-item [item]="item" (onItemClick)="saveState()"/>
 					}
 				</footer>
 			</aside>
@@ -27,12 +27,12 @@ import { EzUILayoutService } from './services/ezui.layout.service';
 		@else {
 			<aside style="height:100%" tuitheme="" [tuiNavigationAside]="true" [style.display]="layoutService.isMenuExpanded() ? '' : 'none'">
 				@for(item of sidebarItems(); track item){
-					<ezui-sidebar-item [item]="item" (onItemClick)="layoutService.isMenuExpanded.set(false)"/>
+					<ezui-sidebar-item [item]="item" (onItemClick)="layoutService.isMenuExpanded.set(false);saveState()"/>
 				}
 
 				<footer>
 					@for(item of sidebarFooterItems(); track item){
-						<ezui-sidebar-item [item]="item" (onItemClick)="layoutService.isMenuExpanded.set(false)"/>
+						<ezui-sidebar-item [item]="item" (onItemClick)="layoutService.isMenuExpanded.set(false);saveState()"/>
 					}
 				</footer>
 			</aside>
@@ -45,6 +45,8 @@ export class EzUISideBar {
 	haveMoved = signal<boolean>(false);
 
 	@Input() baseRoute = signal<string>("/");
+
+	openStateKey = "ezui-sidebar-state";
 
     constructor(
           	public layoutService: EzUILayoutService,
@@ -61,8 +63,8 @@ export class EzUISideBar {
 	}
 
 	public initialize(){
-		var sidebarItems = [...this.sidebarItems()]
-		var sidebarFooterItems = [...this.sidebarFooterItems()]
+		let sidebarItems = [...this.sidebarItems()]
+		let sidebarFooterItems = [...this.sidebarFooterItems()]
         this.hideEmptySections(sidebarItems);
         this.hideEmptySections(sidebarFooterItems);
 
@@ -71,8 +73,84 @@ export class EzUISideBar {
         this.setActiveRoute(sidebarItems);
         this.setActiveRoute(sidebarFooterItems);
 
+		let stateStr = localStorage.getItem(this.openStateKey)
+		if (stateStr){
+			let state = JSON.parse(stateStr)
+			this.setOpenStates(sidebarItems, state.sidebar);
+			this.setOpenStates(sidebarFooterItems, state.footer);
+		}
+
 		this.sidebarItems.set(sidebarItems)
 		this.sidebarFooterItems.set(sidebarFooterItems)
+	}
+
+	saveState(){
+		let state = {
+			sidebar: this.getOpenStates(this.sidebarItems()),
+			footer: this.getOpenStates(this.sidebarFooterItems())
+		}
+
+		console.log(state)
+
+		localStorage.setItem(this.openStateKey, JSON.stringify(state))
+	}
+
+	getOpenStates(from : MenuItem[]) : string[]{
+		let open : string[] = []
+		let index = 0;
+		for(let item of from) {
+			let subOpen = this.getOpenStatesRec(item)
+			for(let value of subOpen)
+			{
+				if (value == "")
+					open.push(index + "");
+				else
+					open.push(index + ";" + value);
+			}
+
+			index++;
+		}
+		return open;
+	}
+
+	getOpenStatesRec(from : MenuItem) : string[]{
+		let open : string[] = []
+		if(from.items){
+			if (from.expanded)
+				open.push("");
+
+			let index = 0;
+
+			for(let item of from.items){
+				let subOpen = this.getOpenStatesRec(item)
+				for(let value of subOpen)
+					open.push(index + ";" + value);
+
+				index++;
+			}
+		}
+		return open;
+	}
+
+	setOpenStates(from : MenuItem[], state : string[]) {
+		let index = 0;
+		for(let item of from) {
+			this.setOpenStatesRec(item, index + "", state);
+			index++;
+		}
+	}
+
+	setOpenStatesRec(from : MenuItem, fromIndex : string, state : string[]) {
+		if(from.items){
+			if (state.includes(fromIndex))
+				from.expanded = true;
+
+			let index = 0;
+			for(let item of from.items){
+				this.setOpenStatesRec(item, fromIndex + ";" + index, state);
+				index++;
+			}
+		}
 	}
 
     hideEmptySections(menu: MenuItem[]) {
@@ -99,7 +177,7 @@ export class EzUISideBar {
     }
 
     gotoFirstPage(menu: MenuItem[]) {
-        var first = menu.find((x) => x.visible == true);
+        let first = menu.find((x) => x.visible == true);
         if (first) {
             if (first.items) {
                 this.gotoFirstPage(first.items);

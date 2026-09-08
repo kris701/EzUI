@@ -18,6 +18,7 @@ import { MenuItem } from './models/MenuItem';
 						tuiAsideItem
 						tuiChevron
 						type="button"
+						(click)="item.expanded = !item.expanded;onItemClick.emit()"
 					>
 						{{item.label}}
 
