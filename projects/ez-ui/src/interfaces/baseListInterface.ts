@@ -23,7 +23,7 @@ export class BaseListInterface<T,TList extends IIdentifiable> {
     }
 
 	public async Init(){
-		if (!this.isLoading && this.canGetAll && this.items().length == 0){
+		if (!this.isLoaded && !this.isLoading && this.canGetAll){
 			await this.Load();
 		}
 	}
