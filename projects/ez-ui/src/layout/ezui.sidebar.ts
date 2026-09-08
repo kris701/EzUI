@@ -37,7 +37,16 @@ import { EzUILayoutService } from './services/ezui.layout.service';
 				</footer>
 			</aside>
 		}
-    `
+    `,
+	styles: `
+		::ng-deep tui-aside-group tui-expand tui-aside-group tui-expand [tuiAsideItem] {
+			padding-inline-start: 4rem !important;
+		}
+
+		::ng-deep tui-aside-group tui-expand tui-aside-group tui-expand tui-aside-group tui-expand [tuiAsideItem] {
+			padding-inline-start: 6rem !important;
+		}
+	`
 })
 export class EzUISideBar {
 	@Input() sidebarItems = signal<MenuItem[]>([]);
@@ -123,8 +132,12 @@ export class EzUISideBar {
 
 			for(let item of from.items){
 				let subOpen = this.getOpenStatesRec(item)
-				for(let value of subOpen)
-					open.push(index + ";" + value);
+				for(let value of subOpen){
+					if (value == "")
+						open.push(index + "");
+					else
+						open.push(index + ";" + value);
+				}
 
 				index++;
 			}

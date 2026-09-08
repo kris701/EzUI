@@ -71,26 +71,33 @@ export class AppComponent {
 					{
 						label: 'Select',
 						icon: 'list',
-						routerLink: '/forms/select',
-						visible: true
-					} as MenuItem,
-					{
-						label: 'Tree Select',
-						icon: 'list-tree',
-						routerLink: '/forms/treeselect',
-						visible: true
-					} as MenuItem,
-					{
-						label: 'Multi Select',
-						icon: 'list',
-						routerLink: '/forms/multiselect',
-						visible: true
-					} as MenuItem,
-					{
-						label: 'Tree Multi Select',
-						icon: 'list-tree',
-						routerLink: '/forms/treemultiselect',
-						visible: true
+						visible: true,
+						items: [
+							{
+								label: 'Select',
+								icon: 'list',
+								routerLink: '/forms/select',
+								visible: true
+							} as MenuItem,
+							{
+								label: 'Tree Select',
+								icon: 'list-tree',
+								routerLink: '/forms/treeselect',
+								visible: true
+							} as MenuItem,
+							{
+								label: 'Multi Select',
+								icon: 'list',
+								routerLink: '/forms/multiselect',
+								visible: true
+							} as MenuItem,
+							{
+								label: 'Tree Multi Select',
+								icon: 'list-tree',
+								routerLink: '/forms/treemultiselect',
+								visible: true
+							} as MenuItem,
+						]
 					} as MenuItem,
 					{
 						label: 'Files',
