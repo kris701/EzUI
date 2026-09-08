@@ -17,7 +17,7 @@ import { EzUITablePresets } from './table.presets';
     template: `
 		<div class="ezui-table">
 			<tui-loader [inheritColor]="true" [overlay]="true" size="xxl" [loading]="isLoading()">
-				@if(values.length == 0){
+				@if(values === null || values.length == 0){
 					@if(showAdd || showRefresh){
 						<div class="ezui-table-header">
 							@if(showRefresh){
@@ -250,7 +250,7 @@ export class EzUITable implements OnChanges {
 	@Input() expandable: boolean = false;
 	@Input() clickable: boolean = false;
 
-    @Input() values: any[] = [];
+    @Input() values: any[] | null = null;
 	internalValues: any[] = [];
     displayValues = signal<any[]>([]);
 
@@ -295,17 +295,19 @@ export class EzUITable implements OnChanges {
 	}
 
 	applyFilter(){
-		let filtered = [...this.values]
-		for(const filter of this.filters())
-			filtered = this.filterService.filter(filtered, filter);
-		this.internalValues = filtered;
-		this.applySorts();
-		this.state = [];
-		this.page.set(0);
-		this.pages.set(Math.floor(this.internalValues.length / this.pageSize()) + 1)
-		this.processPage();
+		if (this.values){
+			let filtered = [...this.values]
+			for(const filter of this.filters())
+				filtered = this.filterService.filter(filtered, filter);
+			this.internalValues = filtered;
+			this.applySorts();
+			this.state = [];
+			this.page.set(0);
+			this.pages.set(Math.floor(this.internalValues.length / this.pageSize()) + 1)
+			this.processPage();
 
-		this.presetHeader?.saveCurrentPreset();
+			this.presetHeader?.saveCurrentPreset();
+		}
 	}
 
 	state: Record<number, boolean> = {};

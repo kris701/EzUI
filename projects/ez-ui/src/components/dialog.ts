@@ -29,9 +29,11 @@ import { EzUILayoutService } from '../../public-api';
 				</hgroup>
 			</header>
 
-			<tui-loader [overlay]="true" [loading]="isLoading()">
-				<ng-container [ngTemplateOutlet]="content"></ng-container>
-			</tui-loader>
+			@if(showDialog()){
+				<tui-loader [overlay]="true" [loading]="isLoading()">
+					<ng-container [ngTemplateOutlet]="content"></ng-container>
+				</tui-loader>
+			}
 
 			@if(!isLoading() && (showSave || showDelete)){
 				<footer class="dialog-footer">
