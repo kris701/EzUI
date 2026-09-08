@@ -99,8 +99,6 @@ export class EzUISideBar {
 			footer: this.getOpenStates(this.sidebarFooterItems())
 		}
 
-		console.log(state)
-
 		localStorage.setItem(this.openStateKey, JSON.stringify(state))
 	}
 

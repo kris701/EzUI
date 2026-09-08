@@ -4,7 +4,7 @@ import { firstValueFrom } from "rxjs";
 
 @Directive()
 export class BaseListInterface<T,TList extends IIdentifiable> {
-    items = signal<TList[]>([]);
+    public items = signal<TList[]>([]);
 
     public getAllEndpoint: string = '';
     public getEndpoint: string = '';
