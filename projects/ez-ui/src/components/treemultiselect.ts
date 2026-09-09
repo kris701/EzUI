@@ -165,7 +165,7 @@ export class EzUITreeMultiSelect implements OnChanges {
 
 	expandSearchRec(from : TreeMultiSelectNode, newMap : Map<TreeMultiSelectNode, boolean>) : boolean{
 		let expanded = false;
-		if (from.label.includes(this.searchValue()))
+		if (from.label.toLowerCase().includes(this.searchValue().toLowerCase()))
 		{
 			newMap.set(from, true);
 			expanded = true;
