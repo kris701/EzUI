@@ -40,7 +40,7 @@ import { PopoutMenuItem, EzUIPopoutMenuSubDataList } from '../popoutmenu';
 					}
 				}
 				@else {
-					@if(showAdd || showRefresh || showClearFilters){
+					@if(showAdd || showRefresh || showClearFilters || actionsHeader || allowPresets){
 						<div class="ezui-table-header">
 							@if(showRefresh){
 								<button tuiButton iconStart="rotate-cw" size="s" appearance="info" (click)="onLoadItems.emit()" tuiHint="Refresh the table"></button>
@@ -50,6 +50,9 @@ import { PopoutMenuItem, EzUIPopoutMenuSubDataList } from '../popoutmenu';
 							}
 							@if(showClearFilters){
 								<button tuiButton iconStart="funnel-x" size="s" appearance="info" (click)="clearFilters()" tuiHint="Clear filters"></button>
+							}
+							@if(actionsHeader){
+								<ng-container [ngTemplateOutlet]="actionsHeader"></ng-container>
 							}
 
 							@if(allowPresets){
@@ -286,6 +289,7 @@ export class EzUITable implements OnChanges {
     @ContentChild('tableHeader', { static: false }) tableHeader: TemplateRef<any> | undefined;
     @ContentChild('tableRows', { static: false }) tableRows: TemplateRef<any> | undefined;
     @ContentChild('tableExpandedrow', { static: false }) tableExpandedrow: TemplateRef<any> | undefined;
+	@ContentChild('actionsHeader', { static: false }) actionsHeader: TemplateRef<any> | undefined;
 
     @ViewChild('presetHeader', { static: false }) presetHeader: EzUITablePresets | undefined;
 
