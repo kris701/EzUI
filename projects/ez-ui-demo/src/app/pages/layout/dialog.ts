@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiButton } from '@taiga-ui/core';
-import { TuiMessage } from '@taiga-ui/kit';
+import { TuiMessage, TuiChip } from '@taiga-ui/kit';
 import { EzUIDialog } from 'EzUI';
 import { SampleContainer } from "../../common/samplecontainer";
 
@@ -12,9 +12,10 @@ import { SampleContainer } from "../../common/samplecontainer";
     FormsModule,
     CommonModule,
     SampleContainer,
-	EzUIDialog,
-	TuiButton,
-	TuiMessage
+    EzUIDialog,
+    TuiButton,
+    TuiMessage,
+    TuiChip
 ],
     template: `
 	<app-samplecontainer
@@ -85,6 +86,43 @@ showAlert(text : string){
 			>
 				<ng-template #content>
 					<span>This is the content of the dialog</span>
+				</ng-template>
+			</ezui-dialog>
+		</ng-template>
+	</app-samplecontainer>
+
+	<app-samplecontainer
+		label="Templates"
+		html='<ezui-dialog [showDialog]="showDialog" [showDelete]="true" [showSave]="true">
+	<ng-template #header>
+		<span tuiChip appearance="info">Special Header</span>
+	</ng-template>
+	<ng-template #content>
+		<span>This is the content of the dialog</span>
+	</ng-template>
+	<ng-template #footer>
+		<span tuiChip appearance="info">Additional footer items</span>
+	</ng-template>
+</ezui-dialog>'
+		[enableTypescript]="true"
+		ts='showDialog = signal<boolean>(false);'
+	>
+		<ng-template #preview>
+			<span appearance="warning" tuiMessage style="width:100%">
+				The "EzUILayoutService" is required for the dialog to correctly format on mobile!
+			</span>
+			<button tuiButton (click)="showDialog.set(true)">
+				Open
+			</button>
+			<ezui-dialog [showDialog]="showDialog" [showDelete]="true" [showSave]="true">
+				<ng-template #header>
+					<span tuiChip appearance="info">Special Header</span>
+				</ng-template>
+				<ng-template #content>
+					<span>This is the content of the dialog</span>
+				</ng-template>
+				<ng-template #footer>
+					<span tuiChip appearance="info">Additional footer items</span>
 				</ng-template>
 			</ezui-dialog>
 		</ng-template>

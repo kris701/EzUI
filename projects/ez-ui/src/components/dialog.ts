@@ -35,7 +35,7 @@ import { EzUILayoutService } from '../../public-api';
 				</tui-loader>
 			}
 
-			@if(!isLoading() && (showSave || showDelete)){
+			@if(!isLoading() && (showSave || showDelete || footer)){
 				<footer class="dialog-footer">
 					@if(showSave){
 						<button tuiButton iconStart="save" size="s" (click)="onSaveItem.emit()">Save</button>
