@@ -10,10 +10,11 @@ import { EzUITableSort } from './models/table.sort';
 import { EzUITableSortFilterPreset } from './models/table.sortFilterPreset';
 import { EzUITableFilterService } from './services/table.filterservice';
 import { EzUITablePresets } from './table.presets';
+import { PopoutMenuItem, EzUIPopoutMenuSubDataList } from '../popoutmenu';
 
 @Component({
     selector: 'ezui-table',
-    imports: [FormsModule, CommonModule, TuiTable, TuiScrollbar, TuiButton, TuiChevron, TuiDropdown, TuiDataListWrapper, TuiTablePagination, TuiLoader, TuiBlockStatus, TuiIcon, TuiInput, EzUITablePresets, TuiHint],
+    imports: [FormsModule, CommonModule, TuiTable, TuiScrollbar, TuiButton, TuiChevron, TuiDropdown, TuiDataListWrapper, TuiTablePagination, TuiLoader, TuiBlockStatus, TuiIcon, TuiInput, EzUITablePresets, TuiHint, EzUIPopoutMenuSubDataList],
     template: `
 		<div class="ezui-table">
 			<tui-loader [inheritColor]="true" [overlay]="true" size="xxl" [loading]="isLoading()">
@@ -83,24 +84,63 @@ import { EzUITablePresets } from './table.presets';
 							@for (item of displayValues(); track page() * pageSize() + i; let i = $index){
 								@let fullIndex = page() * pageSize() + i;
 								<tbody tuiTbody>
-									<tr [class]="{'rowrlickable':clickable}" (click)="onRowClick.emit(item)">
-										@if(expandable){
-											<td tuiTd class="ezui-table-expander">
-												<button
-													class="ezui-table-expander-button"
-													appearance="flat-grayscale"
-													size="xs"
-													tuiIconButton
-													type="button"
-													[tuiChevron]="state[fullIndex] ?? false"
-													(click)="state[fullIndex] = !state[fullIndex];onRowExpanded.emit(item)"
-												>
-													Toggle
-												</button>
-											</td>
-										}
-										<ng-container [ngTemplateOutlet]="tableRows" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
-									</tr>
+									@if(showContextMenu) {
+										<tr
+											[class]="{'rowrlickable':clickable}"
+											(click)="onRowClick.emit(item)"
+											#contextDropdown="tuiDropdown"
+											tuiDropdownContext
+											[tuiDropdown]="contextMenu"
+										>
+											@if(expandable){
+												<td tuiTd class="ezui-table-expander">
+													<button
+														class="ezui-table-expander-button"
+														appearance="flat-grayscale"
+														size="xs"
+														tuiIconButton
+														type="button"
+														[tuiChevron]="state[fullIndex] ?? false"
+														(click)="state[fullIndex] = !state[fullIndex];onRowExpanded.emit(item)"
+													>
+														Toggle
+													</button>
+												</td>
+											}
+											<ng-container [ngTemplateOutlet]="tableRows" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
+
+											<ng-template #contextMenu let-close>
+												<div class="popdropdown">
+													<tui-data-list
+														class="popsubdatalist"
+														[popsubdatalist]="contextMenuItems"
+														(onItemClick)="close()"
+														[sender]="item">
+													</tui-data-list>
+												</div>
+											</ng-template>
+										</tr>
+									}
+									@else {
+										<tr [class]="{'rowrlickable':clickable}" (click)="onRowClick.emit(item)">
+											@if(expandable){
+												<td tuiTd class="ezui-table-expander">
+													<button
+														class="ezui-table-expander-button"
+														appearance="flat-grayscale"
+														size="xs"
+														tuiIconButton
+														type="button"
+														[tuiChevron]="state[fullIndex] ?? false"
+														(click)="state[fullIndex] = !state[fullIndex];onRowExpanded.emit(item)"
+													>
+														Toggle
+													</button>
+												</td>
+											}
+											<ng-container [ngTemplateOutlet]="tableRows" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
+										</tr>
+									}
 								</tbody>
 
 								<tbody tuiTableExpand [expanded]="state[fullIndex] ?? false">
@@ -231,6 +271,15 @@ import { EzUITablePresets } from './table.presets';
 				background-color: var(--tui-background-neutral-1-hover) !important;
 			}
 		}
+
+		.popdropdown {
+			margin:10px;
+		}
+
+		.popsubdatalist {
+			display:flex;
+			flex-direction: column;
+		}
     `
 })
 export class EzUITable implements OnChanges {
@@ -259,6 +308,9 @@ export class EzUITable implements OnChanges {
 
 	@Input() storageKey: string | null = null;
 	@Input() allowPresets: boolean = false;
+
+	@Input() showContextMenu: boolean = false;
+	@Input() contextMenuItems: PopoutMenuItem[] = [];
 
 	constructor(private filterService : EzUITableFilterService){
 

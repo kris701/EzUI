@@ -11,7 +11,7 @@ export interface MenuBarItem {
 	disabled: boolean;
 	expanded: boolean;
 	hidden: boolean;
-	command(sender : MenuBarItem) : Promise<any>;
+	command(sender : any, item : MenuBarItem) : Promise<any>;
 	style : string;
 
 	data : any;
@@ -54,7 +54,8 @@ export interface MenuBarItem {
 						<tui-data-list
 							class="subdatalist"
 							[subdatalist]="item.items"
-							(onItemClick)="onItemClick.emit()">
+							(onItemClick)="onItemClick.emit()"
+							[sender]="sender">
 						</tui-data-list>
 					</ng-template>
 				}
@@ -66,7 +67,7 @@ export interface MenuBarItem {
 						tuiOption
 						[iconStart]="item.icon"
 						[disabled]="item.disabled"
-						(click)="item.command(item);onItemClick.emit()"
+						(click)="item.command(sender,item);onItemClick.emit()"
 						[style]="item.style"
 					>
 						@if(menuItemTemplate){
@@ -96,6 +97,8 @@ export class EzUIMenuBarSubDataList {
 	@Input() menuItemTemplate: TemplateRef<any> | undefined;
 
     @Input() subdatalist: MenuBarItem[] = [];
+
+	@Input() sender: any;
 
 	@Output() onItemClick = new EventEmitter();
 }
@@ -143,7 +146,8 @@ export class EzUIMenuBarSubDataList {
 								class="subdatalist"
 								[subdatalist]="item.items"
 								[menuItemTemplate]="menuItemTemplate"
-								(onItemClick)="item.expanded = false">
+								(onItemClick)="item.expanded = false"
+								[sender]="sender">
 							</tui-data-list>
 						</ng-template>
 					}
@@ -157,7 +161,7 @@ export class EzUIMenuBarSubDataList {
 							type="button"
 							[iconStart]="item.icon"
 							[disabled]="item.disabled"
-							(click)="item.command(item)"
+							(click)="item.command(sender,item)"
 							[style]="item.style"
 						>
 							@if(itemTemplate){
@@ -190,6 +194,8 @@ export class EzUIMenuBar implements OnChanges {
 	@ContentChild('menuItemTemplate', { static: false }) menuItemTemplate: TemplateRef<any> | undefined;
 
     @Input() items: MenuBarItem[] = [];
+
+	@Input() sender: any;
 
 	ngOnChanges(changes: SimpleChanges) {
         if (changes['items'] && changes['items'].currentValue != changes['items'].previousValue) {

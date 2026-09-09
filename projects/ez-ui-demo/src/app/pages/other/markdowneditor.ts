@@ -66,11 +66,11 @@ export class MarkdownEditor {
 	additionals : MenuBarItem[] = [
 		{
 			label: 'Stuff a',
-			command: (e) => {alert("stuff a")}
+			command: (s,i) => {alert("stuff a")}
 		} as MenuBarItem,
 		{
 			label: 'Stuff b',
-			command: (e) => {alert("stuff b")}
+			command: (s,i) => {alert("stuff b")}
 		} as MenuBarItem
 	]
 }

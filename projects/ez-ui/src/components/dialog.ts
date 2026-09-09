@@ -43,6 +43,9 @@ import { EzUILayoutService } from '../../public-api';
 					@if(showDelete){
 						<button tuiButton iconStart="x" size="s" appearance="negative" (click)="onDeleteItem.emit()">Delete</button>
 					}
+					@if(footer){
+						<ng-container [ngTemplateOutlet]="footer"></ng-container>
+					}
 				</footer>
 			}
 		</ng-template>
@@ -60,6 +63,7 @@ import { EzUILayoutService } from '../../public-api';
 export class EzUIDialog {
 	@ContentChild('header', { static: false }) public header: TemplateRef<any> | undefined;
 	@ContentChild('content', { static: false }) public content: TemplateRef<any> | undefined;
+	@ContentChild('footer', { static: false }) public footer: TemplateRef<any> | undefined;
 
 	@Input() size: "l" | "m" | "s" = 'm';
 

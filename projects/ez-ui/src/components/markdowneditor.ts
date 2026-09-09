@@ -183,16 +183,16 @@ export class EzUIMarkdownEditor implements OnChanges {
     items = signal<MenuBarItem[]>([
 		{
 			icon: 'save',
-			command: async (e) => await this.toggleEdit(true),
+			command: async (s,i) => await this.toggleEdit(true),
 			style: 'border-bottom-left-radius: 0px !important;'
 		} as MenuBarItem,
 		{
 			icon: 'x',
-			command: async (e) => await this.toggleEdit(false)
+			command: async (s,i) => await this.toggleEdit(false)
 		} as MenuBarItem,
         {
             label: 'B',
-            command: async (e) => {
+            command: async (s,i) => {
                 if (this.editor){
                     const editor = this.editor.nativeElement;
                     const start = editor.selectionStart;
@@ -205,7 +205,7 @@ export class EzUIMarkdownEditor implements OnChanges {
         } as MenuBarItem,
         {
             label: 'I',
-            command: async (e) => {
+            command: async (s,i) => {
                 if (this.editor){
                     const editor = this.editor.nativeElement;
                     const start = editor.selectionStart;
@@ -221,7 +221,7 @@ export class EzUIMarkdownEditor implements OnChanges {
             items: [
                 {
                     label: 'H1',
-                    command: async (e) => {
+                    command: async (s,i) => {
                         if (this.editor){
                             const editor = this.editor.nativeElement;
                             const start = editor.selectionStart;
@@ -234,7 +234,7 @@ export class EzUIMarkdownEditor implements OnChanges {
                 } as MenuBarItem,
                 {
                     label: 'H2',
-                    command: async (e) => {
+                    command: async (s,i) => {
                         if (this.editor){
                             const editor = this.editor.nativeElement;
                             const start = editor.selectionStart;
@@ -247,7 +247,7 @@ export class EzUIMarkdownEditor implements OnChanges {
                 } as MenuBarItem,
                 {
                     label: 'H3',
-                    command: async (e) => {
+                    command: async (s,i) => {
                         if (this.editor){
                             const editor = this.editor.nativeElement;
                             const start = editor.selectionStart;
@@ -263,7 +263,7 @@ export class EzUIMarkdownEditor implements OnChanges {
 
         {
             icon: 'link',
-            command: async (e) => {
+            command: async (s,i) => {
                 if (this.editor){
                     const editor = this.editor.nativeElement;
                     const start = editor.selectionStart;
@@ -277,7 +277,7 @@ export class EzUIMarkdownEditor implements OnChanges {
 
         {
             icon: 'image',
-            command: async (e) => {
+            command: async (s,i) => {
                 if (this.editor){
                     this.fileUpload?.nativeElement.click();
                 }

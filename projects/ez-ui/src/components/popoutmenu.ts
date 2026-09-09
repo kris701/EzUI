@@ -11,7 +11,8 @@ export interface PopoutMenuItem {
 	disabled: boolean;
 	expanded: boolean;
 	hidden: boolean;
-	command(sender : PopoutMenuItem) : Promise<any>;
+
+	command(sender : any, item : PopoutMenuItem) : Promise<any>;
 	style : string;
 
 	data : any;
@@ -56,7 +57,8 @@ export interface PopoutMenuItem {
 								class="popsubdatalist"
 								[popsubdatalist]="item.items"
 								[itemTemplate]="itemTemplate"
-								(onItemClick)="onItemClick.emit()">
+								(onItemClick)="onItemClick.emit()"
+								[sender]="sender">
 							</tui-data-list>
 						</div>
 					</ng-template>
@@ -69,7 +71,7 @@ export interface PopoutMenuItem {
 						tuiOption
 						[iconStart]="item.icon"
 						[disabled]="item.disabled"
-						(click)="item.command(item);onItemClick.emit()"
+						(click)="item.command(sender, item);onItemClick.emit()"
 						[style]="item.style"
 					>
 						@if(itemTemplate){
@@ -102,6 +104,8 @@ export class EzUIPopoutMenuSubDataList {
 	@Input() itemTemplate: TemplateRef<any> | undefined;
 
     @Input() popsubdatalist: PopoutMenuItem[] = [];
+
+	@Input() sender: any;
 
 	@Output() onItemClick = new EventEmitter();
 }
@@ -136,7 +140,8 @@ export class EzUIPopoutMenuSubDataList {
 						class="popsubdatalist"
 						[popsubdatalist]="items"
 						[itemTemplate]="itemTemplate"
-						(onItemClick)="dropdownOpen.set(false)">
+						(onItemClick)="dropdownOpen.set(false)"
+						[sender]="sender">
 					</tui-data-list>
 				</div>
 			</ng-template>
@@ -157,6 +162,8 @@ export class EzUIPopoutMenu implements OnChanges {
 	@ContentChild('itemTemplate', { static: false }) itemTemplate: TemplateRef<any> | undefined;
 
     @Input() items: PopoutMenuItem[] = [];
+
+	@Input() sender: any;
 
 	dropdownOpen = signal<boolean>(false);
 
