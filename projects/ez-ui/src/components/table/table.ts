@@ -19,13 +19,16 @@ import { PopoutMenuItem, EzUIPopoutMenuSubDataList } from '../popoutmenu';
 		<div class="ezui-table">
 			<tui-loader [inheritColor]="true" [overlay]="true" size="xxl" [loading]="isLoading()">
 				@if(values === null || values.length == 0){
-					@if(showAdd || showRefresh){
+					@if(showAdd || showRefresh || actionsHeader){
 						<div class="ezui-table-header">
 							@if(showRefresh){
 								<button tuiButton iconStart="rotate-cw" size="s" appearance="info" (click)="onLoadItems.emit()" tuiHint="Refresh the table"></button>
 							}
 							@if(showAdd){
 								<button tuiButton iconStart="plus" size="s" appearance="info" (click)="onAddItem.emit()" tuiHint="Add new item"></button>
+							}
+							@if(actionsHeader){
+								<ng-container [ngTemplateOutlet]="actionsHeader"></ng-container>
 							}
 						</div>
 					}
