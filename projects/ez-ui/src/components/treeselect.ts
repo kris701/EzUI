@@ -58,7 +58,7 @@ import {TuiAutoFocus, TuiHandler} from '@taiga-ui/cdk';
 					tuiOption
 					[value]="value"
 					[disabled]="value.selectable === false"
-					[style.opacity]="!enableSearch || (searchValue() == '' || value.label.includes(searchValue())) ? (value.selectable === false ? 0.5 : 1) : 0.2"
+					[style.opacity]="!enableSearch || (searchValue() == '' || value.label.toLowerCase().includes(searchValue().toLowerCase())) ? (value.selectable === false ? 0.5 : 1) : 0.2"
 				>
 					@if(itemTemplate){
 						<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: value  }"></ng-container>
