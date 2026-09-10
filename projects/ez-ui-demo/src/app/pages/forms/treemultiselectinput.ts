@@ -116,12 +116,26 @@ export class TreeMultiSelect {
 					label: "sub1",
 					children: [
 						{
+							id: "sub1sub1",
 							label: "sub1sub1"
-						},
+						} as TreeMultiSelectNode,
 						{
 							label: "sub1sub2",
 							selectable: false,
-						}
+						} as TreeMultiSelectNode
+					] as TreeMultiSelectNode[]
+				} as TreeMultiSelectNode,
+				{
+					label: "sub2",
+					children: [
+						{
+							id: "sub1sub1",
+							label: "sub1sub1"
+						} as TreeMultiSelectNode,
+						{
+							label: "sub1sub2",
+							selectable: false,
+						} as TreeMultiSelectNode
 					] as TreeMultiSelectNode[]
 				} as TreeMultiSelectNode
 			] as TreeMultiSelectNode[]

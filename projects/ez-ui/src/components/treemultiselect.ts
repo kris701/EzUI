@@ -150,19 +150,35 @@ export class EzUITreeMultiSelect implements OnChanges {
 
 	@Input() showClear: boolean = true;
 
-	protected map = new Map<TreeMultiSelectNode, boolean>();
+	protected map = new Map<string, boolean>();
 	protected visMap = new Map<TreeMultiSelectNode, boolean>();
 
     ngOnChanges(changes: SimpleChanges) {
+		if(changes['options'] && changes['options'].currentValue != changes['options'].previousValue){
+			let index = 0;
+			for(let option of this.options)
+				this.setIDs(option, "" + index++);
+		}
         if (changes['selected'] && changes['selected'].currentValue != changes['selected'].previousValue) {
             this.selected = changes['selected'].currentValue;
-			let newMap = new Map<TreeMultiSelectNode, boolean>();
+			let newMap = new Map<string, boolean>();
 			if(this.selected)
 				for(let item of this.selected)
-					newMap.set(item,true);
+					newMap.set(item.id, true);
 			this.map = newMap;
         }
     }
+
+	setIDs(parent : TreeMultiSelectNode, prefix : string){
+		if (!parent.id || parent.id == '')
+			parent.id = prefix
+		if(parent.children)
+		{
+			let subIndex = 0;
+			for(let child of parent.children)
+				this.setIDs(child, prefix + ";" + subIndex++);
+		}
+	}
 
 	stringify = (value: TreeMultiSelectNode): string => value.label;
 
@@ -220,31 +236,35 @@ export class EzUITreeMultiSelect implements OnChanges {
 
 	onChecked(node: TreeMultiSelectNode, value: boolean): void {
 		flatten(node).filter(x => x.selectable != false).forEach((item) => {
-			this.map.set(item, value)
+			this.map.set(item.id, value)
 		});
 		this.map = new Map(this.map.entries());
 		let newSelected : TreeMultiSelectNode[] = []
-		for(let key of this.map.keys())
-			if (this.map.get(key) == true)
-				newSelected.push(key);
+		for(let node of this.options)
+		{
+			let nodes = flatten(node);
+			for(let sub of nodes)
+				if (this.map.get(sub.id) == true && !newSelected.find(x => x.id == sub.id))
+					newSelected.push(sub)
+		}
 		this.selected = newSelected;
 		this.selectedChange.emit(this.selected);
 	}
 
 	readonly getValue = (
 	        item: TreeMultiSelectNode,
-	        map: Map<TreeMultiSelectNode, boolean>,
+	        map: Map<string, boolean>,
 	): boolean | null => {
 		let result: boolean | null = null;
 		const flat = flatten(item);
 		const key = flat[0]!;
 
 		if (key) {
-			result = !!map.get(key);
+			result = !!map.get(key.id);
 		}
 
 		for (const item of flat) {
-			if (result !== !!map.get(item)) {
+			if (result !== !!map.get(item.id)) {
 				return null;
 			}
 		}
@@ -260,6 +280,7 @@ function flatten(item: TreeMultiSelectNode): readonly TreeMultiSelectNode[] {
 }
 
 export interface TreeMultiSelectNode {
+	id : string;
 	icon? : string;
 	label : string;
 	children : TreeMultiSelectNode[];
@@ -269,3 +290,4 @@ export interface TreeMultiSelectNode {
 
 	data? : any;
 }
+
