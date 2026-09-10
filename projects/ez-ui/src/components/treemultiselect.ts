@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, ContentChild, EventEmitter, Input, OnChanges, Output, signal, SimpleChanges, TemplateRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TuiDataList, TuiDropdown, TuiInput, TuiSelectLike, TuiTextfield, TuiIcon, TuiButton } from '@taiga-ui/core';
+import { TuiDataList, TuiDropdown, TuiInput, TuiSelectLike, TuiTextfield, TuiIcon, TuiButton, TuiLabel, TuiCheckbox } from '@taiga-ui/core';
 import { TuiChevron, TuiChip, TuiInputChip, TuiMultiSelect, TuiTree } from '@taiga-ui/kit';
-import {TuiAutoFocus, TuiHandler} from '@taiga-ui/cdk';
+import {TuiAutoFocus, TuiHandler, TuiMapperPipe} from '@taiga-ui/cdk';
 
 @Component({
     selector: 'ezui-treemultiselect',
@@ -23,16 +23,30 @@ import {TuiAutoFocus, TuiHandler} from '@taiga-ui/cdk';
     TuiInput,
     TuiIcon,
 	TuiButton,
-	TuiTree
+	TuiTree,
+	TuiLabel,
+	TuiCheckbox,
+	TuiMapperPipe
 ],
     template: `
 		<tui-textfield multi tuiChevron [stringify]="stringify" [tuiTextfieldSize]="size" [iconStart]="icon" [tuiTextfieldCleaner]="showClear">
 			@if(label != '' && size != 's'){
 				<label tuiLabel>{{label}}</label>
 			}
-			<input tuiInputChip tuiSelectLike [(ngModel)]="selected" [placeholder]="size == 's' ? label : ''" (ngModelChange)="selectedChange.emit(this.selected)" [disabled]="disabled"/>
+			<input
+				tuiInputChip
+				tuiSelectLike
+				[(ngModel)]="selected"
+				[placeholder]="size == 's' ? label : ''"
+				(ngModelChange)="selectedChange.emit(this.selected)"
+				[disabled]="disabled"
+			/>
 			<tui-input-chip *tuiItem/>
-			<tui-data-list *tuiDropdown tuiMultiSelectGroup >
+			<div
+				*tuiDropdown
+				tuiMultiSelectGroup
+				style="padding:.25rem;"
+			>
 				@if(enableSearch){
 					<tui-textfield tuiTextfieldSize="s" iconStart="search" style="margin-bottom:5px">
 						<input tuiInput tuiAutoFocus #field [(ngModel)]="searchValue" (click)="field.focus()" (ngModelChange)="searchChange()"/>
@@ -50,31 +64,37 @@ import {TuiAutoFocus, TuiHandler} from '@taiga-ui/cdk';
 						[content]="treeContent"
 						[tuiTreeController]="false"
 						[value]="root"
-						[map]="map"
+						[map]="visMap"
 					/>
 				}
-			</tui-data-list>
+			</div>
 		</tui-textfield>
 
-		<ng-template #treeContent let-node="node" let-value>
-			<div class="wrapper">
-				<button
-					tuiOption
-					[value]="value"
-					[disabled]="value.selectable === false"
-					[style.opacity]="!enableSearch || (searchValue() == '' || value.label.toLowerCase().includes(searchValue().toLowerCase())) ? (value.selectable === false ? 0.5 : 1) : 0.2"
-				>
-					@if(itemTemplate){
-						<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: value  }"></ng-container>
+		<ng-template #treeContent let-item>
+			@let isDisabled = item.selectable === false && (!item.children || item.children.length == 0);
+			<label
+				tuiLabel
+				[class]="{'wrapper':true, 'wrapperActive':!isDisabled}"
+				[style.opacity]="!enableSearch || (searchValue() == '' || item.label.toLowerCase().includes(searchValue().toLowerCase())) ? (isDisabled ? 0.8 : 1) : 0.2"
+			>
+				<input
+					size="s"
+					tuiCheckbox
+					type="checkbox"
+					[disabled]="isDisabled"
+					[ngModel]="item | tuiMapper: getValue : map"
+					(ngModelChange)="onChecked(item, $event)"
+				/>
+				@if(itemTemplate){
+					<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item  }"></ng-container>
+				}
+				@else {
+					@if (item.icon) {
+						<tui-icon class="t-icon" [icon]="item.icon"/>
 					}
-					@else {
-						@if (value.icon) {
-							<tui-icon class="t-icon" [icon]="value.icon"/>
-						}
-						{{ value.label }}
-					}
-				</button>
-			</div>
+					<small>{{ item.label }}</small>
+				}
+			</label>
 		</ng-template>
     `,
     styles: `
@@ -83,15 +103,25 @@ import {TuiAutoFocus, TuiHandler} from '@taiga-ui/cdk';
 			flex-direction: row;
 			gap:5px;
 		}
-
 		.wrapper {
 			display: flex;
+			flex-direction: row;
 			align-items: center;
-			width: 100%;
+			width: 100% !important;
+			margin:3px;
+			padding:2px;
+			border-radius: var(--tui-radius-s);
 
-			button {
-				width:100%;
+			input {
+				line-height:100% !important;
 			}
+		}
+
+		.wrapperActive {
+			cursor:pointer;
+		}
+		.wrapperActive:hover {
+			background: var(--tui-background-neutral-1);
 		}
 
 		.t-icon::before {
@@ -121,10 +151,16 @@ export class EzUITreeMultiSelect implements OnChanges {
 	@Input() showClear: boolean = true;
 
 	protected map = new Map<TreeMultiSelectNode, boolean>();
+	protected visMap = new Map<TreeMultiSelectNode, boolean>();
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['selected'] && changes['selected'].currentValue != changes['selected'].previousValue) {
             this.selected = changes['selected'].currentValue;
+			let newMap = new Map<TreeMultiSelectNode, boolean>();
+			if(this.selected)
+				for(let item of this.selected)
+					newMap.set(item,true);
+			this.map = newMap;
         }
     }
 
@@ -136,7 +172,7 @@ export class EzUITreeMultiSelect implements OnChanges {
 	}
 
 	expandAllRec(from : TreeMultiSelectNode){
-		this.map.set(from, true);
+		this.visMap.set(from, true);
 		if (from.children && from.children.length > 0)
 			for(let child of from.children)
 				this.expandAllRec(child);
@@ -148,7 +184,7 @@ export class EzUITreeMultiSelect implements OnChanges {
 	}
 
 	collapseAllRec(from : TreeMultiSelectNode){
-		this.map.set(from, false);
+		this.visMap.set(from, false);
 		if (from.children && from.children.length > 0)
 			for(let child of from.children)
 				this.collapseAllRec(child);
@@ -160,7 +196,7 @@ export class EzUITreeMultiSelect implements OnChanges {
 		for(let option of this.options)
 			this.expandSearchRec(option, newMap);
 
-		this.map = newMap;
+		this.visMap = newMap;
 	}
 
 	expandSearchRec(from : TreeMultiSelectNode, newMap : Map<TreeMultiSelectNode, boolean>) : boolean{
@@ -181,6 +217,46 @@ export class EzUITreeMultiSelect implements OnChanges {
 		}
 		return expanded;
 	}
+
+	onChecked(node: TreeMultiSelectNode, value: boolean): void {
+		flatten(node).filter(x => x.selectable != false).forEach((item) => {
+			this.map.set(item, value)
+		});
+		this.map = new Map(this.map.entries());
+		let newSelected : TreeMultiSelectNode[] = []
+		for(let key of this.map.keys())
+			if (this.map.get(key) == true)
+				newSelected.push(key);
+		this.selected = newSelected;
+		this.selectedChange.emit(this.selected);
+	}
+
+	readonly getValue = (
+	        item: TreeMultiSelectNode,
+	        map: Map<TreeMultiSelectNode, boolean>,
+	): boolean | null => {
+		let result: boolean | null = null;
+		const flat = flatten(item);
+		const key = flat[0]!;
+
+		if (key) {
+			result = !!map.get(key);
+		}
+
+		for (const item of flat) {
+			if (result !== !!map.get(item)) {
+				return null;
+			}
+		}
+
+		return result;
+	};
+}
+
+function flatten(item: TreeMultiSelectNode): readonly TreeMultiSelectNode[] {
+	return item.children
+		? item.children.map(flatten).reduce((arr, item) => [...arr, ...item], [])
+		: [item];
 }
 
 export interface TreeMultiSelectNode {

@@ -111,7 +111,6 @@ export class TreeMultiSelect {
 		} as TreeMultiSelectNode,
 		{
 			label: "opt2",
-			selectable: false,
 			children: [
 				{
 					label: "sub1",
