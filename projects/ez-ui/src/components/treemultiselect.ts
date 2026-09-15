@@ -71,11 +71,13 @@ import {TuiAutoFocus, TuiHandler, TuiMapperPipe} from '@taiga-ui/cdk';
 		</tui-textfield>
 
 		<ng-template #treeContent let-item>
-			@let isDisabled = item.selectable === false && (!item.children || item.children.length == 0);
+			@let hasChildren = item.children && item.children.length > 0;
+			@let isDisabled = item.selectable === false || hasChildren;
 			<label
 				tuiLabel
 				[class]="{'wrapper':true, 'wrapperActive':!isDisabled}"
-				[style.opacity]="!enableSearch || (searchValue() == '' || item.label.toLowerCase().includes(searchValue().toLowerCase())) ? (isDisabled ? 0.8 : 1) : 0.2"
+				[style.display]="enableSearch && searchValue() != '' && !hasChildren && !item.label.toLowerCase().includes(searchValue().toLowerCase()) ? 'none' : ''"
+				[style.opacity]="isDisabled ? 0.8 : 1"
 			>
 				<input
 					size="s"

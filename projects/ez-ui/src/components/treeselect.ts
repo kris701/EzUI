@@ -52,14 +52,16 @@ import {TuiAutoFocus, TuiHandler} from '@taiga-ui/cdk';
 			</tui-data-list>
 		</tui-textfield>
 
-		<ng-template #treeContent let-node="node" let-value>
+		<ng-template #treeContent let-value>
 			<div class="wrapper">
-				@let isDisabled = value.selectable === false || (value.children && value.children.length > 0);
+				@let hasChildren = value.children && value.children.length > 0;
+				@let isDisabled = value.selectable === false || hasChildren;
 				<button
 					tuiOption
 					[value]="value"
 					[disabled]="isDisabled"
-					[style.opacity]="!enableSearch || (searchValue() == '' || value.label.toLowerCase().includes(searchValue().toLowerCase())) ? (isDisabled ? 0.8 : 1) : 0.2"
+					[style.display]="enableSearch && searchValue() != '' && !hasChildren && !value.label.toLowerCase().includes(searchValue().toLowerCase()) ? 'none' : ''"
+					[style.opacity]="isDisabled ? 0.8 : 1"
 				>
 					@if(itemTemplate){
 						<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: value  }"></ng-container>
