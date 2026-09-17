@@ -70,10 +70,11 @@ import { TuiButton } from '@taiga-ui/core';
 					<div style="height:80vh;overflow:auto">
 						<h1>Order List</h1>
 						<ezui-orderlist [(values)]="values2">
-							<ng-template #itemTemplate let-value>
+							<ng-template #itemTemplate let-value let-index="index">
 								<div style="display:flex;flex-direction:column">
 									<h3>{{value.label}}</h3>
 									<span>{{value.label}}</span>
+									<span>{{index}}</span>
 								</div>
 							</ng-template>
 						</ezui-orderlist>

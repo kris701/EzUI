@@ -51,7 +51,7 @@ import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray} from 
 								</div>
 							}
 							@if(itemTemplate){
-								<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: value  }"></ng-container>
+								<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: value, index: $index }"></ng-container>
 							}
 							@else {
 								<div class="content">{{ getOptionLabel(value) }}</div>
