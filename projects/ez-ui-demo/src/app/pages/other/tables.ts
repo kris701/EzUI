@@ -39,7 +39,7 @@ import { TuiButton } from '@taiga-ui/core';
 
 	<app-samplecontainer
 		label="Loading"
-		html='<ezui-table [isLoading]="isLoading" />'>
+		html='<ezui-table [isLoading]="isLoading"/>'>
 		<ng-template #preview>
 			<div style="height:300px;display:flex;flex-direction:column">
 				<ezui-table [isLoading]="isLoading" />
