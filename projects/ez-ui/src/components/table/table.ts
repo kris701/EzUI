@@ -14,58 +14,58 @@ import { PopoutMenuItem, EzUIPopoutMenuSubDataList } from '../popoutmenu';
 
 @Component({
     selector: 'ezui-table',
-    imports: [FormsModule, CommonModule, TuiTable, TuiScrollbar, TuiButton, TuiChevron, TuiDropdown, TuiDataListWrapper, TuiTablePagination, TuiLoader, TuiBlockStatus, TuiIcon, TuiInput, EzUITablePresets, TuiHint, EzUIPopoutMenuSubDataList],
+    imports: [FormsModule, CommonModule, TuiTable, TuiButton, TuiChevron, TuiDropdown, TuiDataListWrapper, TuiTablePagination, TuiLoader, TuiBlockStatus, TuiIcon, TuiInput, EzUITablePresets, TuiHint, EzUIPopoutMenuSubDataList, TuiScrollbar],
     template: `
 		<div class="ezui-table">
-			<tui-loader [inheritColor]="true" [overlay]="true" size="xxl" [loading]="isLoading()">
-				@if(values === null || values.length == 0){
-					@if(showAdd || showRefresh || actionsHeader){
-						<div class="ezui-table-header">
-							@if(showRefresh){
-								<button tuiButton iconStart="rotate-cw" size="s" appearance="info" (click)="onLoadItems.emit()" tuiHint="Refresh the table"></button>
-							}
-							@if(showAdd){
-								<button tuiButton iconStart="plus" size="s" appearance="info" (click)="onAddItem.emit()" tuiHint="Add new item"></button>
-							}
-							@if(actionsHeader){
-								<ng-container [ngTemplateOutlet]="actionsHeader"></ng-container>
-							}
-						</div>
-					}
-					@if(!isLoading()){
-						<tui-block-status>
-							<tui-icon tuiSlot="top" icon="grid-2x2-x" />
+			<tui-scrollbar class="full-height-loader">
+				<tui-loader class="full-height-loader" [inheritColor]="true" [overlay]="true" size="xxl" [loading]="isLoading()">
+					@if(values === null || values.length == 0){
+						@if(showAdd || showRefresh || actionsHeader){
+							<div class="ezui-table-header">
+								@if(showRefresh){
+									<button tuiButton iconStart="rotate-cw" size="s" appearance="info" (click)="onLoadItems.emit()" tuiHint="Refresh the table"></button>
+								}
+								@if(showAdd){
+									<button tuiButton iconStart="plus" size="s" appearance="info" (click)="onAddItem.emit()" tuiHint="Add new item"></button>
+								}
+								@if(actionsHeader){
+									<ng-container [ngTemplateOutlet]="actionsHeader"></ng-container>
+								}
+							</div>
+						}
+						@if(!isLoading()){
+							<tui-block-status>
+								<tui-icon tuiSlot="top" icon="grid-2x2-x" />
 
-							<h3>No Data</h3>
+								<h3>No Data</h3>
 
-							No data to display.
-						</tui-block-status>
+								No data to display.
+							</tui-block-status>
+						}
 					}
-				}
-				@else {
-					@if(showAdd || showRefresh || showClearFilters || actionsHeader || allowPresets){
-						<div class="ezui-table-header">
-							@if(showRefresh){
-								<button tuiButton iconStart="rotate-cw" size="s" appearance="info" (click)="onLoadItems.emit()" tuiHint="Refresh the table"></button>
-							}
-							@if(showAdd){
-								<button tuiButton iconStart="plus" size="s" appearance="info" (click)="onAddItem.emit()" tuiHint="Add new item"></button>
-							}
-							@if(showClearFilters){
-								<button tuiButton iconStart="funnel-x" size="s" appearance="info" (click)="clearFilters()" tuiHint="Clear filters"></button>
-							}
-							@if(actionsHeader){
-								<ng-container [ngTemplateOutlet]="actionsHeader"></ng-container>
-							}
+					@else {
+						@if(showAdd || showRefresh || showClearFilters || actionsHeader || allowPresets){
+							<div class="ezui-table-header">
+								@if(showRefresh){
+									<button tuiButton iconStart="rotate-cw" size="s" appearance="info" (click)="onLoadItems.emit()" tuiHint="Refresh the table"></button>
+								}
+								@if(showAdd){
+									<button tuiButton iconStart="plus" size="s" appearance="info" (click)="onAddItem.emit()" tuiHint="Add new item"></button>
+								}
+								@if(showClearFilters){
+									<button tuiButton iconStart="funnel-x" size="s" appearance="info" (click)="clearFilters()" tuiHint="Clear filters"></button>
+								}
+								@if(actionsHeader){
+									<ng-container [ngTemplateOutlet]="actionsHeader"></ng-container>
+								}
 
-							@if(allowPresets){
-								<div class="seperator"></div>
-								<ezui-table-presets #presetHeader [storageKey]="storageKey" (onPresetChange)="onPresetChange.emit($event)">
-								</ezui-table-presets>
-							}
-						</div>
-					}
-					<tui-scrollbar class="forcefullsize">
+								@if(allowPresets){
+									<div class="seperator"></div>
+									<ezui-table-presets #presetHeader [storageKey]="storageKey" (onPresetChange)="onPresetChange.emit($event)">
+									</ezui-table-presets>
+								}
+							</div>
+						}
 						<table tuiTable class="forcefullsize">
 							<thead>
 								<tr>
@@ -158,56 +158,47 @@ import { PopoutMenuItem, EzUIPopoutMenuSubDataList } from '../popoutmenu';
 								</tbody>
 							}
 						</table>
-					</tui-scrollbar>
-					@if(internalValues.length > pageSize() || pageSize() != 25){
-						<div class="ezui-table-footer">
-							<tui-table-pagination
-								[(size)]="pageSize"
-								[(page)]="page"
-								[total]="internalValues.length"
-								[items]="pageSizes"
-								(pageChange)="processPage()"
-								(sizeChange)="processPage()"
-							/>
-						</div>
+						<div style="flex-grow:1"></div>
+						@if(internalValues.length > pageSize() || pageSize() != 25){
+							<div class="ezui-table-footer">
+								<tui-table-pagination
+									[(size)]="pageSize"
+									[(page)]="page"
+									[total]="internalValues.length"
+									[items]="pageSizes"
+									(pageChange)="processPage()"
+									(sizeChange)="processPage()"
+								/>
+							</div>
+						}
 					}
-				}
-			</tui-loader>
+				</tui-loader>
+			</tui-scrollbar>
 		</div>
     `,
-    host: {
-		class:'w-full'
-    },
+	host: {
+		style: 'height:100%;overflow:auto;border: 2px solid var(--tui-border-normal);border-radius: var(--tui-radius-l);'
+	},
     styles: `
-		.ezui-table {
-			border: 2px solid var(--tui-border-normal);
-			border-radius: var(--tui-radius-l);
-			display:flex;
+		.full-height-loader {
 			height:100%;
 			width:100%;
-			overflow:hidden;
 
-			::ng-deep tui-loader {
+			::ng-deep > .t-content {
 				height:100%;
-				width:100%;
-			}
-
-			::ng-deep tui-loader > .t-content {
 				display:flex;
 				flex-direction: column;
 			}
+		}
 
-			::ng-deep tui-scrollbar {
-				flex-grow:1;
-			}
-
-			::ng-deep tui-scrollbar > .t-content {
-				display:flex;
-				gap:10px;
-				width:0px;
-			}
+		.ezui-table {
+			display:flex;
+			height:100%;
 
 			.ezui-table-header {
+				border-top-left-radius: var(--tui-radius-l);
+				border-top-right-radius: var(--tui-radius-l);
+
 				background-color: var(--tui-background-base-alt);
 				display:flex;
 				flex-direction: row;
@@ -221,19 +212,19 @@ import { PopoutMenuItem, EzUIPopoutMenuSubDataList } from '../popoutmenu';
 			}
 
 			.ezui-table-footer {
+				border-bottom-left-radius: var(--tui-radius-l);
+				border-bottom-right-radius: var(--tui-radius-l);
+
+				background-color: var(--tui-background-base-alt);
 				display:flex;
-				margin-top:0.5rem;
-				margin-bottom:0.5rem;
+				padding-top:0.5rem;
+				padding-bottom:0.5rem;
 				padding-left:2rem;
 				padding-right:2rem;
 
 				tui-table-pagination {
 					flex: 1
 				}
-			}
-
-			::ng-deep table {
-				border-radius: var(--tui-radius-l);
 			}
 
 			::ng-deep th {

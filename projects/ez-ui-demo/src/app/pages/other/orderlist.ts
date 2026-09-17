@@ -46,7 +46,7 @@ import { TuiButton } from '@taiga-ui/core';
 	</app-samplecontainer>
 
 	<app-samplecontainer
-		label="In DIalog"
+		label="In Dialog"
 		html='<button tuiButton (click)="showDialog.set(true)">
 	Open
 </button>

@@ -3,8 +3,9 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiTable } from '@taiga-ui/addon-table';
 import { TuiChip, TuiMessage } from '@taiga-ui/kit';
-import { EzUITable, EzUITableBooleanFilter, EzUITableDateFilter, EzUITableDateTimeFilter, EzUITableSelectFilter, EzUITableTextFilter, EzUITTableSortableColumn, PopoutMenuItem } from 'EzUI';
+import { EzUITable, EzUITableBooleanFilter, EzUITableDateFilter, EzUITableDateTimeFilter, EzUITableSelectFilter, EzUITableTextFilter, EzUITTableSortableColumn, PopoutMenuItem, EzUIDialog } from 'EzUI';
 import { SampleContainer } from "../../common/samplecontainer";
+import { TuiButton } from '@taiga-ui/core';
 
 @Component({
     selector: 'app-tables',
@@ -21,14 +22,16 @@ import { SampleContainer } from "../../common/samplecontainer";
     EzUITableSelectFilter,
     TuiChip,
     EzUITableBooleanFilter,
-    EzUITableDateTimeFilter
+    EzUITableDateTimeFilter,
+    EzUIDialog,
+	TuiButton
 ],
     template: `
 	<app-samplecontainer
 		label="Simple"
 		html='<ezui-table />'>
 		<ng-template #preview>
-			<div style="height:300px">
+			<div style="height:300px;display:flex;flex-direction:column">
 				<ezui-table />
 			</div>
 		</ng-template>
@@ -756,51 +759,58 @@ interface Example {
 	</app-samplecontainer>
 
 	<app-samplecontainer
-		label="Scroll"
-		html='<ezui-table [values]="data">
-	<ng-template #tableHeader>
-		<th tuiTh>ID</th>
-		<th tuiTh>Value</th>
-		<th tuiTh>Description</th>
+		label="In Dialog"
+		html='<button tuiButton (click)="showDialog.set(true)">
+	Open
+</button>
+<ezui-dialog [showDialog]="showDialog">
+	<ng-template #content>
+		<span>This is the content of the dialog</span>
 	</ng-template>
-	<ng-template #tableRows let-item>
-		<td tuiTd>\{\{ item.id \} \}</td>
-		<td tuiTd>\{\{ item.value \} \}</td>
-		<td tuiTd>\{\{ item.desc \} \}</td>
-	</ng-template>
-</ezui-table>'
+</ezui-dialog>'
 		[enableTypescript]="true"
-		ts='data : any = [
-	{ id:"abc", value: "123", desc: "works" },
-	{ id:"123", value: "wwww", desc: "works" },
-	{ id:"55g", value: "1115892", desc: "works :)" },
-	{ id:"dfg", value: "yyes", desc: "works" },
-]'>
+		ts='showDialog = signal<boolean>(false);'
+	>
 		<ng-template #preview>
-			<ezui-table [values]="scrollData">
-				<ng-template #tableHeader>
-					<th tuiTh>ID</th>
-					<th tuiTh>Value 1</th>
-					<th tuiTh>Value 2</th>
-					<th tuiTh>Value 3</th>
-					<th tuiTh>Value 4</th>
-					<th tuiTh>Value 5</th>
-					<th tuiTh>Value 6</th>
-					<th tuiTh>Value 7</th>
-					<th tuiTh>Value 8</th>
+			<span appearance="warning" tuiMessage style="width:100%">
+				The "EzUILayoutService" is required for the dialog to correctly format on mobile!
+			</span>
+			<button tuiButton (click)="showDialog.set(true)">
+				Open
+			</button>
+			<ezui-dialog [showDialog]="showDialog" size="l">
+				<ng-template #content>
+					<div style="display:flex;flex-direction:column;margin:5px;height:80vh">
+						<h1>Table</h1>
+						<span>Sub title</span>
+						<ezui-table [values]="scrollData" [pageSize]="pageSize" [showRefresh]="true">
+							<ng-template #tableHeader>
+								<th tuiTh>ID</th>
+								<th tuiTh>Value 1</th>
+								<th tuiTh>Value 2</th>
+								<th tuiTh>Value 3</th>
+								<th tuiTh>Value 4</th>
+								<th tuiTh>Value 5</th>
+								<th tuiTh>Value 6</th>
+								<th tuiTh>Value 7</th>
+								<th tuiTh>Value 8</th>
+							</ng-template>
+							<ng-template #tableRows let-item>
+								<td tuiTd>{{ item.id }}</td>
+								<td tuiTd>{{ item.value1 }}</td>
+								<td tuiTd>{{ item.value2 }}</td>
+								<td tuiTd>{{ item.value3 }}</td>
+								<td tuiTd>{{ item.value4 }}</td>
+								<td tuiTd>{{ item.value5 }}</td>
+								<td tuiTd>{{ item.value6 }}</td>
+								<td tuiTd>{{ item.value7 }}</td>
+								<td tuiTd>{{ item.value8 }}</td>
+							</ng-template>
+						</ezui-table>
+						<span>Sub sub title</span>
+					</div>
 				</ng-template>
-				<ng-template #tableRows let-item>
-					<td tuiTd>{{ item.id }}</td>
-					<td tuiTd>{{ item.value1 }}</td>
-					<td tuiTd>{{ item.value2 }}</td>
-					<td tuiTd>{{ item.value3 }}</td>
-					<td tuiTd>{{ item.value4 }}</td>
-					<td tuiTd>{{ item.value5 }}</td>
-					<td tuiTd>{{ item.value6 }}</td>
-					<td tuiTd>{{ item.value7 }}</td>
-					<td tuiTd>{{ item.value8 }}</td>
-				</ng-template>
-			</ezui-table>
+			</ezui-dialog>
 		</ng-template>
 	</app-samplecontainer>
     `,
@@ -822,7 +832,7 @@ export class Tables {
 		{ label: "opt 3", command: (s,i) => alert(s.id + " opt 3")} as PopoutMenuItem,
 	]
 
-	pageSize = signal<number>(10);
+	pageSize = signal<number>(20);
 	longData : any = [
 		{ id:"abc", value: "123", desc: "works" },
 		{ id:"123", value: "wwww", desc: "works" },
@@ -939,6 +949,37 @@ export class Tables {
 		{ id:"a56bc", value1: "123", value2: "works with some very wide value like this one is", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
 		{ id:"a51bc", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works with some very wide value like this one is" },
 		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
+		{ id:"a5b2c", value1: "123", value2: "works", value3: "works", value4: "works", value5: "works", value6: "works", value7: "works", value8: "works" },
 	]
 
 	appearanceMap = new Map<any,string>([
@@ -946,6 +987,8 @@ export class Tables {
 		['Type 2','negative'],
 		['Type 3','info'],
 	])
+
+	showDialog = signal<boolean>(false);
 }
 
 interface Example {

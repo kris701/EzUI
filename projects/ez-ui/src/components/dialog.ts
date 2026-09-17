@@ -1,21 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Component, ContentChild, EventEmitter, Input, Output, signal, TemplateRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TuiButton, TuiDialog, TuiLoader, TuiTitle } from '@taiga-ui/core';
+import { TuiButton, TuiDialog, TuiLoader, TuiTitle, TuiScrollbar } from '@taiga-ui/core';
 import { TuiHeader } from '@taiga-ui/layout';
 import { EzUILayoutService } from '../../public-api';
 
 @Component({
     selector: 'ezui-dialog',
     imports: [
-		FormsModule,
-		CommonModule,
-		TuiHeader,
-		TuiTitle,
-		TuiLoader,
-		TuiDialog,
-		TuiButton
-	],
+    FormsModule,
+    CommonModule,
+    TuiHeader,
+    TuiTitle,
+    TuiLoader,
+    TuiDialog,
+    TuiButton,
+    TuiScrollbar
+],
     template: `
 		<ng-template let-id="id" [tuiDialogOptions]="{size: size, appearance: layoutService.isDesktop() ? 'taiga compact' : 'fullscreen'}" [(tuiDialog)]="showDialog">
 			<header tuiHeader>
@@ -31,7 +32,9 @@ import { EzUILayoutService } from '../../public-api';
 
 			@if(showDialog()){
 				<tui-loader [overlay]="true" [loading]="isLoading()">
-					<ng-container [ngTemplateOutlet]="content"></ng-container>
+					<tui-scrollbar>
+						<ng-container [ngTemplateOutlet]="content"></ng-container>
+					</tui-scrollbar>
 				</tui-loader>
 			}
 
