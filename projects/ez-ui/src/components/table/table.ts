@@ -176,7 +176,7 @@ import { PopoutMenuItem, EzUIPopoutMenuSubDataList } from '../popoutmenu';
 		</div>
     `,
     host: {
-		class:'w-full h-full'
+		class:'w-full'
     },
     styles: `
 		.ezui-table {
