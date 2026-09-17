@@ -38,6 +38,16 @@ import { TuiButton } from '@taiga-ui/core';
 	</app-samplecontainer>
 
 	<app-samplecontainer
+		label="Loading"
+		html='<ezui-table [isLoading]="isLoading" />'>
+		<ng-template #preview>
+			<div style="height:300px;display:flex;flex-direction:column">
+				<ezui-table [isLoading]="isLoading" />
+			</div>
+		</ng-template>
+	</app-samplecontainer>
+
+	<app-samplecontainer
 		label="Simple 2"
 		html='<ezui-table [values]="data">
 	<ng-template #tableHeader>
@@ -989,6 +999,8 @@ export class Tables {
 	])
 
 	showDialog = signal<boolean>(false);
+
+	isLoading = signal<boolean>(true);
 }
 
 interface Example {
