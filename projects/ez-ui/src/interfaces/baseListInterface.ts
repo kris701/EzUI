@@ -23,12 +23,17 @@ export class BaseListInterface<T,TList extends IIdentifiable> {
     }
 
 	public async Init(){
-		if (!this.isLoaded && !this.isLoading && this.canGetAll){
+		if (!this.isLoaded)
 			await this.Load();
-		}
 	}
 
     public async Load(){
+		if(this.isLoading)
+		{
+			await this.waitForValue(() => this.isLoaded === true);
+			return;
+		}
+
         if (!this.isLoading && this.canGetAll){
             this.isLoaded = false;
             this.isLoading = true;
