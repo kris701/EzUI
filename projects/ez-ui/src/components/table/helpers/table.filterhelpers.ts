@@ -3,7 +3,9 @@ export class EzUIFilterHelpers {
 		const filtered = []
 		for(const value of values)
 		{
-			const base = value[column];
+			const base = this.getColumn(value,column);
+			console.log(column)
+			console.log(base)
 			if (Array.isArray(base)){
 				for(let item of base){
 					const asGeneric : T = item;
@@ -27,7 +29,7 @@ export class EzUIFilterHelpers {
 		const filtered = []
 		for(const value of values)
 		{
-			const base = value[column];
+			const base = this.getColumn(value,column);
 			if (Array.isArray(base)){
 				for(let item of base){
 					const asDate : Date = new Date(item);
@@ -45,5 +47,12 @@ export class EzUIFilterHelpers {
 			}
 		}
 		return filtered;
+	}
+
+	private static getColumn(value : any, column : string) : any {
+		let split = column.split('.')
+		if (split.length == 1)
+			return value[column];
+		return this.getColumn(value[split[0]], split.slice(1).join("."));
 	}
 }

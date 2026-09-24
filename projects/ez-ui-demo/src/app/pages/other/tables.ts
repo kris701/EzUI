@@ -823,6 +823,70 @@ interface Example {
 			</ezui-dialog>
 		</ng-template>
 	</app-samplecontainer>
+
+	<app-samplecontainer
+		label="Filtering And Sorting (sub types)"
+		html='<ezui-table [values]="dataWithSub" [showClearFilters]="true">
+	<ng-template #tableHeader>
+		<th tuiTh>
+			ID
+			<ezui-table-sortable column="id"></ezui-table-sortable>
+			<ezui-table-textfilter column="id"></ezui-table-textfilter>
+		</th>
+		<th tuiTh>
+			Sub1
+			<ezui-table-sortable column="value.sub1"></ezui-table-sortable>
+			<ezui-table-textfilter column="value.sub1"></ezui-table-textfilter>
+		</th>
+		<th tuiTh>
+			Description
+			<ezui-table-sortable column="desc"></ezui-table-sortable>
+			<ezui-table-textfilter column="desc"></ezui-table-textfilter>
+		</th>
+	</ng-template>
+	<ng-template #tableRows let-item>
+		<td tuiTd>\{\{ item.id \} \}</td>
+		<td tuiTd>\{\{ item.value.sub1 \} \}</td>
+		<td tuiTd>\{\{ item.desc \} \}</td>
+	</ng-template>
+</ezui-table>'
+		[enableTypescript]="true"
+		ts='dataWithSub : any = [
+	{ id:"abc", value: { sub1: "abc", sub2: "123" }, desc: "works" },
+	{ id:"123", value: { sub1: "aaa", sub2: "2231" }, desc: "works" },
+	{ id:"55g", value: { sub1: "5b", sub2: "444" }, desc: "works :)" },
+	{ id:"dfg", value: { sub1: "asd", sub2: "12313" }, desc: "works" },
+]'>
+		<ng-template #preview>
+			<span appearance="warning" tuiMessage style="width:100%">
+				Put "EzUITableFilterService" into your app.config proividers for the sorting and filtering to work!
+			</span>
+			<ezui-table [values]="dataWithSub" [showClearFilters]="true">
+				<ng-template #tableHeader>
+					<th tuiTh>
+						ID
+						<ezui-table-sortable column="id"></ezui-table-sortable>
+						<ezui-table-textfilter column="id"></ezui-table-textfilter>
+					</th>
+					<th tuiTh>
+						Sub1
+						<ezui-table-sortable column="value.sub1"></ezui-table-sortable>
+						<ezui-table-textfilter column="value.sub1"></ezui-table-textfilter>
+					</th>
+					<th tuiTh>
+						Description
+						<ezui-table-sortable column="desc"></ezui-table-sortable>
+						<ezui-table-textfilter column="desc"></ezui-table-textfilter>
+					</th>
+				</ng-template>
+				<ng-template #tableRows let-item>
+					<td tuiTd>{{ item.id }}</td>
+					<td tuiTd>{{ item.value.sub1 }}</td>
+					<td tuiTd>{{ item.desc }}</td>
+				</ng-template>
+			</ezui-table>
+		</ng-template>
+	</app-samplecontainer>
     `,
     host: {
         class: 'base-view'
@@ -1001,6 +1065,13 @@ export class Tables {
 	showDialog = signal<boolean>(false);
 
 	isLoading = signal<boolean>(true);
+
+	dataWithSub : any = [
+		{ id:"abc", value: { sub1: "abc", sub2: "123" }, desc: "works" },
+		{ id:"123", value: { sub1: "aaa", sub2: "2231" }, desc: "works" },
+		{ id:"55g", value: { sub1: "5b", sub2: "444" }, desc: "works :)" },
+		{ id:"dfg", value: { sub1: "asd", sub2: "12313" }, desc: "works" },
+	]
 }
 
 interface Example {
