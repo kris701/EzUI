@@ -24,11 +24,5 @@
   },
   "files": [],
   "references": [
-    {
-      "path": "./projects/ez-ui/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/ez-ui/tsconfig.spec.json"
-    }
   ]
 }

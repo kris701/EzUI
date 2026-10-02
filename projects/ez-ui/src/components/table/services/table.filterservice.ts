@@ -123,8 +123,9 @@ export class EzUITableFilterService {
 				EzUIFilterHelpers.dateFilter(
 					values,
 					(i : Date) => {
-						let from = value.from.toLocalNativeDate()
-						let to = value.to.toLocalNativeDate()
+						let from : Date = value.from.toLocalNativeDate()
+						let to : Date = value.to.toLocalNativeDate()
+						to.setHours(to.getHours() + 24)
 						return i.getTime() >= from.getTime() && i.getTime() < to.getTime()
 					},
 					column)
