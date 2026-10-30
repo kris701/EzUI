@@ -11,7 +11,7 @@
 	"url": "git://github.com/kris701/EzUI.git"
   },
   "dependencies": {
-    "@taiga-ui/addon-mobile": "^5.26.0",
+    "@taiga-ui/addon-mobile": "^5.30.0",
     "@taiga-ui/core": "^5.26.0",
     "@taiga-ui/kit": "^5.26.0",
 	  "@taiga-ui/icons": "^5.26.0",
