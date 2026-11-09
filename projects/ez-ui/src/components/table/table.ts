@@ -159,7 +159,7 @@ import { PopoutMenuItem, EzUIPopoutMenuSubDataList } from '../popoutmenu';
 							}
 						</table>
 						<div style="flex-grow:1"></div>
-						@if(internalValues.length > pageSize() || pageSize() != 25){
+						@if(internalValues.length > pageSize() || pageSize() != defaultPageSize()){
 							<div class="ezui-table-footer">
 								<tui-table-pagination
 									[(size)]="pageSize"
@@ -327,7 +327,8 @@ export class EzUITable implements OnChanges {
     @Output() onRowClick: EventEmitter<any> = new EventEmitter();
 	@Output() onPresetChange: EventEmitter<EzUITableSortFilterPreset | null> = new EventEmitter<EzUITableSortFilterPreset | null>();
 
-    @Input() pageSize = signal<number>(25);
+	@Input() pageSize = signal<number>(25);
+    @Input() defaultPageSize = signal<number>(25);
 	page = signal<number>(0);
 	pages = signal<number>(0);
 	readonly pageSizes = [10, 25, 50, 100, 1000];
@@ -416,4 +417,3 @@ export class EzUITable implements OnChanges {
 		this.applyFilter();
 	}
 }
-

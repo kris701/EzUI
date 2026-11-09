@@ -37,7 +37,7 @@ import { TuiBlockStatus } from '@taiga-ui/layout';
 						}
 					</div>
 					<div style="flex-grow:1"></div>
-					@if(values.length > pageSize() || pageSize() != 25){
+					@if(values.length > pageSize() || pageSize() != defaultPageSize()){
 						<div class="ezui-list-footer">
 							<tui-table-pagination
 								[(size)]="pageSize"
@@ -103,6 +103,7 @@ export class EzUIList implements OnChanges {
 	@Input() values: any[] = [];
 
 	@Input() pageSize = signal<number>(25);
+	@Input() defaultPageSize = signal<number>(25);
 	page = signal<number>(0);
 	pages = signal<number>(0);
 	readonly pageSizes = [10, 25, 50, 100, 1000];
