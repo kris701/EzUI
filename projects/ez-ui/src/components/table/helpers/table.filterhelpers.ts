@@ -4,8 +4,6 @@ export class EzUIFilterHelpers {
 		for(const value of values)
 		{
 			const base = this.getColumn(value,column);
-			console.log(column)
-			console.log(base)
 			if (Array.isArray(base)){
 				for(let item of base){
 					const asGeneric : T = item;
