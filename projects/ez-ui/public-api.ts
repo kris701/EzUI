@@ -33,6 +33,7 @@ export * from './src/components/table/services/table.filterservice';
 export * from './src/components/table/sorts/table.sortable';
 export * from './src/components/table/table';
 export * from './src/components/textinput';
+export * from './src/components/list';
 
 // Helpers
 export * from './src/helpers/compressImage';
@@ -45,4 +46,3 @@ export * from './src/interfaces/baseListInterface';
 export * from './src/layout/ezui.layout';
 export * from './src/layout/models/MenuItem';
 export * from './src/layout/services/ezui.layout.service';
-
