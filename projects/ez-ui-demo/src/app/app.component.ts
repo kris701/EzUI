@@ -162,6 +162,12 @@ export class AppComponent {
 						visible : true
 					} as MenuItem,
 					{
+						label: 'List',
+						icon: 'list',
+						routerLink: '/other/lists',
+						visible : true
+					} as MenuItem,
+					{
 						label: 'Order List',
 						icon: 'list',
 						routerLink: '/other/orderlist',

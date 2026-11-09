@@ -4,6 +4,7 @@ import { MarkdownEditor } from './markdowneditor';
 import { ShowMoreText } from './showmoretext';
 import { Tables } from './tables';
 import { OrderList } from './orderlist';
+import { Lists } from './lists';
 
 export default [
 	{ path: 'markdowneditor', component: MarkdownEditor },
@@ -11,4 +12,5 @@ export default [
 	{ path: 'iconselector', component: IconSelector },
 	{ path: 'showmoretext', component: ShowMoreText },
 	{ path: 'orderlist', component: OrderList },
+	{ path: 'lists', component: Lists },
 ] as Routes;
